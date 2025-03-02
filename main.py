@@ -169,7 +169,6 @@ def math_battle(enemy_type, hero_sprite):
     # Skalowanie sprite'ów
     enemy_sprite = enemy_sprites[enemy_type]
     enemy_sprite = pygame.transform.scale(enemy_sprite, (200, 200))
-    hero_battle_sprite = pygame.transform.scale(hero_sprite, (100, 100))
 
     input_text = ""
     clock = pygame.time.Clock()
@@ -206,13 +205,13 @@ def math_battle(enemy_type, hero_sprite):
 
         # Rysowanie tła i elementów ekranu walki
         screen.fill((200, 200, 200))
-        hero_rect = hero_battle_sprite.get_rect(center=(WIDTH // 4, HEIGHT // 2))
+        hero_rect = hero_sprite.get_rect(center=(WIDTH // 4, HEIGHT // 2))
         enemy_rect = enemy_sprite.get_rect(center=(3 * WIDTH // 4, HEIGHT // 2))
-        screen.blit(hero_battle_sprite, hero_rect)
+        screen.blit(hero_sprite, hero_rect)
         screen.blit(enemy_sprite, enemy_rect)
 
         # Rysowanie paska życia nad bohaterem
-        health_bar_width = hero_battle_sprite.get_width()  # 100 pikseli
+        health_bar_width = hero_sprite.get_width()  # 100 pikseli
         health_bar_height = 10
         health_ratio = player.health / 100.0  # Zakładamy maksymalne zdrowie = 100
         bar_x = hero_rect.x
@@ -258,7 +257,7 @@ while running:
     for enemy in enemies[:]:
         enemy.draw(screen)
         if enemy.check_collision(player):
-            if math_battle(enemy.type, player.sprite):
+            if math_battle(enemy.type, player.battle_sprite):
                 enemies.remove(enemy)
                 show_message("Pokonałeś wroga!")
 

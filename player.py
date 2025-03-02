@@ -8,6 +8,7 @@ class Player:
         self.speed = 5
         self.health = 100
         self.character = character
+        self.battle_sprite = pygame.transform.scale(player_sprites[character], (200, 200))
         self.sprite = pygame.transform.scale(player_sprites[character], (50, 50))
 
     def move(self, keys):
