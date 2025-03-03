@@ -14,26 +14,6 @@ enemies = [
     for _ in range(5)
 ]
 
-def show_start_screen():
-    title_image = pygame.image.load("math_hero_enter_screen.png")
-    title_image = pygame.transform.scale(title_image, (WIDTH, HEIGHT))  # Dopasowanie do ekranu
-
-    screen.blit(title_image, (0, 0))
-    pygame.display.flip()
-
-    waiting = True
-    while waiting:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                waiting = False  # Rozpoczęcie gry
-
-show_start_screen()
-
-
-
 # Funkcja wyboru postaci
 def choose_character():
     """
