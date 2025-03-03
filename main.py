@@ -227,7 +227,7 @@ while running:
     player.animation.update(dt)
 
     # Czyścimy ekran (tylko raz)
-    screen.fill(BLACK)
+    screen.fill(WHITE)
 
     # Rysujemy animowany sprite gracza
     current_image = player.animation.get_image()
@@ -244,6 +244,10 @@ while running:
             if math_battle(enemy.type, player.battle_sprite):
                 enemies.remove(enemy)
                 show_message("Pokonałeś wroga!")
+
+    if not enemies:
+        show_message("Wygrałeś! Pokonałeś wszystkich przeciwników!")
+        running = False
 
     # Wywołujemy flip() tylko raz, po narysowaniu wszystkiego
     pygame.display.flip()
