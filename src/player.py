@@ -1,4 +1,3 @@
-from constants import *
 from assets import player_sprites
 from assets import player_minifig_sprites
 
