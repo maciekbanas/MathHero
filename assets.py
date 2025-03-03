@@ -15,8 +15,8 @@ player_minifig_sprites = {
 }
 
 enemy_sprites = {
-    "Goblin": pygame.image.load("goblin.jpg"),
-    "Golem": pygame.image.load("golem.jpg"),
-    "Troll": pygame.image.load("troll.jpg"),
-    "Ogr": pygame.image.load("ogre.jpg")
+    "Goblin": pygame.image.load("goblin.png"),
+    "Golem": pygame.image.load("golem.png"),
+    "Gnom": pygame.image.load("gnome.png"),
+    "Troll": pygame.image.load("troll.png")
 }
