@@ -1,4 +1,4 @@
-from constants import *
+from src.constants import *
 def show_message(message):
     message_font = pygame.font.SysFont(None, 60)
     message_surface = message_font.render(message, True, BLACK)

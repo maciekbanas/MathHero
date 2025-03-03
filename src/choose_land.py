@@ -6,7 +6,7 @@ def choose_land():
     Funkcja wyświetlająca ekran wyboru krainy za pomocą ilustracji zamiast przycisków.
     """
 
-    assets_path = os.path.join("assets", "lands")
+    assets_path = os.path.join("../assets", "lands")
 
     lands = ["Dodatnie Lasy", "Mnożeniowe Wyżyny"]
     land_images = {
