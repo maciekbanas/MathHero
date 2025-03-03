@@ -1,11 +1,17 @@
 import pygame
 # Wczytywanie grafik
 player_sprites = {
-    "Wilczas": pygame.image.load("wolf-warrior-2.png")
+    "Rycerz": pygame.image.load("knight.png"),
+    "Czarodziejka": pygame.image.load("sorceress.png"),
+    "Wilczas": pygame.image.load("wolf-warrior.png"),
+    "Mag": pygame.image.load("mag.png")
 }
 
 player_minifig_sprites = {
-    "Wilczas": "wolf_warrior_move.gif"
+    "Rycerz": "knight.png",
+    "Czarodziejka": "sorceress.png",
+    "Wilczas": "wolf-warrior.png",
+    "Mag": "mag.png"
 }
 
 enemy_sprites = {

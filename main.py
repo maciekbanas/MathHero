@@ -42,7 +42,7 @@ def choose_character():
     """
     total_width = int(0.9 * WIDTH)
 
-    single_width = total_width // 5
+    single_width = total_width // 4
 
     # Lista, w której będziemy przechowywać (nazwa_postaci, sprite, rect)
     char_data = []
