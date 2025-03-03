@@ -1,4 +1,5 @@
 import random
+import os
 from constants import *
 from assets import *
 from player import Player
@@ -9,10 +10,7 @@ pygame.init()
 pygame.display.set_caption("Math RPG")
 
 player = Player(WIDTH // 2, HEIGHT // 2, "Wilczas")
-enemies = [
-    Enemy(random.randint(50, WIDTH - 50), random.randint(50, HEIGHT - 50), random.choice(["Goblin", "Golem", "Troll", "Ogr"]))
-    for _ in range(5)
-]
+# Określenie przeciwników na podstawie wyboru krainy
 
 # Funkcja wyboru postaci
 def choose_character():
@@ -105,15 +103,77 @@ def choose_character():
     # Po wybraniu postaci zwracamy jej nazwę
     return chosen_character
 
+
+def choose_land():
+    """
+    Funkcja wyświetlająca ekran wyboru krainy za pomocą ilustracji zamiast przycisków.
+    """
+
+    assets_path = os.path.join("assets", "lands")
+
+    lands = ["Dodatnie Lasy", "Mnożeniowe Wyżyny"]
+    land_images = {
+        "Dodatnie Lasy": pygame.image.load(os.path.join(assets_path, "forest.png")),
+        "Mnożeniowe Wyżyny": pygame.image.load(os.path.join(assets_path, "hills.png"))
+    }
+
+    font = pygame.font.SysFont(None, 60)
+    button_width = WIDTH // 3
+    button_height = HEIGHT // 2
+    start_x = (WIDTH - (2 * button_width + 50)) // 2
+    start_y = HEIGHT // 4
+
+    land_buttons = []
+    for i, land_name in enumerate(lands):
+        rect = pygame.Rect(start_x + i * (button_width + 50), start_y, button_width, button_height)
+        land_buttons.append((land_name, rect))
+
+    chosen_land = None
+
+    while chosen_land is None:
+        screen.fill(WHITE)
+        title_text = font.render("Wybierz krainę", True, BLACK)
+        title_rect = title_text.get_rect(center=(WIDTH // 2, HEIGHT // 8))
+        screen.blit(title_text, title_rect)
+
+        for land_name, rect in land_buttons:
+            image = pygame.transform.scale(land_images[land_name], (button_width, button_height))
+            screen.blit(image, rect.topleft)
+            text_surface = font.render(land_name, True, WHITE)
+            text_rect = text_surface.get_rect(center=(rect.centerx, rect.bottom + 30))
+            screen.blit(text_surface, text_rect)
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mouse_pos = pygame.mouse.get_pos()
+                for land_name, rect in land_buttons:
+                    if rect.collidepoint(mouse_pos):
+                        chosen_land = land_name
+                        break
+
+    return chosen_land
+
 # Wybór postaci
 player_character = choose_character()
 
-# Tworzenie gracza i wrogów
-player = Player(WIDTH // 2, HEIGHT // 2, player_character)
-enemies = [
-    Enemy(random.randint(50, WIDTH - 50), random.randint(50, HEIGHT - 50), random.choice(list(enemy_sprites.keys())))
-    for _ in range(5)]
+selected_land = choose_land()
 
+player = Player(WIDTH // 2, HEIGHT // 2, player_character)
+
+if selected_land == "Dodatnie Lasy":
+    enemy_types = ["Goblin", "Gnom", "Troll"]  # Dodawanie
+else:
+    enemy_types = ["Golem"]  # Mnożenie
+
+enemies = [
+    Enemy(random.randint(50, WIDTH - 50), random.randint(50, HEIGHT - 50), random.choice(enemy_types))
+    for _ in range(5)
+]
 
 def show_message(message):
     message_font = pygame.font.SysFont(None, 60)
@@ -127,23 +187,23 @@ def show_message(message):
     pygame.time.delay(1000)
 
 
-def math_battle(enemy_type, hero_sprite):
+def math_battle(enemy_type, hero_sprite, selected_land):
     """
-    Wyświetla ekran walki z pytaniem matematycznym.
-    W przypadku błędnej odpowiedzi zmniejsza zdrowie gracza o 1 punkt.
-    Zwraca True, gdy gracz odpowie poprawnie.
+    Wyświetla ekran walki z pytaniem matematycznym zależnym od wybranej krainy.
     """
     import random
 
-    # Generowanie pytania i poprawnej odpowiedzi
-    if enemy_type in ["Troll", "Ogr"]:
+    if selected_land == "Dodatnie Lasy":
+        if enemy_type == "Troll":
+            a, b = random.randint(6, 15), random.randint(6, 15)
+        else:
+            a, b = random.randint(1, 10), random.randint(1, 10)
+        question = f"Ile to {a} + {b}?"
+        correct_answer = a + b
+    else:
         a, b = random.randint(2, 10), random.randint(2, 10)
         question = f"Ile to {a} x {b}?"
         correct_answer = a * b
-    else:
-        a, b = random.randint(1, 10), random.randint(1, 10)
-        question = f"Ile to {a} + {b}?"
-        correct_answer = a + b
 
     # Skalowanie sprite'ów
     enemy_sprite = enemy_sprites[enemy_type]
@@ -241,7 +301,7 @@ while running:
     for enemy in enemies[:]:
         enemy.draw(screen)
         if enemy.check_collision(player):
-            if math_battle(enemy.type, player.battle_sprite):
+            if math_battle(enemy.type, player.battle_sprite, selected_land):
                 enemies.remove(enemy)
                 show_message("Pokonałeś wroga!")
 
