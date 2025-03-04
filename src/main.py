@@ -5,6 +5,7 @@ from player import Player
 from src.enemy import Enemy
 from src.choose_land import choose_land
 from src.choose_character import choose_character
+import items
 from math_battle import math_battle
 from messages import show_message
 
@@ -12,9 +13,7 @@ pygame.init()
 pygame.display.set_caption("Math RPG")
 
 player_character = choose_character()
-
 selected_land = choose_land()
-
 player = Player(WIDTH // 2, HEIGHT // 2, player_character)
 
 if selected_land == "Zdradzieckie Lasy":
@@ -29,6 +28,8 @@ enemies = [
     for _ in range(5)
 ]
 
+berries = items.generate_berries()
+
 clock = pygame.time.Clock()
 running = True
 while running:
@@ -41,18 +42,14 @@ while running:
     player.move(keys)
     player.animation.update(dt)
 
-    # Czyścimy ekran (tylko raz)
     screen.fill(WHITE)
 
-    # Rysujemy animowany sprite gracza
     current_image = player.animation.get_image()
     screen.blit(current_image, (player.x, player.y))
 
-    # Rysujemy pasek życia (możesz dostosować pozycję i rozmiar)
     pygame.draw.rect(screen, RED, (player.x, player.y - 15, 50, 5))
     pygame.draw.rect(screen, GREEN, (player.x, player.y - 15, 50 * (player.health / 100), 5))
 
-    # Rysujemy wrogów
     for enemy in enemies[:]:
         enemy.draw(screen)
         if enemy.check_collision(player):
@@ -60,13 +57,19 @@ while running:
                 enemies.remove(enemy)
                 show_message("Pokonałeś wroga!")
 
+    # Rysowanie jagódek
+    for berry in berries[:]:
+        screen.blit(items.berry_image, (berry.x, berry.y))
+        if pygame.Rect(player.x, player.y, 50, 50).colliderect(berry):
+            if player.health < 100:
+                player.health = min(100, player.health + 20)
+                berries.remove(berry)
+
     if not enemies:
         show_message("Wygrałeś! Pokonałeś wszystkich przeciwników!")
         running = False
 
-    # Wywołujemy flip() tylko raz, po narysowaniu wszystkiego
     pygame.display.flip()
-
     pygame.time.delay(30)
 
 pygame.quit()
