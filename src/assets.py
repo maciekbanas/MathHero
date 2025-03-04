@@ -18,5 +18,6 @@ enemy_sprites = {
     "Goblin": pygame.image.load("../assets/enemies/goblin.png"),
     "Golem": pygame.image.load("../assets/enemies/golem.png"),
     "Gnom": pygame.image.load("../assets/enemies/gnome.png"),
-    "Troll": pygame.image.load("../assets/enemies/troll.png")
+    "Troll": pygame.image.load("../assets/enemies/troll.png"),
+    "Grzybolud": pygame.image.load("../assets/enemies/mushroomkin.png")
 }
