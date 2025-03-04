@@ -17,9 +17,11 @@ selected_land = choose_land()
 
 player = Player(WIDTH // 2, HEIGHT // 2, player_character)
 
-if selected_land == "Dodatnie Lasy":
+if selected_land == "Zdradzieckie Lasy":
     enemy_types = ["Goblin", "Gnom", "Troll"]
-else:
+elif selected_land == "Smrodliwe Bagna":
+    enemy_types = ["Gnom", "Grzybolud"]
+elif selected_land == "Stalowe Wyżyny":
     enemy_types = ["Golem"]
 
 enemies = [

@@ -7,13 +7,20 @@ def math_battle(player, enemy_type, selected_land):
     """
     import random
 
-    if selected_land == "Dodatnie Lasy":
+    if selected_land == "Zdradzieckie Lasy":
         if enemy_type == "Troll":
             a, b = random.randint(6, 15), random.randint(6, 15)
         else:
             a, b = random.randint(1, 10), random.randint(1, 10)
         question = f"Ile to {a} + {b}?"
         correct_answer = a + b
+    elif selected_land == "Smrodliwe Bagna":
+        if enemy_type == "Troll":
+            a, b = random.randint(6, 15), random.randint(6, 15)
+        else:
+            a, b = random.randint(1, 10), random.randint(1, 10)
+        question = f"Ile to {a} - {b}?"
+        correct_answer = a - b
     else:
         a, b = random.randint(2, 10), random.randint(2, 10)
         question = f"Ile to {a} x {b}?"
