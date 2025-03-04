@@ -1,6 +1,8 @@
 from assets import enemy_sprites
 from src.constants import *
 from messages import show_message
+
+
 def math_battle(player, enemy_type, selected_land):
     """
     Wyświetla ekran walki z pytaniem matematycznym zależnym od wybranej krainy.
@@ -10,6 +12,8 @@ def math_battle(player, enemy_type, selected_land):
     if selected_land == "Zdradzieckie Lasy":
         if enemy_type == "Troll":
             a, b = random.randint(6, 15), random.randint(6, 15)
+        elif enemy_type == "Gnom":
+            a, b = random.randint(0, 20), random.randint(0, 20)
         else:
             a, b = random.randint(1, 10), random.randint(1, 10)
         question = f"Ile to {a} + {b}?"
@@ -17,8 +21,14 @@ def math_battle(player, enemy_type, selected_land):
     elif selected_land == "Smrodliwe Bagna":
         if enemy_type == "Troll":
             a, b = random.randint(6, 15), random.randint(6, 15)
+        elif enemy_type == "Gnom":
+            a, b = random.randint(0, 20), random.randint(0, 20)
         else:
             a, b = random.randint(1, 10), random.randint(1, 10)
+
+        if a < b:
+            a, b = b, a
+
         question = f"Ile to {a} - {b}?"
         correct_answer = a - b
     else:
