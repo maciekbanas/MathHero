@@ -12,64 +12,100 @@ from messages import show_message
 pygame.init()
 pygame.display.set_caption("Math RPG")
 
-player_character = choose_character()
-selected_land = choose_land()
-player = Player(WIDTH // 2, HEIGHT // 2, player_character)
+forest_map = pygame.image.load("../assets/maps/treacherous_forest.png")
+forest_map = pygame.transform.scale(forest_map, (WIDTH, HEIGHT))
 
-if selected_land == "Zdradzieckie Lasy":
-    enemy_types = ["Goblin", "Gnom", "Troll"]
-elif selected_land == "Smrodliwe Bagna":
-    enemy_types = ["Gnom", "Grzybolud"]
-elif selected_land == "Stalowe Wyżyny":
-    enemy_types = ["Golem"]
+swamps_map = pygame.image.load("../assets/maps/mushroom_swamps.png")
+swamps_map = pygame.transform.scale(swamps_map, (WIDTH, HEIGHT))
 
-enemies = [
-    Enemy(random.randint(50, WIDTH - 50), random.randint(50, HEIGHT - 50), random.choice(enemy_types))
-    for _ in range(5)
-]
+hills_map = pygame.image.load("../assets/maps/steel_hills.png")
+hills_map = pygame.transform.scale(hills_map, (WIDTH, HEIGHT))
 
-berries = items.generate_berries()
+def return_to_land_selection():
+    global running
+    running = False
+    main()
 
-clock = pygame.time.Clock()
-running = True
-while running:
-    dt = clock.tick(30)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+def main():
+    global running
+    player_character = choose_character()
+    selected_land = choose_land()
+    player = Player(WIDTH // 2, HEIGHT // 2, player_character)
+
+    if selected_land == "Zdradzieckie Lasy":
+        enemy_types = ["Goblin", "Gnom", "Troll"]
+        background = forest_map
+    elif selected_land == "Smrodliwe Bagna":
+        enemy_types = ["Gnom", "Grzybolud"]
+        background = swamps_map
+    elif selected_land == "Stalowe Wyżyny":
+        enemy_types = ["Golem"]
+        background = hills_map
+
+    enemies = [
+        Enemy(random.randint(50, WIDTH - 50), random.randint(50, HEIGHT - 50), random.choice(enemy_types))
+        for _ in range(5)
+    ]
+
+    berries = items.generate_berries()
+
+    clock = pygame.time.Clock()
+    running = True
+    while running:
+        dt = clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                running = False
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
+                return_to_land_selection()
+
+        keys = pygame.key.get_pressed()
+        player.move(keys)
+        player.animation.update(dt)
+
+        screen.blit(background, (0, 0))
+
+        current_image = player.animation.get_image()
+        screen.blit(current_image, (player.x, player.y))
+
+        pygame.draw.rect(screen, RED, (player.x, player.y - 15, 50, 5))
+        pygame.draw.rect(screen, GREEN, (player.x, player.y - 15, 50 * (player.health / 100), 5))
+
+        for enemy in enemies[:]:
+            enemy.draw(screen)
+            if enemy.check_collision(player):
+                if math_battle(player, enemy.type, selected_land):
+                    enemies.remove(enemy)
+                    show_message("Pokonałeś wroga!")
+
+        for berry in berries[:]:
+            screen.blit(items.berry_image, (berry.x, berry.y))
+            if pygame.Rect(player.x, player.y, 50, 50).colliderect(berry):
+                if player.health < 100:
+                    player.health = min(100, player.health + 20)
+                    berries.remove(berry)
+
+        if not enemies:
+            show_message("Wygrałeś! Pokonałeś wszystkich przeciwników!")
             running = False
 
-    keys = pygame.key.get_pressed()
-    player.move(keys)
-    player.animation.update(dt)
+        font = pygame.font.SysFont(None, 40)
+        back_text = font.render("Powrót", True, BLACK)
+        text_width, text_height = back_text.get_size()
+        padding = 20
+        back_rect = pygame.Rect(WIDTH - text_width - padding, 20, text_width + padding, text_height + padding // 2)
+        pygame.draw.rect(screen, GREY, back_rect)
+        screen.blit(back_text, (back_rect.x + padding // 2, back_rect.y + padding // 4))
 
-    screen.fill(WHITE)
+        pygame.display.flip()
+        pygame.time.delay(30)
 
-    current_image = player.animation.get_image()
-    screen.blit(current_image, (player.x, player.y))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if back_rect.collidepoint(event.pos):
+                    return_to_land_selection()
 
-    pygame.draw.rect(screen, RED, (player.x, player.y - 15, 50, 5))
-    pygame.draw.rect(screen, GREEN, (player.x, player.y - 15, 50 * (player.health / 100), 5))
+    pygame.quit()
 
-    for enemy in enemies[:]:
-        enemy.draw(screen)
-        if enemy.check_collision(player):
-            if math_battle(player, enemy.type, selected_land):
-                enemies.remove(enemy)
-                show_message("Pokonałeś wroga!")
-
-    # Rysowanie jagódek
-    for berry in berries[:]:
-        screen.blit(items.berry_image, (berry.x, berry.y))
-        if pygame.Rect(player.x, player.y, 50, 50).colliderect(berry):
-            if player.health < 100:
-                player.health = min(100, player.health + 20)
-                berries.remove(berry)
-
-    if not enemies:
-        show_message("Wygrałeś! Pokonałeś wszystkich przeciwników!")
-        running = False
-
-    pygame.display.flip()
-    pygame.time.delay(30)
-
-pygame.quit()
+if __name__ == "__main__":
+    main()
