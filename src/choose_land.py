@@ -15,7 +15,7 @@ def choose_land():
             "image": pygame.image.load(os.path.join(assets_path, "hills.png")),
             "description": "Wysokie wyżyny zamieszkałe przez potężne golemy. Tutaj nauczysz się mnożenia."
         },
-        "Smrodliwe Bagna": {
+        "Grzybowe Bagna": {
             "image": pygame.image.load(os.path.join(assets_path, "swamps.png")),
             "description": "Mroczne, wilgotne bagna spowite mgłą, gdzie każda ścieżka prowadzi w nieznane. Zamieszkałe przez gobliny i tajemnicze grzyboludy, uczą odwagi i umiejętności odejmowania, które pomogą przetrwać w tym zdradliwym terenie."
         },
