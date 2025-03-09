@@ -12,7 +12,7 @@ from messages import show_message
 pygame.init()
 pygame.display.set_caption("Math RPG")
 
-forest_map = pygame.image.load("../assets/maps/treacherous_forest.png")
+forest_map = pygame.image.load("../assets/maps/forest.png")
 forest_map = pygame.transform.scale(forest_map, (WIDTH, HEIGHT))
 
 swamps_map = pygame.image.load("../assets/maps/mushroom_swamps.png")
@@ -20,6 +20,9 @@ swamps_map = pygame.transform.scale(swamps_map, (WIDTH, HEIGHT))
 
 hills_map = pygame.image.load("../assets/maps/steel_hills.png")
 hills_map = pygame.transform.scale(hills_map, (WIDTH, HEIGHT))
+
+ice_realm_map = pygame.image.load("../assets/maps/ice_realm.png")
+ice_realm_map = pygame.transform.scale(ice_realm_map, (WIDTH, HEIGHT))
 
 def return_to_land_selection():
     global running
@@ -35,12 +38,15 @@ def main():
     if selected_land == "Zdradzieckie Lasy":
         enemy_types = ["Goblin", "Gnom", "Troll"]
         background = forest_map
-    elif selected_land == "Smrodliwe Bagna":
+    elif selected_land == "Grzybowe Bagna":
         enemy_types = ["Gnom", "Grzybolud"]
         background = swamps_map
     elif selected_land == "Stalowe Wyżyny":
         enemy_types = ["Golem"]
         background = hills_map
+    elif selected_land == "Zimowe Królestwo":
+        enemy_types = ["Golem"]
+        background = ice_realm_map
 
     enemies = [
         Enemy(random.randint(50, WIDTH - 50), random.randint(50, HEIGHT - 50), random.choice(enemy_types))

@@ -15,9 +15,13 @@ def choose_land():
             "image": pygame.image.load(os.path.join(assets_path, "hills.png")),
             "description": "Wysokie wyżyny zamieszkałe przez potężne golemy. Tutaj nauczysz się mnożenia."
         },
-        "Smrodliwe Bagna": {
+        "Grzybowe Bagna": {
             "image": pygame.image.load(os.path.join(assets_path, "swamps.png")),
             "description": "Mroczne, wilgotne bagna spowite mgłą, gdzie każda ścieżka prowadzi w nieznane. Zamieszkałe przez gobliny i tajemnicze grzyboludy, uczą odwagi i umiejętności odejmowania, które pomogą przetrwać w tym zdradliwym terenie."
+        },
+        "Zimowe Królestwo": {
+            "image": pygame.image.load(os.path.join(assets_path, "ice_realm.png")),
+            "description": "Tu bardzo zimno..."
         }
     }
 
@@ -26,12 +30,12 @@ def choose_land():
     button_width = WIDTH // 3.5
     button_height = HEIGHT // 3
     start_x = (WIDTH - (3 * button_width + 50)) // 2
-    start_y = HEIGHT // 3
+    start_y = HEIGHT // 4
 
     land_buttons = []
     for i, land_name in enumerate(lands.keys()):
-        row = i // 3  # Organizowanie wierszy
-        col = i % 3  # Organizowanie kolumn
+        row = i // 3
+        col = i % 3
         rect = pygame.Rect(start_x + col * (button_width + 25), start_y + row * (button_height + 25), button_width,
                            button_height)
         land_buttons.append((land_name, rect))

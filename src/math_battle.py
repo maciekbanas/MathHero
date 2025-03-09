@@ -18,7 +18,7 @@ def math_battle(player, enemy_type, selected_land):
             a, b = random.randint(1, 10), random.randint(1, 10)
         question = f"Ile to {a} + {b}?"
         correct_answer = a + b
-    elif selected_land == "Smrodliwe Bagna":
+    elif selected_land == "Grzybowe Bagna":
         if enemy_type == "Troll":
             a, b = random.randint(6, 15), random.randint(6, 15)
         elif enemy_type == "Gnom":
@@ -32,7 +32,8 @@ def math_battle(player, enemy_type, selected_land):
         question = f"Ile to {a} - {b}?"
         correct_answer = a - b
     else:
-        a, b = random.randint(2, 10), random.randint(2, 10)
+        a = random.randint(2, 10)
+        b = random.randint(2, min(30 // a, 10))
         question = f"Ile to {a} x {b}?"
         correct_answer = a * b
 
