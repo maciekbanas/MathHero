@@ -5,7 +5,7 @@ from utils import wrap_text, get_asset_path
 def choose_land():
 
     lands = {
-        "Zdradzieckie Lasy": {
+        "Goblinowe Lasy": {
             "image": pygame.image.load(get_asset_path(os.path.join("lands", "forest.png"))),
             "description": "Gęste, tajemnicze lasy pełne goblinów, gnomów i trolli. Idealne do ćwiczenia dodawania."
         },
