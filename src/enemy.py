@@ -1,4 +1,4 @@
-from src.constants import *
+from constants import *
 from assets import enemy_sprites
 
 class Enemy:

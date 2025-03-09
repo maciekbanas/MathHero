@@ -1,6 +1,6 @@
 import os
 from constants import *
-from utils import wrap_text
+from utils import wrap_text, get_asset_path
 
 def choose_land():
 
@@ -8,19 +8,19 @@ def choose_land():
 
     lands = {
         "Zdradzieckie Lasy": {
-            "image": pygame.image.load(os.path.join(assets_path, "forest.png")),
+            "image": pygame.image.load(get_asset_path(os.path.join("lands", "forest.png"))),
             "description": "Gęste, tajemnicze lasy pełne goblinów, gnomów i trolli. Idealne do ćwiczenia dodawania."
         },
         "Stalowe Wyżyny": {
-            "image": pygame.image.load(os.path.join(assets_path, "hills.png")),
+            "image": pygame.image.load(get_asset_path(os.path.join("lands", "hills.png"))),
             "description": "Wysokie wyżyny zamieszkałe przez potężne golemy. Tutaj nauczysz się mnożenia."
         },
         "Grzybowe Bagna": {
-            "image": pygame.image.load(os.path.join(assets_path, "swamps.png")),
+            "image": pygame.image.load(get_asset_path(os.path.join("lands", "swamps.png"))),
             "description": "Mroczne, wilgotne bagna spowite mgłą, gdzie każda ścieżka prowadzi w nieznane. Zamieszkałe przez gobliny i tajemnicze grzyboludy, uczą odwagi i umiejętności odejmowania, które pomogą przetrwać w tym zdradliwym terenie."
         },
         "Zimowe Królestwo": {
-            "image": pygame.image.load(os.path.join(assets_path, "ice_realm.png")),
+            "image": pygame.image.load(get_asset_path(os.path.join("lands", "ice_realm.png"))),
             "description": "Tu bardzo zimno..."
         }
     }

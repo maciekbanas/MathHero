@@ -1,10 +1,10 @@
 import random
-from src.constants import *
-from src.assets import *
+from constants import *
+from assets import *
 from player import Player
-from src.enemy import Enemy
-from src.choose_land import choose_land
-from src.choose_character import choose_character
+from enemy import Enemy
+from choose_land import choose_land
+from choose_character import choose_character
 import items
 from math_battle import math_battle
 from messages import show_message

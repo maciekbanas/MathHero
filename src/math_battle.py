@@ -1,5 +1,5 @@
 from assets import enemy_sprites
-from src.constants import *
+from constants import *
 from messages import show_message
 
 

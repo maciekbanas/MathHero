@@ -1,6 +1,6 @@
 import os
 import pygame
-from src.utils import get_asset_path
+from utils import get_asset_path
 
 # Wczytywanie grafik
 player_sprites = {
