@@ -1,4 +1,9 @@
 import pygame
+from pathlib import Path
+
+# Base dirs
+BASE_DIR = Path(__file__).resolve().parent
+ASSETS_DIR = BASE_DIR / "../assets"
 
 # Ustawienia ekranu (pełny ekran)
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)

@@ -1,9 +1,11 @@
 import pygame
 import random
+import os
 from constants import *
+from utils import get_asset_path
 
 # Ładowanie grafiki jagód
-berry_image = pygame.image.load("../assets/items/berries.png")
+berry_image = pygame.image.load(get_asset_path(os.path.join("items", "berries.png")))
 berry_image = pygame.transform.scale(berry_image, (50, 50))
 
 # Funkcja generująca jagódki na planszy
