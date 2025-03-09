@@ -9,7 +9,7 @@ def math_battle(player, enemy_type, selected_land):
     """
     import random
 
-    if selected_land == "Zdradzieckie Lasy":
+    if selected_land == "Goblinowe Lasy":
         if enemy_type == "Troll":
             a, b = random.randint(6, 15), random.randint(6, 15)
         elif enemy_type == "Gnom":

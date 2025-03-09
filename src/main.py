@@ -35,7 +35,7 @@ def main():
     selected_land = choose_land()
     player = Player(WIDTH // 2, HEIGHT // 2, player_character)
 
-    if selected_land == "Zdradzieckie Lasy":
+    if selected_land == "Goblinowe Lasy":
         enemy_types = ["Goblin", "Gnom", "Troll"]
         background = forest_map
     elif selected_land == "Grzybowe Bagna":
