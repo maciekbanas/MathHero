@@ -12,7 +12,7 @@ from messages import show_message
 pygame.init()
 pygame.display.set_caption("Math RPG")
 
-forest_map = pygame.image.load(get_asset_path(os.path.join("maps", "treacherous_forest.png")))
+forest_map = pygame.image.load(get_asset_path(os.path.join("maps", "goblin_forest.png")))
 forest_map = pygame.transform.scale(forest_map, (WIDTH, HEIGHT))
 
 swamps_map = pygame.image.load(get_asset_path(os.path.join("maps", "mushroom_swamps.png")))
@@ -73,7 +73,7 @@ def main():
 
     enemies = [
         Enemy(*get_random_position_in_grid(), random.choice(enemy_types))
-        for _ in range(5)
+        for _ in range(8)
     ]
 
     berries = [
