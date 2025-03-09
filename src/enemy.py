@@ -1,12 +1,12 @@
 from constants import *
-from assets import enemy_sprites
+from assets import enemy_sprites, enemy_fig_sprites
 
 class Enemy:
     def __init__(self, x, y, enemy_type):
         self.x = x
         self.y = y
         self.type = enemy_type
-        self.sprite = pygame.transform.scale(enemy_sprites[enemy_type], (50, 50))
+        self.sprite = pygame.transform.scale(enemy_fig_sprites[enemy_type], (50, 50))
 
     def draw(self, surface):  # FIX: Added 'surface' parameter
         surface.blit(self.sprite, (self.x, self.y))

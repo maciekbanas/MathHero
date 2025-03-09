@@ -24,3 +24,11 @@ enemy_sprites = {
     "Troll": pygame.image.load(get_asset_path(os.path.join("enemies", "troll.png"))),
     "Grzybolud": pygame.image.load(get_asset_path(os.path.join("enemies", "mushroomkin.png")))
 }
+
+enemy_fig_sprites = {
+    "Goblin": pygame.image.load(get_asset_path(os.path.join("enemies", "goblin_fig.png"))),
+    "Golem": pygame.image.load(get_asset_path(os.path.join("enemies", "golem_fig.png"))),
+    "Gnom": pygame.image.load(get_asset_path(os.path.join("enemies", "gnome_fig.png"))),
+    "Troll": pygame.image.load(get_asset_path(os.path.join("enemies", "troll_fig.png"))),
+    "Grzybolud": pygame.image.load(get_asset_path(os.path.join("enemies", "mushroomkin_fig.png")))
+}
