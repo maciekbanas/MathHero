@@ -4,8 +4,6 @@ from utils import wrap_text, get_asset_path
 
 def choose_land():
 
-    assets_path = os.path.join("../assets", "lands")
-
     lands = {
         "Zdradzieckie Lasy": {
             "image": pygame.image.load(get_asset_path(os.path.join("lands", "forest.png"))),
