@@ -1,3 +1,6 @@
+import os
+from constants import ASSETS_DIR
+
 def wrap_text(text, font, max_width):
 
     words = text.split()
@@ -16,3 +19,6 @@ def wrap_text(text, font, max_width):
         lines.append(current_line)
 
     return lines
+
+def get_asset_path(relative_path):
+    return os.path.join(ASSETS_DIR, relative_path)

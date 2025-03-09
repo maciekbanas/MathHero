@@ -12,16 +12,16 @@ from messages import show_message
 pygame.init()
 pygame.display.set_caption("Math RPG")
 
-forest_map = pygame.image.load("../assets/maps/forest.png")
+forest_map = pygame.image.load(get_asset_path(os.path.join("maps", "treacherous_forest.png")))
 forest_map = pygame.transform.scale(forest_map, (WIDTH, HEIGHT))
 
-swamps_map = pygame.image.load("../assets/maps/mushroom_swamps.png")
+swamps_map = pygame.image.load(get_asset_path(os.path.join("maps", "mushroom_swamps.png")))
 swamps_map = pygame.transform.scale(swamps_map, (WIDTH, HEIGHT))
 
-hills_map = pygame.image.load("../assets/maps/steel_hills.png")
+hills_map = pygame.image.load(get_asset_path(os.path.join("maps", "steel_hills.png")))
 hills_map = pygame.transform.scale(hills_map, (WIDTH, HEIGHT))
 
-ice_realm_map = pygame.image.load("../assets/maps/ice_realm.png")
+ice_realm_map = pygame.image.load(get_asset_path(os.path.join("maps", "ice_realm.png")))
 ice_realm_map = pygame.transform.scale(ice_realm_map, (WIDTH, HEIGHT))
 
 def return_to_land_selection():

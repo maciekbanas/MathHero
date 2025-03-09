@@ -1,5 +1,5 @@
-from constants import *
-from assets import player_sprites
+from src.constants import *
+from src.assets import player_sprites
 
 def choose_character():
     """
