@@ -9,7 +9,7 @@ def math_battle(player, enemy_type, selected_land):
     """
     import random
 
-    if selected_land == "Zdradzieckie Lasy":
+    if selected_land == "Goblinowe Lasy":
         if enemy_type == "Troll":
             a, b = random.randint(6, 15), random.randint(6, 15)
         elif enemy_type == "Gnom":
@@ -31,6 +31,22 @@ def math_battle(player, enemy_type, selected_land):
 
         question = f"Ile to {a} - {b}?"
         correct_answer = a - b
+    elif selected_land == "Zimowe Królestwo":
+        if enemy_type == "Wilk":
+            while True:
+                a = random.randint(2, 10)
+                b = random.randint(2, 10)
+                if a * b <= 15:
+                    break
+
+            question = f"Ile to {a} x {b}?"
+            correct_answer = a * b
+
+        elif enemy_type == "Golem":
+            a = random.randint(2, 10)
+            b = random.randint(2, min(30 // a, 10))
+            question = f"Ile to {a} x {b}?"
+            correct_answer = a * b
     else:
         a = random.randint(2, 10)
         b = random.randint(2, min(30 // a, 10))
@@ -80,11 +96,11 @@ def math_battle(player, enemy_type, selected_land):
         screen.blit(hero_sprite, hero_rect)
         screen.blit(enemy_sprite, enemy_rect)
 
-        health_bar_width = hero_sprite.get_width()  # 100 pikseli
+        health_bar_width = hero_sprite.get_width()
         health_bar_height = 10
-        health_ratio = player.health / 100.0  # Zakładamy maksymalne zdrowie = 100
+        health_ratio = player.health / 100.0
         bar_x = hero_rect.x
-        bar_y = hero_rect.y - 15  # Pasek nad sprite'm bohatera
+        bar_y = hero_rect.y - 15
         pygame.draw.rect(screen, RED, (bar_x, bar_y, health_bar_width, health_bar_height))
         pygame.draw.rect(screen, GREEN, (bar_x, bar_y, health_bar_width * health_ratio, health_bar_height))
 
@@ -92,7 +108,6 @@ def math_battle(player, enemy_type, selected_land):
         question_rect = question_surface.get_rect(center=(WIDTH // 2, HEIGHT // 4))
         screen.blit(question_surface, question_rect)
 
-        # Wyświetlenie wpisanego tekstu
         input_prompt = "Odpowiedź: " + input_text
         input_surface = font_small.render(input_prompt, True, BLACK)
         input_rect = input_surface.get_rect(center=(WIDTH // 2, 3 * HEIGHT // 4))

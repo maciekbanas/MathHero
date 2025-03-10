@@ -5,14 +5,14 @@ from player import Player
 from enemy import Enemy
 from choose_land import choose_land
 from choose_character import choose_character
-import items
+from items import Berry
 from math_battle import math_battle
 from messages import show_message
 
 pygame.init()
 pygame.display.set_caption("Math RPG")
 
-forest_map = pygame.image.load(get_asset_path(os.path.join("maps", "treacherous_forest.png")))
+forest_map = pygame.image.load(get_asset_path(os.path.join("maps", "goblin_forest.png")))
 forest_map = pygame.transform.scale(forest_map, (WIDTH, HEIGHT))
 
 swamps_map = pygame.image.load(get_asset_path(os.path.join("maps", "mushroom_swamps.png")))
@@ -24,18 +24,41 @@ hills_map = pygame.transform.scale(hills_map, (WIDTH, HEIGHT))
 ice_realm_map = pygame.image.load(get_asset_path(os.path.join("maps", "ice_realm.png")))
 ice_realm_map = pygame.transform.scale(ice_realm_map, (WIDTH, HEIGHT))
 
+def draw_grid():
+    """
+    Draws a visible grid on the screen.
+    """
+    for x in range(0, WIDTH, 50):
+        pygame.draw.line(screen, (200, 200, 200), (x, 0), (x, HEIGHT))
+    for y in range(0, HEIGHT, 50):
+        pygame.draw.line(screen, (200, 200, 200), (0, y), (WIDTH, y))
+
+def get_random_position_in_grid():
+    """
+    Returns a random position within a grid cell, ensuring entities do not overlap grid lines.
+    """
+    grid_x = random.randint(0, (WIDTH // 50) - 1) * 50
+    grid_y = random.randint(0, (HEIGHT // 50) - 1) * 50
+    return grid_x, grid_y
+
 def return_to_land_selection():
+    """
+    Returns to the land selection screen.
+    """
     global running
     running = False
     main()
 
 def main():
+    """
+    Main game loop.
+    """
     global running
     player_character = choose_character()
     selected_land = choose_land()
-    player = Player(WIDTH // 2, HEIGHT // 2, player_character)
+    player = Player(WIDTH // 2 // 50 * 50 + 25, HEIGHT // 2 // 50 * 50 + 25, player_character)
 
-    if selected_land == "Zdradzieckie Lasy":
+    if selected_land == "Goblinowe Lasy":
         enemy_types = ["Goblin", "Gnom", "Troll"]
         background = forest_map
     elif selected_land == "Grzybowe Bagna":
@@ -45,15 +68,17 @@ def main():
         enemy_types = ["Golem"]
         background = hills_map
     elif selected_land == "Zimowe Królestwo":
-        enemy_types = ["Golem"]
+        enemy_types = ["Wilk", "Golem"]
         background = ice_realm_map
 
     enemies = [
-        Enemy(random.randint(50, WIDTH - 50), random.randint(50, HEIGHT - 50), random.choice(enemy_types))
-        for _ in range(5)
+        Enemy(*get_random_position_in_grid(), random.choice(enemy_types))
+        for _ in range(8)
     ]
 
-    berries = items.generate_berries()
+    berries = [
+        Berry(*get_random_position_in_grid()) for _ in range(3)
+    ]
 
     clock = pygame.time.Clock()
     running = True
@@ -67,15 +92,17 @@ def main():
 
         keys = pygame.key.get_pressed()
         player.move(keys)
+        player.update_position()
         player.animation.update(dt)
 
-        screen.blit(background, (0, 0))
+        screen.fill(WHITE)
+        draw_grid()
 
         current_image = player.animation.get_image()
-        screen.blit(current_image, (player.x, player.y))
+        screen.blit(current_image, (player.x - 25, player.y - 25))
 
-        pygame.draw.rect(screen, RED, (player.x, player.y - 15, 50, 5))
-        pygame.draw.rect(screen, GREEN, (player.x, player.y - 15, 50 * (player.health / 100), 5))
+        pygame.draw.rect(screen, RED, (player.x - 25, player.y - 40, 50, 5))
+        pygame.draw.rect(screen, GREEN, (player.x - 25, player.y - 40, 50 * (player.health / 100), 5))
 
         for enemy in enemies[:]:
             enemy.draw(screen)
@@ -84,12 +111,15 @@ def main():
                     enemies.remove(enemy)
                     show_message("Pokonałeś wroga!")
 
-        for berry in berries[:]:
-            screen.blit(items.berry_image, (berry.x, berry.y))
-            if pygame.Rect(player.x, player.y, 50, 50).colliderect(berry):
+        for berry in berries:
+            berry.draw(screen)
+
+        # Check if player collects berries
+        for berry in berries[:]:  # Iterate over a copy to allow safe removal
+            if berry.check_collision(player):
                 if player.health < 100:
                     player.health = min(100, player.health + 20)
-                    berries.remove(berry)
+                    berries.remove(berry)  # Remove the berry after collecting
 
         if not enemies:
             show_message("Wygrałeś! Pokonałeś wszystkich przeciwników!")
