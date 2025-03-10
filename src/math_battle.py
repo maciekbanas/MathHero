@@ -31,6 +31,22 @@ def math_battle(player, enemy_type, selected_land):
 
         question = f"Ile to {a} - {b}?"
         correct_answer = a - b
+    elif selected_land == "Zimowe Królestwo":
+        if enemy_type == "Wilk":
+            while True:
+                a = random.randint(2, 10)
+                b = random.randint(2, 10)
+                if a * b <= 15:
+                    break
+
+            question = f"Ile to {a} x {b}?"
+            correct_answer = a * b
+
+        elif enemy_type == "Golem":
+            a = random.randint(2, 10)
+            b = random.randint(2, min(30 // a, 10))
+            question = f"Ile to {a} x {b}?"
+            correct_answer = a * b
     else:
         a = random.randint(2, 10)
         b = random.randint(2, min(30 // a, 10))

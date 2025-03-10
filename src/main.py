@@ -68,7 +68,7 @@ def main():
         enemy_types = ["Golem"]
         background = hills_map
     elif selected_land == "Zimowe Królestwo":
-        enemy_types = ["Golem"]
+        enemy_types = ["Wilk", "Golem"]
         background = ice_realm_map
 
     enemies = [
