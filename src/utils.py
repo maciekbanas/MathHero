@@ -1,5 +1,5 @@
 import os
-from constants import ASSETS_DIR
+from constants import *
 
 def wrap_text(text, font, max_width):
 
@@ -22,3 +22,14 @@ def wrap_text(text, font, max_width):
 
 def get_asset_path(relative_path):
     return os.path.join(ASSETS_DIR, relative_path)
+
+def draw_back_button():
+    font = pygame.font.SysFont(None, 40)
+    back_text = font.render("Powrót", True, BLACK)
+    text_width, text_height = back_text.get_size()
+    padding = 20
+    back_rect = pygame.Rect(WIDTH - text_width - padding, 20, text_width + padding, text_height + padding // 2)
+    pygame.draw.rect(screen, GREY, back_rect)
+    screen.blit(back_text, (back_rect.x + padding // 2, back_rect.y + padding // 4))
+
+    return(back_rect)
