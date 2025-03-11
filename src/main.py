@@ -9,7 +9,7 @@ from items import Berry
 from math_battle import math_battle
 from messages import show_message
 from inventory import *
-from utils import draw_back_button
+from utils import draw_ui_buttons
 
 pygame.init()
 pygame.display.set_caption("Math RPG")
@@ -126,9 +126,8 @@ def main():
             show_message("Wygrałeś! Pokonałeś wszystkich przeciwników!")
             running = False
 
-        back_button = draw_back_button()
-        inventory_button = draw_inventory_button()
-        pygame.display.flip()  # Refresh screen
+        inventory_button, back_button = draw_ui_buttons()
+        pygame.display.flip()
         pygame.time.delay(30)
 
         for event in pygame.event.get():

@@ -63,19 +63,3 @@ def show_inventory(player):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if close_button_rect.collidepoint(event.pos):  # Close button clicked
                     inventory_running = False
-
-def draw_inventory_button():
-    """
-    Draws the inventory button on the screen.
-    """
-    font = pygame.font.SysFont(None, 40)
-    inventory_text = font.render("Ekwipunek", True, BLACK)
-
-    inventory_rect = pygame.Rect(20, HEIGHT - 70, 180, 50)
-
-    pygame.draw.rect(screen, GREY, inventory_rect, border_radius=8)
-    pygame.draw.rect(screen, BLACK, inventory_rect, 2)
-    screen.blit(inventory_text, (inventory_rect.x + 15, inventory_rect.y + 10))
-
-    return inventory_rect
-
