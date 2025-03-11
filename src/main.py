@@ -8,6 +8,8 @@ from choose_character import choose_character
 from items import Berry
 from math_battle import math_battle
 from messages import show_message
+from inventory import *
+from utils import draw_ui_buttons
 
 pygame.init()
 pygame.display.set_caption("Math RPG")
@@ -109,7 +111,6 @@ def main():
             if enemy.check_collision(player):
                 if math_battle(player, enemy.type, selected_land):
                     enemies.remove(enemy)
-                    show_message("Pokonałeś wroga!")
 
         for berry in berries:
             berry.draw(screen)
@@ -125,20 +126,17 @@ def main():
             show_message("Wygrałeś! Pokonałeś wszystkich przeciwników!")
             running = False
 
-        font = pygame.font.SysFont(None, 40)
-        back_text = font.render("Powrót", True, BLACK)
-        text_width, text_height = back_text.get_size()
-        padding = 20
-        back_rect = pygame.Rect(WIDTH - text_width - padding, 20, text_width + padding, text_height + padding // 2)
-        pygame.draw.rect(screen, GREY, back_rect)
-        screen.blit(back_text, (back_rect.x + padding // 2, back_rect.y + padding // 4))
-
+        inventory_button, back_button = draw_ui_buttons()
         pygame.display.flip()
         pygame.time.delay(30)
 
         for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if back_rect.collidepoint(event.pos):
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if inventory_button.collidepoint(event.pos):  # Detect click
+                    show_inventory(player)
+                if back_button.collidepoint(event.pos):
                     return_to_land_selection()
 
     pygame.quit()

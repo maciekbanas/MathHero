@@ -5,9 +5,16 @@ from messages import show_message
 
 def math_battle(player, enemy_type, selected_land):
     """
-    Wyświetla ekran walki z pytaniem matematycznym zależnym od wybranej krainy.
+    Displays the battle screen and awards coins for winning.
     """
     import random
+
+    # Define rewards for each enemy
+    coin_rewards = {
+        "Goblin": 5, "Grzybolud": 5, "Wilk": 5,
+        "Gnom": 10,
+        "Troll": 20, "Golem": 20
+    }
 
     if selected_land == "Goblinowe Lasy":
         if enemy_type == "Troll":
@@ -28,7 +35,6 @@ def math_battle(player, enemy_type, selected_land):
 
         if a < b:
             a, b = b, a
-
         question = f"Ile to {a} - {b}?"
         correct_answer = a - b
     elif selected_land == "Zimowe Królestwo":
@@ -38,10 +44,8 @@ def math_battle(player, enemy_type, selected_land):
                 b = random.randint(2, 10)
                 if a * b <= 15:
                     break
-
             question = f"Ile to {a} x {b}?"
             correct_answer = a * b
-
         elif enemy_type == "Golem":
             a = random.randint(2, 10)
             b = random.randint(2, min(30 // a, 10))
@@ -75,19 +79,21 @@ def math_battle(player, enemy_type, selected_land):
                     try:
                         user_answer = int(input_text)
                         if user_answer == correct_answer:
+                            player.coins += coin_rewards.get(enemy_type, 0)  # Add coins
+                            show_message(f"Pokonałeś {enemy_type} i zdobyłeś {coin_rewards[enemy_type]} monet!")
                             return True
                         else:
                             player.health -= 20
                     except ValueError:
-                        player.health = player.health
+                        pass
                     input_text = ""
                     if player.health == 0:
                         show_message("Koniec gry!")
                         pygame.quit()
-
                 else:
                     if event.unicode.isdigit():
                         input_text += event.unicode
+
 
         hero_sprite = player.battle_sprite
         screen.fill((200, 200, 200))
