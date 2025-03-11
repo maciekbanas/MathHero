@@ -1,7 +1,7 @@
 # MathHero
  A fantasy adventure where math battles decide your fate!
 
-🧰 _Work under development_ 🧰
+🚧 _Work in Progress: This project is actively under development._ 🧰
 
 ## Install:
 ````
