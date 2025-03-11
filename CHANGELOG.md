@@ -32,7 +32,7 @@ Initial release of `MathHero` game.
   * Berries.
 * Game Logic:
   * Moving on square grid.
-  * Fighting with enemies as finding solution to mathematic equations.
+  * Fighting with enemies as finding solution to mathematical equations.
   * Adding life bar to heroes.
   * Differentiating equations with regard to different enemies.
   * Gathering coins after winning over enemies.
