@@ -1,7 +1,7 @@
 from assets import enemy_sprites
 from constants import *
-from messages import show_message
-
+from utils import show_message
+import os
 
 def math_battle(player, enemy_type, selected_land):
     """
@@ -9,7 +9,6 @@ def math_battle(player, enemy_type, selected_land):
     """
     import random
 
-    # Define rewards for each enemy
     coin_rewards = {
         "Goblin": 5, "Grzybolud": 5, "Wilk": 5,
         "Gnom": 10,
@@ -59,15 +58,36 @@ def math_battle(player, enemy_type, selected_land):
 
     enemy_sprite = enemy_sprites[enemy_type]
     enemy_sprite = pygame.transform.scale(enemy_sprite, (200, 200))
-
     input_text = ""
     clock = pygame.time.Clock()
     battle_active = True
-
     font_large = pygame.font.SysFont(None, 48)
     font_small = pygame.font.SysFont(None, 36)
 
+    def load_elixirs():
+        elixir_buttons = []
+        for idx, item in enumerate(player.inventory):
+            if item == "Eliksir rozwiązania":
+                elixir_path = "assets/items/elixir_solution.png"
+            else:
+                continue
+
+            if os.path.exists(elixir_path):
+                elixir_img = pygame.image.load(elixir_path)
+                elixir_img = pygame.transform.scale(elixir_img, (50, 50))
+                rect = pygame.Rect(50 + idx * 80, HEIGHT - 100, 50, 50)
+                elixir_buttons.append((rect, item, elixir_img))
+        return elixir_buttons
+
+    elixir_buttons = load_elixirs()
+
     while battle_active:
+        screen.fill((200, 200, 200))
+
+        hero_sprite = player.battle_sprite
+        hero_rect = hero_sprite.get_rect(center=(WIDTH // 4, HEIGHT // 2))
+        enemy_rect = enemy_sprite.get_rect(center=(3 * WIDTH // 4, HEIGHT // 2))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -79,7 +99,7 @@ def math_battle(player, enemy_type, selected_land):
                     try:
                         user_answer = int(input_text)
                         if user_answer == correct_answer:
-                            player.coins += coin_rewards.get(enemy_type, 0)  # Add coins
+                            player.coins += coin_rewards.get(enemy_type, 0)
                             show_message(f"Pokonałeś {enemy_type} i zdobyłeś {coin_rewards[enemy_type]} monet!")
                             return True
                         else:
@@ -93,12 +113,14 @@ def math_battle(player, enemy_type, selected_land):
                 else:
                     if event.unicode.isdigit():
                         input_text += event.unicode
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                for rect, item, _ in elixir_buttons:
+                    if rect.collidepoint(event.pos):
+                        if item == "Eliksir rozwiązania":
+                            input_text = str(correct_answer)
+                            player.inventory.remove(item)
+                        elixir_buttons = load_elixirs()  # Update buttons
 
-
-        hero_sprite = player.battle_sprite
-        screen.fill((200, 200, 200))
-        hero_rect = hero_sprite.get_rect(center=(WIDTH // 4, HEIGHT // 2))
-        enemy_rect = enemy_sprite.get_rect(center=(3 * WIDTH // 4, HEIGHT // 2))
         screen.blit(hero_sprite, hero_rect)
         screen.blit(enemy_sprite, enemy_rect)
 
@@ -110,14 +132,14 @@ def math_battle(player, enemy_type, selected_land):
         pygame.draw.rect(screen, RED, (bar_x, bar_y, health_bar_width, health_bar_height))
         pygame.draw.rect(screen, GREEN, (bar_x, bar_y, health_bar_width * health_ratio, health_bar_height))
 
-        question_surface = font_large.render(question, True, BLACK)
-        question_rect = question_surface.get_rect(center=(WIDTH // 2, HEIGHT // 4))
-        screen.blit(question_surface, question_rect)
+        for rect, _, elixir_img in elixir_buttons:
+            screen.blit(elixir_img, rect.topleft)
 
+        question_surface = font_large.render(question, True, BLACK)
+        screen.blit(question_surface, (WIDTH // 2, HEIGHT // 4))
         input_prompt = "Odpowiedź: " + input_text
         input_surface = font_small.render(input_prompt, True, BLACK)
-        input_rect = input_surface.get_rect(center=(WIDTH // 2, 3 * HEIGHT // 4))
-        screen.blit(input_surface, input_rect)
+        screen.blit(input_surface, (WIDTH // 2, 3 * HEIGHT // 4))
 
         pygame.display.flip()
         clock.tick(30)
