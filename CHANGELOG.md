@@ -30,6 +30,8 @@ Initial release of `MathHero` game.
   * Wolves.
 * Items:
   * Berries.
+* NPCs:
+  * Merchant with elixirs.
 * Game Logic:
   * Moving on square grid.
   * Fighting with enemies as finding solution to mathematical equations.

@@ -50,6 +50,8 @@ class Player:
         self.target_y = self.y
         self.is_moving = False
 
+        self.inventory = []
+
     def move(self, keys):
         """ Obsługuje wejście gracza, jeśli nie jest w trakcie ruchu """
         if self.is_moving:

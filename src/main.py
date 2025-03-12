@@ -1,15 +1,11 @@
-import random
-from constants import *
-from assets import *
 from player import Player
 from enemy import Enemy
 from choose_land import choose_land
 from choose_character import choose_character
 from items import Berry
 from math_battle import math_battle
-from messages import show_message
 from inventory import *
-from utils import draw_ui_buttons
+from merchant import *
 
 pygame.init()
 pygame.display.set_caption("Math RPG")
@@ -25,23 +21,6 @@ hills_map = pygame.transform.scale(hills_map, (WIDTH, HEIGHT))
 
 ice_realm_map = pygame.image.load(get_asset_path(os.path.join("maps", "ice_realm.png")))
 ice_realm_map = pygame.transform.scale(ice_realm_map, (WIDTH, HEIGHT))
-
-def draw_grid():
-    """
-    Draws a visible grid on the screen.
-    """
-    for x in range(0, WIDTH, 50):
-        pygame.draw.line(screen, (200, 200, 200), (x, 0), (x, HEIGHT))
-    for y in range(0, HEIGHT, 50):
-        pygame.draw.line(screen, (200, 200, 200), (0, y), (WIDTH, y))
-
-def get_random_position_in_grid():
-    """
-    Returns a random position within a grid cell, ensuring entities do not overlap grid lines.
-    """
-    grid_x = random.randint(0, (WIDTH // 50) - 1) * 50
-    grid_y = random.randint(0, (HEIGHT // 50) - 1) * 50
-    return grid_x, grid_y
 
 def return_to_land_selection():
     """
@@ -82,6 +61,8 @@ def main():
         Berry(*get_random_position_in_grid()) for _ in range(3)
     ]
 
+    merchant = Merchant()
+
     clock = pygame.time.Clock()
     running = True
     while running:
@@ -99,6 +80,7 @@ def main():
 
         screen.fill(WHITE)
         draw_grid()
+        merchant.draw(screen)
 
         current_image = player.animation.get_image()
         screen.blit(current_image, (player.x - 25, player.y - 25))
@@ -115,12 +97,22 @@ def main():
         for berry in berries:
             berry.draw(screen)
 
-        # Check if player collects berries
-        for berry in berries[:]:  # Iterate over a copy to allow safe removal
+        for berry in berries[:]:
             if berry.check_collision(player):
                 if player.health < 100:
                     player.health = min(100, player.health + 20)
-                    berries.remove(berry)  # Remove the berry after collecting
+                    berries.remove(berry)
+
+        if merchant.check_collision(player):
+            show_merchant_button = True
+        else:
+            show_merchant_button = False
+
+        if show_merchant_button:
+            merchant_button = draw_merchant_button()
+
+        if not merchant.check_collision(player):
+            merchant.interacted = False
 
         if not enemies:
             show_message("Wygrałeś! Pokonałeś wszystkich przeciwników!")
@@ -134,10 +126,12 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if inventory_button.collidepoint(event.pos):  # Detect click
+                if inventory_button.collidepoint(event.pos):
                     show_inventory(player)
                 if back_button.collidepoint(event.pos):
                     return_to_land_selection()
+                if show_merchant_button and merchant_button.collidepoint(event.pos):
+                    show_merchant_menu(player)
 
     pygame.quit()
 
