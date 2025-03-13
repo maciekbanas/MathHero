@@ -17,34 +17,34 @@ class WorldMap:
 
         # Define active lands and their positions
         self.lands = {
-            "Goblinowe Lasy": (1, 2),
+            "Mglista Puszcza": (1, 1),
             "Grzybowe Bagna": (2, 1),
             "Stalowe Wyżyny": (3, 3),
             "Lodowa Kraina": (4, 4)
         }
-        goblin_forest_image = pygame.image.load(get_asset_path("lands/goblin_forest.png"))
+        goblin_forest_image = pygame.image.load(get_asset_path("lands/dark_forest.png"))
         mushroom_swamps_image = pygame.image.load(get_asset_path("lands/mushroom_swamps.png"))
         steel_hills_image = pygame.image.load(get_asset_path("lands/steel_hills.png"))
         ice_realm_image = pygame.image.load(get_asset_path("lands/ice_realm.png"))
 
         self.land_images = {
-            "Goblinowe Lasy": pygame.transform.scale(goblin_forest_image, (100, 100)),
+            "Mglista Puszcza": pygame.transform.scale(goblin_forest_image, (100, 100)),
             "Grzybowe Bagna": pygame.transform.scale(mushroom_swamps_image, (100, 100)),
             "Stalowe Wyżyny": pygame.transform.scale(steel_hills_image, (100, 100)),
             "Lodowa Kraina": pygame.transform.scale(ice_realm_image, (100, 100))
         }
 
-        realm_dim = 400
+        realm_dim = 600
 
         self.realm_images = {
-            "Goblinowe Lasy": pygame.transform.scale(goblin_forest_image, (realm_dim, realm_dim)),
+            "Mglista Puszcza": pygame.transform.scale(goblin_forest_image, (realm_dim, realm_dim)),
             "Grzybowe Bagna": pygame.transform.scale(mushroom_swamps_image, (realm_dim, realm_dim)),
             "Stalowe Wyżyny": pygame.transform.scale(steel_hills_image, (realm_dim, realm_dim)),
             "Lodowa Kraina": pygame.transform.scale(ice_realm_image, (realm_dim, realm_dim))
         }
 
         self.land_descriptions = {
-            "Goblinowe Lasy": "Gęste, tajemnicze lasy pełne goblinów, gnomów i trolli. Idealne do ćwiczenia dodawania.",
+            "Mglista Puszcza": "Gęste, tajemnicze lasy pełne goblinów, gnomów i trolli. Idealne do ćwiczenia dodawania.",
             "Grzybowe Bagna": "Mroczne, wilgotne bagna zamieszkałe przez gobliny i tajemnicze grzyboludy. Nauka odejmowania jest kluczowa, by przetrwać.",
             "Stalowe Wyżyny": "Wysokie wyżyny zamieszkałe przez potężne golemy. Tutaj nauczysz się mnożenia.",
             "Lodowa Kraina": "Mroźna i tajemnicza kraina, której mieszkańcy posługują się liczbami w niezwykły sposób."

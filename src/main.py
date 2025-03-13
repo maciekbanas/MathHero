@@ -1,6 +1,6 @@
 from player import Player
 from enemy import Enemy
-from world_map import show_world_map
+from realms_map import show_world_map
 from choose_character import choose_character
 from items import Berry
 from math_battle import math_battle
@@ -30,16 +30,8 @@ def main():
     global running
     player_character = choose_character()
 
-    # Define land positions
-    land_positions = {
-        "Goblinowe Lasy": (1, 2),
-        "Grzybowe Bagna": (2, 1),
-        "Stalowe Wyżyny": (3, 2),
-        "Lodowa Kraina": (2, 3)
-    }
-
     # Initialize player's starting position
-    world_position = (2, 2)  # Castle position
+    world_position = (2, 2)
     player = Player(WIDTH // 2 // 50 * 50 + 25, HEIGHT // 2 // 50 * 50 + 25, player_character)
     map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
 
@@ -48,7 +40,7 @@ def main():
         selected_land, world_position = show_world_map(map_player, player, world_position)
         print(f"Gracz wszedł do: {selected_land}")
 
-        if selected_land == "Goblinowe Lasy":
+        if selected_land == "Mglista Puszcza":
             enemy_types = ["Goblin", "Gnom", "Troll"]
             background = forest_map
         elif selected_land == "Grzybowe Bagna":

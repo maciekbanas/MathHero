@@ -53,12 +53,12 @@ def draw_ui_buttons():
     pygame.draw.rect(screen, BLACK, inventory_rect, 2)  # Border
     screen.blit(inventory_text, (inventory_rect.x + 15, inventory_rect.y + 10))
 
-    back_text = font.render("Powrót", True, BLACK)
-    back_rect = pygame.Rect(WIDTH - 200, HEIGHT - 70, 180, 50)
+    back_text = font.render("Opuść krainę", True, BLACK)
+    back_rect = pygame.Rect(WIDTH - 240, HEIGHT - 70, 220, 50)
 
     pygame.draw.rect(screen, GREY, back_rect, border_radius=8)
     pygame.draw.rect(screen, BLACK, back_rect, 2)
-    screen.blit(back_text, (back_rect.x + 50, back_rect.y + 10))
+    screen.blit(back_text, (back_rect.x + 10, back_rect.y + 10))
 
     return inventory_rect, back_rect
 

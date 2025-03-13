@@ -15,7 +15,7 @@ def math_battle(player, enemy_type, selected_land):
         "Troll": 20, "Golem": 20
     }
 
-    if selected_land == "Goblinowe Lasy":
+    if selected_land == "Mglista Puszcza":
         if enemy_type == "Troll":
             a, b = random.randint(6, 15), random.randint(6, 15)
         elif enemy_type == "Gnom":
