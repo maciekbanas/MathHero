@@ -1,13 +1,13 @@
 from utils import *
 
 class WorldMap:
-    def __init__(self, player):
+    def __init__(self, player, start_position=(2, 2)):
         self.grid_size = 100
         self.cols, self.rows = 5, 5  # Larger grid for future expansion
         self.map_width = self.cols * self.grid_size
         self.map_height = self.rows * self.grid_size
         self.player = player
-        self.start_position = (2, 2)
+        self.start_position = start_position
         self.player.x, self.player.y = self.start_position[0] * self.grid_size, self.start_position[1] * self.grid_size
 
         # Define active lands and their positions
@@ -63,7 +63,7 @@ class WorldMap:
             screen.blit(self.land_images[land], (col * self.grid_size, row * self.grid_size))
 
         screen.blit(self.castle_image,
-                    (self.start_position[0] * self.grid_size, self.start_position[1] * self.grid_size))
+                    (2 * self.grid_size, 2 * self.grid_size))
 
         screen.blit(self.player.realm_sprite, (self.player.x, self.player.y))
 
@@ -115,8 +115,8 @@ class WorldMap:
                 return self.selected_land
         return None
 
-def show_world_map(player):
-    world_map = WorldMap(player)
+def show_world_map(player, start_position):
+    world_map = WorldMap(player, start_position)
     running = True
     while running:
         screen.fill((0, 0, 0))
@@ -126,10 +126,6 @@ def show_world_map(player):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    exit()
             selected_land = world_map.handle_event(event)
             if selected_land:
-                return selected_land
+                return selected_land, (world_map.player.x // 100, world_map.player.y // 100)
