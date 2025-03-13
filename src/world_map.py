@@ -1,3 +1,5 @@
+import pygame
+
 from utils import *
 
 class WorldMap:
@@ -110,6 +112,10 @@ class WorldMap:
                 self.move_player("LEFT")
             elif event.key == pygame.K_RIGHT:
                 self.move_player("RIGHT")
+            elif event.key == pygame.K_RETURN:
+                if self.selected_land:
+                    return self.selected_land
+            return None
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if self.selected_land and self.enter_button.collidepoint(event.pos):
                 return self.selected_land
