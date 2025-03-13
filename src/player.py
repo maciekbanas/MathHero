@@ -39,11 +39,11 @@ class Player:
         self.y = y
         self.speed = 5
         self.health = 100
-        self.coins = 0  # New: Coin counter
+        self.coins = 0
         self.character = character
         self.battle_sprite = pygame.transform.scale(player_sprites[character], (200, 200))
         self.sprite = load_gif_frames(player_minifig_sprites[character], new_size=(50, 50))
-        self.realm_sprite = pygame.transform.scale(pygame.image.load(player_minifig_sprites[character]), (100, 100))
+        self.realm_sprite = pygame.transform.scale(player_sprites[character], (100, 100))
         self.animation = AnimatedSprite(self.sprite, frame_duration=100)
 
         self.grid_size = 50

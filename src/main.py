@@ -40,13 +40,13 @@ def main():
 
     # Initialize player's starting position
     world_position = (2, 2)  # Castle position
+    player = Player(WIDTH // 2 // 50 * 50 + 25, HEIGHT // 2 // 50 * 50 + 25, player_character)
     map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
 
     while True:
-        selected_land, world_position = show_world_map(map_player, world_position)
-        print(f"Gracz wszedł do: {selected_land}")
 
-        player = Player(WIDTH // 2 // 50 * 50 + 25, HEIGHT // 2 // 50 * 50 + 25, player_character)
+        selected_land, world_position = show_world_map(map_player, player, world_position)
+        print(f"Gracz wszedł do: {selected_land}")
 
         if selected_land == "Goblinowe Lasy":
             enemy_types = ["Goblin", "Gnom", "Troll"]
@@ -80,7 +80,7 @@ def main():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     running = False
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
-                    running = False  # Exit land and return to world map
+                    running = False
 
             keys = pygame.key.get_pressed()
             player.move(keys)

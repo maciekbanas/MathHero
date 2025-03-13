@@ -1,15 +1,18 @@
 import pygame
 
 from utils import *
+from inventory import show_inventory
 
 class WorldMap:
-    def __init__(self, player, start_position=(2, 2)):
+    def __init__(self, player, player_game, start_position=(2, 2)):
         self.grid_size = 100
         self.cols, self.rows = 5, 5  # Larger grid for future expansion
         self.map_width = self.cols * self.grid_size
         self.map_height = self.rows * self.grid_size
         self.player = player
+        self.player_game = player_game
         self.start_position = start_position
+        self.castle_position = (2, 2)
         self.player.x, self.player.y = self.start_position[0] * self.grid_size, self.start_position[1] * self.grid_size
 
         # Define active lands and their positions
@@ -49,6 +52,8 @@ class WorldMap:
 
         self.selected_land = None
         self.enter_button = pygame.Rect(WIDTH / 2, HEIGHT - 100, 220, 50)
+        self.inventory_button = pygame.Rect(20, HEIGHT - 60, 150, 40)
+        self.quit_button = pygame.Rect(WIDTH - 170, HEIGHT - 60, 150, 40)
 
         self.castle_image = pygame.transform.scale(
             pygame.image.load(get_asset_path("lands/castle.png")), (100, 100)
@@ -65,7 +70,7 @@ class WorldMap:
             screen.blit(self.land_images[land], (col * self.grid_size, row * self.grid_size))
 
         screen.blit(self.castle_image,
-                    (2 * self.grid_size, 2 * self.grid_size))
+                    (self.castle_position[0] * self.grid_size, self.castle_position[1] * self.grid_size))
 
         screen.blit(self.player.realm_sprite, (self.player.x, self.player.y))
 
@@ -79,11 +84,20 @@ class WorldMap:
             wrapped_text = wrap_text(self.land_descriptions[self.selected_land], description_font, 400)
             for i, line in enumerate(wrapped_text):
                 desc_surface = description_font.render(line, True, WHITE)
-                screen.blit(desc_surface, (WIDTH / 2, 470 + i * 25))  # Move description below the image
+                screen.blit(desc_surface, (WIDTH / 2, 470 + i * 25))
 
             pygame.draw.rect(screen, (0, 200, 0), self.enter_button)
             enter_text = font.render("Wejdź do krainy", True, WHITE)
             screen.blit(enter_text, (WIDTH / 2, HEIGHT - 85))
+
+        pygame.draw.rect(screen, (0, 150, 200), self.inventory_button)
+        pygame.draw.rect(screen, (200, 50, 50), self.quit_button)
+        font = pygame.font.SysFont(None, 30)
+        inventory_text = font.render("Ekwipunek", True, WHITE)
+        quit_text = font.render("Zakończ", True, WHITE)
+        screen.blit(inventory_text, (35, HEIGHT - 50))
+        screen.blit(quit_text, (WIDTH - 145, HEIGHT - 50))
+
 
     def move_player(self, direction):
         new_x, new_y = self.player.x, self.player.y
@@ -119,10 +133,15 @@ class WorldMap:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if self.selected_land and self.enter_button.collidepoint(event.pos):
                 return self.selected_land
+            elif self.inventory_button.collidepoint(event.pos):
+                show_inventory(self.player_game)
+            elif self.quit_button.collidepoint(event.pos):
+                pygame.quit()
+                exit()
         return None
 
-def show_world_map(player, start_position):
-    world_map = WorldMap(player, start_position)
+def show_world_map(player, player_game, start_position):
+    world_map = WorldMap(player, player_game, start_position)
     running = True
     while running:
         screen.fill((0, 0, 0))
