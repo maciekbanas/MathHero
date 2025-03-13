@@ -1,6 +1,6 @@
 from player import Player
 from enemy import Enemy
-from choose_land import choose_land
+from world_map import show_world_map
 from choose_character import choose_character
 from items import Berry
 from math_battle import math_battle
@@ -30,15 +30,17 @@ def return_to_land_selection():
     running = False
     main()
 
+
 def main():
     """
     Main game loop.
     """
     global running
     player_character = choose_character()
-    selected_land = choose_land()
+    map_player = Player(0, 0, player_character)
+    selected_land = show_world_map(map_player)
+    print(f"Gracz wszedł do: {selected_land}")
     player = Player(WIDTH // 2 // 50 * 50 + 25, HEIGHT // 2 // 50 * 50 + 25, player_character)
-
     if selected_land == "Goblinowe Lasy":
         enemy_types = ["Goblin", "Gnom", "Troll"]
         background = forest_map
@@ -48,7 +50,7 @@ def main():
     elif selected_land == "Stalowe Wyżyny":
         enemy_types = ["Golem"]
         background = hills_map
-    elif selected_land == "Zimowe Królestwo":
+    elif selected_land == "Lodowa Kraina":
         enemy_types = ["Wilk", "Golem"]
         background = ice_realm_map
 
