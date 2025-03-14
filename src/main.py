@@ -10,7 +10,7 @@ from merchant import *
 pygame.init()
 pygame.display.set_caption("Math RPG")
 
-forest_map = pygame.image.load(get_asset_path(os.path.join("maps", "goblin_forest.png")))
+forest_map = pygame.image.load(get_asset_path(os.path.join("maps", "dark_forest.png")))
 forest_map = pygame.transform.scale(forest_map, (WIDTH, HEIGHT))
 
 swamps_map = pygame.image.load(get_asset_path(os.path.join("maps", "mushroom_swamps.png")))
@@ -22,6 +22,8 @@ hills_map = pygame.transform.scale(hills_map, (WIDTH, HEIGHT))
 ice_realm_map = pygame.image.load(get_asset_path(os.path.join("maps", "ice_realm.png")))
 ice_realm_map = pygame.transform.scale(ice_realm_map, (WIDTH, HEIGHT))
 
+castle_map = pygame.image.load(get_asset_path(os.path.join("maps", "castle.png")))
+castle_map = pygame.transform.scale(castle_map, (WIDTH, HEIGHT))
 
 def main():
     """
@@ -41,10 +43,13 @@ def main():
         print(f"Gracz wszedł do: {selected_land}")
 
         if selected_land == "Mglista Puszcza":
-            enemy_types = ["Goblin", "Gnom", "Troll"]
+            enemy_types = ["Goblin", "Spider", "Troll"]
             background = forest_map
+        elif selected_land == "Zamek":
+            enemy_types = ["Gnom"]
+            background = castle_map
         elif selected_land == "Grzybowe Bagna":
-            enemy_types = ["Gnom", "Grzybolud"]
+            enemy_types = ["Spider", "Grzybolud"]
             background = swamps_map
         elif selected_land == "Stalowe Wyżyny":
             enemy_types = ["Golem"]

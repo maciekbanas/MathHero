@@ -11,23 +11,28 @@ def math_battle(player, enemy_type, selected_land):
 
     coin_rewards = {
         "Goblin": 5, "Grzybolud": 5, "Wilk": 5,
-        "Gnom": 10,
+        "Gnom": 5, "Spider": 10,
         "Troll": 20, "Golem": 20
     }
 
     if selected_land == "Mglista Puszcza":
         if enemy_type == "Troll":
             a, b = random.randint(6, 15), random.randint(6, 15)
-        elif enemy_type == "Gnom":
+        elif enemy_type == "Spider":
             a, b = random.randint(0, 20), random.randint(0, 20)
         else:
             a, b = random.randint(1, 10), random.randint(1, 10)
         question = f"Ile to {a} + {b}?"
         correct_answer = a + b
+    elif selected_land == "Zamek":
+        if enemy_type == "Gnom":
+            a, b = random.randint(0, 10), random.randint(0, 10)
+        question = f"Ile to {a} + {b}?"
+        correct_answer = a + b
     elif selected_land == "Grzybowe Bagna":
         if enemy_type == "Troll":
             a, b = random.randint(6, 15), random.randint(6, 15)
-        elif enemy_type == "Gnom":
+        elif enemy_type == "Spider":
             a, b = random.randint(0, 20), random.randint(0, 20)
         else:
             a, b = random.randint(1, 10), random.randint(1, 10)

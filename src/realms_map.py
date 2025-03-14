@@ -12,31 +12,34 @@ class WorldMap:
         self.player = player
         self.player_game = player_game
         self.start_position = start_position
-        self.castle_position = (2, 2)
         self.player.x, self.player.y = self.start_position[0] * self.grid_size, self.start_position[1] * self.grid_size
 
         # Define active lands and their positions
         self.lands = {
             "Mglista Puszcza": (1, 1),
             "Grzybowe Bagna": (2, 1),
+            "Zamek": (2, 2),
             "Stalowe Wyżyny": (3, 3),
             "Lodowa Kraina": (4, 4)
         }
+        castle_image = pygame.image.load(get_asset_path("lands/castle.png"))
         goblin_forest_image = pygame.image.load(get_asset_path("lands/dark_forest.png"))
         mushroom_swamps_image = pygame.image.load(get_asset_path("lands/mushroom_swamps.png"))
         steel_hills_image = pygame.image.load(get_asset_path("lands/steel_hills.png"))
         ice_realm_image = pygame.image.load(get_asset_path("lands/ice_realm.png"))
 
         self.land_images = {
+            "Zamek": pygame.transform.scale(castle_image, (100, 100)),
             "Mglista Puszcza": pygame.transform.scale(goblin_forest_image, (100, 100)),
             "Grzybowe Bagna": pygame.transform.scale(mushroom_swamps_image, (100, 100)),
             "Stalowe Wyżyny": pygame.transform.scale(steel_hills_image, (100, 100)),
             "Lodowa Kraina": pygame.transform.scale(ice_realm_image, (100, 100))
         }
 
-        realm_dim = 600
+        realm_dim = 700
 
         self.realm_images = {
+            "Zamek": pygame.transform.scale(castle_image, (realm_dim, realm_dim)),
             "Mglista Puszcza": pygame.transform.scale(goblin_forest_image, (realm_dim, realm_dim)),
             "Grzybowe Bagna": pygame.transform.scale(mushroom_swamps_image, (realm_dim, realm_dim)),
             "Stalowe Wyżyny": pygame.transform.scale(steel_hills_image, (realm_dim, realm_dim)),
@@ -44,6 +47,7 @@ class WorldMap:
         }
 
         self.land_descriptions = {
+            "Zamek": "Home sweet home",
             "Mglista Puszcza": "Gęste, tajemnicze lasy pełne goblinów, gnomów i trolli. Idealne do ćwiczenia dodawania.",
             "Grzybowe Bagna": "Mroczne, wilgotne bagna zamieszkałe przez gobliny i tajemnicze grzyboludy. Nauka odejmowania jest kluczowa, by przetrwać.",
             "Stalowe Wyżyny": "Wysokie wyżyny zamieszkałe przez potężne golemy. Tutaj nauczysz się mnożenia.",
@@ -55,10 +59,6 @@ class WorldMap:
         self.inventory_button = pygame.Rect(20, HEIGHT - 60, 150, 40)
         self.quit_button = pygame.Rect(WIDTH - 170, HEIGHT - 60, 150, 40)
 
-        self.castle_image = pygame.transform.scale(
-            pygame.image.load(get_asset_path("lands/castle.png")), (100, 100)
-        )
-
     def draw(self, screen):
         screen.fill((50, 50, 50))
         for col in range(self.cols):
@@ -68,9 +68,6 @@ class WorldMap:
 
         for land, (col, row) in self.lands.items():
             screen.blit(self.land_images[land], (col * self.grid_size, row * self.grid_size))
-
-        screen.blit(self.castle_image,
-                    (self.castle_position[0] * self.grid_size, self.castle_position[1] * self.grid_size))
 
         screen.blit(self.player.realm_sprite, (self.player.x, self.player.y))
 
