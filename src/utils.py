@@ -28,15 +28,15 @@ def draw_grid():
     """
     Draws a visible grid on the screen.
     """
-    for x in range(0, WIDTH, 50):
+    for x in range(0, WIDTH, 80):
         pygame.draw.line(screen, (200, 200, 200), (x, 0), (x, HEIGHT))
-    for y in range(0, HEIGHT, 50):
+    for y in range(0, HEIGHT, 80):
         pygame.draw.line(screen, (200, 200, 200), (0, y), (WIDTH, y))
 
 def get_random_position_in_grid():
     """ Returns a random position within a grid cell."""
-    grid_x = random.randint(0, (WIDTH // 50) - 1) * 50
-    grid_y = random.randint(0, (HEIGHT // 50) - 1) * 50
+    grid_x = random.randint(0, (WIDTH // 50) - 1) * 80
+    grid_y = random.randint(0, (HEIGHT // 50) - 1) * 80
     return grid_x, grid_y
 
 def draw_ui_buttons():

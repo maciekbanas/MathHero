@@ -34,7 +34,7 @@ def main():
 
     # Initialize player's starting position
     world_position = (2, 2)
-    player = Player(WIDTH // 2 // 50 * 50 + 25, HEIGHT // 2 // 50 * 50 + 25, player_character)
+    player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40, player_character)
     map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
 
     while True:
@@ -85,14 +85,15 @@ def main():
             player.animation.update(dt)
 
             screen.fill(WHITE)
+            # screen.blit(background, (0, 0))
             draw_grid()
             merchant.draw(screen)
 
             current_image = player.animation.get_image()
-            screen.blit(current_image, (player.x - 25, player.y - 25))
+            screen.blit(current_image, (player.x - 40, player.y - 40))
 
-            pygame.draw.rect(screen, RED, (player.x - 25, player.y - 40, 50, 5))
-            pygame.draw.rect(screen, GREEN, (player.x - 25, player.y - 40, 50 * (player.health / 100), 5))
+            pygame.draw.rect(screen, RED, (player.x - 40, player.y - 40, grid_size, 5))
+            pygame.draw.rect(screen, GREEN, (player.x - 40, player.y - 40, grid_size * (player.health / 100), 5))
 
             for enemy in enemies[:]:
                 enemy.draw(screen)

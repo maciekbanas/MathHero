@@ -17,3 +17,5 @@ GREEN = (0, 255, 0)
 GREY = (192, 192, 192)
 # Lista dostępnych postaci
 characters = ["Rycerz", "Czarodziejka", "Wilczas", "Mag"]
+
+grid_size = 80

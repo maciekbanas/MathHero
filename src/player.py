@@ -1,6 +1,7 @@
 import pygame
 from assets import player_sprites, player_minifig_sprites
 from PIL import Image
+from constants import *
 
 WIDTH, HEIGHT = 1600, 900
 
@@ -44,11 +45,11 @@ class Player:
         self.coins = 0
         self.character = character
         self.battle_sprite = pygame.transform.scale(player_sprites[character], (200, 200))
-        self.sprite = load_gif_frames(player_minifig_sprites[character], new_size=(50, 50))
+        self.sprite = load_gif_frames(player_minifig_sprites[character], new_size=(grid_size, grid_size))
         self.realm_sprite = pygame.transform.scale(player_sprites[character], (100, 100))
         self.animation = AnimatedSprite(self.sprite, frame_duration=100)
 
-        self.grid_size = 50
+        self.grid_size = grid_size
         self.target_x = self.x
         self.target_y = self.y
         self.is_moving = False

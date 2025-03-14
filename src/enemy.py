@@ -6,10 +6,10 @@ class Enemy:
         self.x = x
         self.y = y
         self.type = enemy_type
-        self.sprite = pygame.transform.scale(enemy_fig_sprites[enemy_type], (50, 50))
+        self.sprite = pygame.transform.scale(enemy_fig_sprites[enemy_type], (grid_size, grid_size))
 
     def draw(self, surface):  # FIX: Added 'surface' parameter
         surface.blit(self.sprite, (self.x, self.y))
 
     def check_collision(self, player):
-        return pygame.Rect(self.x, self.y, 50, 50).colliderect(pygame.Rect(player.x, player.y, 50, 50))
+        return pygame.Rect(self.x, self.y, grid_size, grid_size).colliderect(pygame.Rect(player.x, player.y, grid_size, grid_size))
