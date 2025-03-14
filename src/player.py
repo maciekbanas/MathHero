@@ -2,6 +2,8 @@ import pygame
 from assets import player_sprites, player_minifig_sprites
 from PIL import Image
 
+WIDTH, HEIGHT = 1600, 900
+
 def load_gif_frames(filename, new_size=None):
     frames = []
     pil_image = Image.open(filename)
@@ -58,16 +60,19 @@ class Player:
         if self.is_moving:
             return
 
-        if keys[pygame.K_LEFT]:
-            self.target_x = self.x - self.grid_size
-        elif keys[pygame.K_RIGHT]:
-            self.target_x = self.x + self.grid_size
-        elif keys[pygame.K_UP]:
-            self.target_y = self.y - self.grid_size
-        elif keys[pygame.K_DOWN]:
-            self.target_y = self.y + self.grid_size
+        new_x, new_y = self.x, self.y
 
-        if self.x != self.target_x or self.y != self.target_y:
+        if keys[pygame.K_LEFT]:
+            new_x -= self.grid_size
+        elif keys[pygame.K_RIGHT]:
+            new_x += self.grid_size
+        elif keys[pygame.K_UP]:
+            new_y -= self.grid_size
+        elif keys[pygame.K_DOWN]:
+            new_y += self.grid_size
+
+        if 0 <= new_x < WIDTH and 0 <= new_y < HEIGHT:
+            self.target_x, self.target_y = new_x, new_y
             self.is_moving = True
 
     def update_position(self):
@@ -84,4 +89,4 @@ class Player:
                 self.y = self.target_y
 
             if self.x == self.target_x and self.y == self.target_y:
-                self.is_moving = False  # Ruch zakończony
+                self.is_moving = False
