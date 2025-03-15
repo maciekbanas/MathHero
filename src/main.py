@@ -146,6 +146,9 @@ def main():
 
             pygame.draw.rect(screen, RED, (player.x - 40, player.y - 40, grid_size, 5))
             pygame.draw.rect(screen, GREEN, (player.x - 40, player.y - 40, grid_size * (player.health / 100), 5))
+            obstacles = [Obstacle(x, y, obstacle_image) for x, y in obstacle_positions]
+            for obstacle in obstacles:
+                obstacle.draw(screen)
 
             for enemy in enemies[:]:
                 enemy.draw(screen)
