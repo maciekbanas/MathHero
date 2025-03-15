@@ -28,6 +28,15 @@ castle_map = pygame.transform.scale(castle_map, (WIDTH, HEIGHT))
 dark_tree_image = pygame.transform.smoothscale(pygame.image.load(get_asset_path("obstacles/dark_forest_tree.png")), (80, 80))
 rock_image = pygame.transform.smoothscale(pygame.image.load(get_asset_path("obstacles/rock.png")), (80, 80))
 
+class Obstacle:
+    """ Represents an obstacle on the map. """
+    def __init__(self, x, y, image):
+        self.x = x
+        self.y = y
+        self.image = image
+
+    def draw(self, screen):
+        screen.blit(self.image, (self.x * grid_size, self.y * grid_size))
 
 def main():
     """
