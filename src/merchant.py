@@ -24,13 +24,13 @@ merchant = Merchant()
 
 def show_merchant_menu(player):
     """ Displays the merchant menu."""
-    menu_width, menu_height = 400, 350  # Increased height to prevent overlap
+    menu_width, menu_height = 450, 400
     menu_x, menu_y = (WIDTH - menu_width) // 2, (HEIGHT - menu_height) // 2
     buy_elixir_img = pygame.image.load(get_asset_path("items/elixir_solution.png"))
     buy_elixir_img = pygame.transform.scale(buy_elixir_img, (100, 100))
-    close_button = pygame.Rect(menu_x + 220, menu_y + 300, 100, 30)  # Adjusted position
-    buy_button = pygame.Rect(menu_x + 100, menu_y + 300, 100, 30)  # New buy button
-    elixir_button = pygame.Rect(menu_x + 50, menu_y + 150, 100, 100)
+    close_button = pygame.Rect(menu_x + 320, menu_y + 360, 100, 30)  # Adjusted position
+    buy_button = pygame.Rect(menu_x + 100, menu_y + 360, 100, 30)  # New buy button
+    elixir_button = pygame.Rect(menu_x + 50, menu_y + 190, 100, 100)
 
     merchant_running = True
     while merchant_running:
@@ -40,13 +40,12 @@ def show_merchant_menu(player):
         font = pygame.font.SysFont(None, 30)
         close_text = font.render("Zamknij", True, WHITE)
         buy_text = font.render("Kup", True, WHITE)
-        screen.blit(close_text, (menu_x + 240, menu_y + 305))  # Adjusted position
-        screen.blit(buy_text, (menu_x + 130, menu_y + 305))  # Buy button text
+        screen.blit(close_text, (menu_x + 330, menu_y + 365))
+        screen.blit(buy_text, (menu_x + 130, menu_y + 365))
         screen.blit(merchant.image, (menu_x + 150, menu_y + 20))
-        screen.blit(buy_elixir_img, (menu_x + 50, menu_y + 150))
+        screen.blit(buy_elixir_img, (menu_x + 50, menu_y + 250))
 
-        # Display price text higher up
-        price_text = font.render("Eliksir rozwiązania. Koszt: 30 monet", True, WHITE)
+        price_text = font.render("Eliksir rozwiązania. Koszt: 50 monet", True, WHITE)
         screen.blit(price_text, (menu_x + 50, menu_y + 270))
 
         pygame.display.flip()
@@ -60,10 +59,10 @@ def show_merchant_menu(player):
                     merchant.interacted = True
                     merchant_running = False
                 elif elixir_button.collidepoint(event.pos) or buy_button.collidepoint(event.pos):
-                    if player.coins >= 30:
-                        player.coins -= 30
+                    if player.coins >= 50:
+                        player.coins -= 50
                         player.inventory.append("Eliksir rozwiązania")
                         show_message("Zakupiłeś eliksir rozwiązania zagadki!")
                     else:
-                        show_message("Brak odpowiedniej ilości monet!")
+                        show_message("Brak odpowiedniej ilości monet (50)!")
 
