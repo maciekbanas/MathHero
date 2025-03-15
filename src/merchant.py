@@ -1,13 +1,11 @@
 from constants import *
 from utils import *
 
-merchant_image = pygame.image.load(get_asset_path("npcs/merchant.png"))
 merchant_figure = pygame.image.load(get_asset_path("npcs/merchant_fig.png"))
 
 class Merchant:
     def __init__(self):
         self.x, self.y = get_random_position_in_grid()
-        self.image = pygame.transform.smoothscale(merchant_image, (200, 200))
         self.figure = pygame.transform.smoothscale(merchant_figure, (grid_size, grid_size))
         self.rect = pygame.Rect(self.x, self.y, grid_size, grid_size)
         self.interacted = False
@@ -42,7 +40,8 @@ def show_merchant_menu(player):
         buy_text = font.render("Kup", True, WHITE)
         screen.blit(close_text, (menu_x + 330, menu_y + 365))
         screen.blit(buy_text, (menu_x + 130, menu_y + 365))
-        screen.blit(merchant.image, (menu_x + 150, menu_y + 20))
+        merchant_image = pygame.transform.smoothscale(pygame.image.load(get_asset_path("npcs/merchant.png")), (200, 200))
+        screen.blit(merchant_image, (menu_x + 150, menu_y + 20))
         screen.blit(buy_elixir_img, (menu_x + 50, menu_y + 250))
 
         price_text = font.render("Eliksir rozwiązania. Koszt: 50 monet", True, WHITE)
