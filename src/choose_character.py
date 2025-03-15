@@ -54,14 +54,12 @@ def choose_character():
                 exit()
 
             if event.type == pygame.KEYDOWN:
-                # Opcjonalnie obsługa wyjścia klawiszem ESC
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
-                # Sprawdzamy, czy kliknięto w którąś z postaci
                 for char_name, sprite, rect in char_data:
                     if rect.collidepoint(mouse_pos):
                         chosen_character = char_name
@@ -73,16 +71,12 @@ def choose_character():
         if chosen_character is not None:
             break
 
-        # Rysowanie ekranu wyboru
         screen.fill(WHITE)
-        # Możesz dodać jakiś tytuł, np. "Wybierz postać"
-        # np. narysować napis:
         font = pygame.font.SysFont(None, 60)
         text_surface = font.render("Wybierz postać", True, BLACK)
         text_rect = text_surface.get_rect(center=(WIDTH//2, HEIGHT//6))
         screen.blit(text_surface, text_rect)
 
-        # Rysujemy każdą postać
         for char_name, sprite, rect in char_data:
             screen.blit(sprite, (rect.x, rect.y))
 

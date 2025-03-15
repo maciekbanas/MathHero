@@ -11,23 +11,28 @@ def math_battle(player, enemy_type, selected_land):
 
     coin_rewards = {
         "Goblin": 5, "Grzybolud": 5, "Wilk": 5,
-        "Gnom": 10,
+        "Gnom": 5, "Spider": 10,
         "Troll": 20, "Golem": 20
     }
 
-    if selected_land == "Goblinowe Lasy":
+    if selected_land == "Mglista Puszcza":
         if enemy_type == "Troll":
             a, b = random.randint(6, 15), random.randint(6, 15)
-        elif enemy_type == "Gnom":
+        elif enemy_type == "Spider":
             a, b = random.randint(0, 20), random.randint(0, 20)
         else:
             a, b = random.randint(1, 10), random.randint(1, 10)
         question = f"Ile to {a} + {b}?"
         correct_answer = a + b
+    elif selected_land == "Zamek":
+        if enemy_type == "Gnom":
+            a, b = random.randint(0, 10), random.randint(0, 10)
+        question = f"Ile to {a} + {b}?"
+        correct_answer = a + b
     elif selected_land == "Grzybowe Bagna":
         if enemy_type == "Troll":
             a, b = random.randint(6, 15), random.randint(6, 15)
-        elif enemy_type == "Gnom":
+        elif enemy_type == "Spider":
             a, b = random.randint(0, 20), random.randint(0, 20)
         else:
             a, b = random.randint(1, 10), random.randint(1, 10)
@@ -56,8 +61,9 @@ def math_battle(player, enemy_type, selected_land):
         question = f"Ile to {a} x {b}?"
         correct_answer = a * b
 
+    enemy_size = (300, 300) if enemy_type == "Troll" else (200, 200)
     enemy_sprite = enemy_sprites[enemy_type]
-    enemy_sprite = pygame.transform.scale(enemy_sprite, (200, 200))
+    enemy_sprite = pygame.transform.smoothscale(enemy_sprite, enemy_size)
     input_text = ""
     clock = pygame.time.Clock()
     battle_active = True
