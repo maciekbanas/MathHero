@@ -61,8 +61,9 @@ def math_battle(player, enemy_type, selected_land):
         question = f"Ile to {a} x {b}?"
         correct_answer = a * b
 
+    enemy_size = (300, 300) if enemy_type == "Troll" else (200, 200)
     enemy_sprite = enemy_sprites[enemy_type]
-    enemy_sprite = pygame.transform.scale(enemy_sprite, (200, 200))
+    enemy_sprite = pygame.transform.smoothscale(enemy_sprite, enemy_size)
     input_text = ""
     clock = pygame.time.Clock()
     battle_active = True
