@@ -44,29 +44,66 @@ def main():
 
         if selected_land == "Mglista Puszcza":
             enemy_types = ["Goblin", "Spider", "Troll"]
+            background_color = (85, 116, 119)
             background = forest_map
+            obstacle_image = dark_tree_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+            }
         elif selected_land == "Zamek":
             enemy_types = ["Gnom"]
+            background_color = (244, 241, 232)
             background = castle_map
+            obstacle_image = dark_tree_image
+            obstacle_positions = {
+                (0, 0)
+            }
         elif selected_land == "Grzybowe Bagna":
             enemy_types = ["Spider", "Grzybolud"]
+            background_color = (85, 116, 119)
             background = swamps_map
+            obstacle_image = dark_tree_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+            }
         elif selected_land == "Stalowe Wyżyny":
             enemy_types = ["Golem"]
+            background_color = (244, 241, 232)
             background = hills_map
+            obstacle_image = rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (13, 12), (22, 18), (16, 16)
+            }
         elif selected_land == "Lodowa Kraina":
             enemy_types = ["Wilk", "Golem"]
+            background_color = WHITE
             background = ice_realm_map
-        else:
+            obstacle_image = rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+            }
+        elif selected_land == "Łyse Łąki":
             enemy_types = ["Wilk", "Goblin"]
+            background_color = (244, 241, 232)
+            obstacle_image = rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+            }
+        else:
+            enemy_types = ["Wilk"]
+            background_color = (244, 241, 232)
+            obstacle_image = rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+            }
 
         enemies = [
-            Enemy(*get_random_position_in_grid(), random.choice(enemy_types))
+            Enemy(*get_valid_random_position(obstacle_positions), random.choice(enemy_types))
             for _ in range(8)
         ]
 
         berries = [
-            Berry(*get_random_position_in_grid()) for _ in range(3)
+            Berry(*get_valid_random_position(obstacle_positions)) for _ in range(3)
         ]
 
         merchant = Merchant()
@@ -86,7 +123,7 @@ def main():
             player.update_position()
             # player.animation.update(dt)
 
-            screen.fill(WHITE)
+            screen.fill(background_color)
             # screen.blit(background, (0, 0))
             draw_grid()
             merchant.draw(screen)
@@ -138,7 +175,7 @@ def main():
                     if inventory_button.collidepoint(event.pos):
                         show_inventory(player)
                     if back_button.collidepoint(event.pos):
-                        running = False  # Return to world map
+                        running = False
                     if show_merchant_button and merchant_button.collidepoint(event.pos):
                         show_merchant_menu(player)
                 elif event.type == pygame.KEYDOWN:

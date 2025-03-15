@@ -39,6 +39,13 @@ def get_random_position_in_grid():
     grid_y = random.randint(0, (HEIGHT // 80) - 1) * 80
     return grid_x, grid_y
 
+def get_valid_random_position(obstacle_positions):
+    """ Find a random grid position that is not occupied by an obstacle. """
+    while True:
+        x, y = random.randint(0, WIDTH // 80 - 1) * 80, random.randint(0, HEIGHT // 80 - 1) * 80
+        if (x, y) not in obstacle_positions:
+            return x, y
+
 def draw_ui_buttons():
     """
     Draws the 'Ekwipunek' and 'Powrót' buttons on the screen.
