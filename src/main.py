@@ -139,6 +139,9 @@ def main():
                         running = False  # Return to world map
                     if show_merchant_button and merchant_button.collidepoint(event.pos):
                         show_merchant_menu(player)
+                elif event.type == pygame.KEYDOWN:
+                    if show_merchant_button and event.key == pygame.K_RETURN:
+                        show_merchant_menu(player)
 
     pygame.quit()
 

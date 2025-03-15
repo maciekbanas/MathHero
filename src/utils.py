@@ -35,8 +35,8 @@ def draw_grid():
 
 def get_random_position_in_grid():
     """ Returns a random position within a grid cell."""
-    grid_x = random.randint(0, (WIDTH // 50) - 1) * 80
-    grid_y = random.randint(0, (HEIGHT // 50) - 1) * 80
+    grid_x = random.randint(0, (WIDTH // 80) - 1) * 80
+    grid_y = random.randint(0, (HEIGHT // 80) - 1) * 80
     return grid_x, grid_y
 
 def draw_ui_buttons():
@@ -65,7 +65,7 @@ def draw_ui_buttons():
 def draw_merchant_button():
     font = pygame.font.SysFont(None, 40)
     merchant_text = font.render("Kupiec-mag", True, BLACK)
-    merchant_button = pygame.Rect(WIDTH/2, HEIGHT - 70, 180, 50)
+    merchant_button = pygame.Rect(WIDTH/2 - 100, HEIGHT - 70, 180, 50)
     pygame.draw.rect(screen, (200, 200, 50), merchant_button)
     pygame.draw.rect(screen, BLACK, merchant_button, 2)
     screen.blit(merchant_text, (merchant_button.x + 10, merchant_button.y + 10))
