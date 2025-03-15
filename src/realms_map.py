@@ -18,11 +18,15 @@ class WorldMap:
         self.lands = {
             "Mglista Puszcza": (1, 1),
             "Grzybowe Bagna": (2, 1),
+            "Wieża Maga": (1, 4),
+            "Łyse Łąki": (1, 2),
             "Zamek": (2, 2),
             "Stalowe Wyżyny": (3, 3),
             "Lodowa Kraina": (4, 4)
         }
         castle_image = pygame.image.load(get_asset_path("lands/castle.png"))
+        wizard_tower_image = pygame.image.load(get_asset_path("lands/wizard_tower.png"))
+        bald_meadows_image = pygame.image.load(get_asset_path("lands/bald_meadows.png"))
         goblin_forest_image = pygame.image.load(get_asset_path("lands/dark_forest.png"))
         mushroom_swamps_image = pygame.image.load(get_asset_path("lands/mushroom_swamps.png"))
         steel_hills_image = pygame.image.load(get_asset_path("lands/steel_hills.png"))
@@ -30,6 +34,8 @@ class WorldMap:
 
         self.land_images = {
             "Zamek": pygame.transform.smoothscale(castle_image, (100, 100)),
+            "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (100, 100)),
+            "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (100, 100)),
             "Mglista Puszcza": pygame.transform.smoothscale(goblin_forest_image, (100, 100)),
             "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (100, 100)),
             "Stalowe Wyżyny": pygame.transform.smoothscale(steel_hills_image, (100, 100)),
@@ -40,6 +46,8 @@ class WorldMap:
 
         self.realm_images = {
             "Zamek": pygame.transform.smoothscale(castle_image, (realm_dim, realm_dim)),
+            "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (realm_dim, realm_dim)),
+            "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (realm_dim, realm_dim)),
             "Mglista Puszcza": pygame.transform.smoothscale(goblin_forest_image, (realm_dim, realm_dim)),
             "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (realm_dim, realm_dim)),
             "Stalowe Wyżyny": pygame.transform.smoothscale(steel_hills_image, (realm_dim, realm_dim)),
@@ -48,6 +56,8 @@ class WorldMap:
 
         self.land_descriptions = {
             "Zamek": "Home sweet home",
+            "Wieża Maga": "",
+            "Łyse Łąki": "Pełne niebezpiecznych maruderów.",
             "Mglista Puszcza": "Gęste, tajemnicze lasy pełne goblinów, gnomów i trolli. Idealne do ćwiczenia dodawania.",
             "Grzybowe Bagna": "Mroczne, wilgotne bagna zamieszkałe przez gobliny i tajemnicze grzyboludy. Nauka odejmowania jest kluczowa, by przetrwać.",
             "Stalowe Wyżyny": "Wysokie wyżyny zamieszkałe przez potężne golemy. Tutaj nauczysz się mnożenia.",

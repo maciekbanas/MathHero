@@ -57,6 +57,8 @@ def main():
         elif selected_land == "Lodowa Kraina":
             enemy_types = ["Wilk", "Golem"]
             background = ice_realm_map
+        else:
+            enemy_types = ["Wilk", "Goblin"]
 
         enemies = [
             Enemy(*get_random_position_in_grid(), random.choice(enemy_types))
