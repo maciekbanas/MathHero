@@ -25,6 +25,10 @@ ice_realm_map = pygame.transform.scale(ice_realm_map, (WIDTH, HEIGHT))
 castle_map = pygame.image.load(get_asset_path(os.path.join("maps", "castle.png")))
 castle_map = pygame.transform.scale(castle_map, (WIDTH, HEIGHT))
 
+dark_tree_image = pygame.transform.smoothscale(pygame.image.load(get_asset_path("obstacles/dark_forest_tree.png")), (80, 80))
+rock_image = pygame.transform.smoothscale(pygame.image.load(get_asset_path("obstacles/rock.png")), (80, 80))
+
+
 def main():
     """
     Main game loop.
