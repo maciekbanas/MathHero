@@ -82,14 +82,14 @@ def main():
             keys = pygame.key.get_pressed()
             player.move(keys)
             player.update_position()
-            player.animation.update(dt)
+            # player.animation.update(dt)
 
             screen.fill(WHITE)
             # screen.blit(background, (0, 0))
             draw_grid()
             merchant.draw(screen)
 
-            current_image = player.animation.get_image()
+            current_image = player.sprite
             screen.blit(current_image, (player.x - 40, player.y - 40))
 
             pygame.draw.rect(screen, RED, (player.x - 40, player.y - 40, grid_size, 5))

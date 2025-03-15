@@ -3,7 +3,7 @@ from constants import *
 from utils import get_asset_path
 
 berry_image = pygame.image.load(get_asset_path(os.path.join("items", "berries.png")))
-berry_image = pygame.transform.scale(berry_image, (50, 50))
+berry_image = pygame.transform.smoothscale(berry_image, (grid_size, grid_size))
 
 class Berry:
     """Represents a berry on the map that restores health when collected."""

@@ -7,8 +7,8 @@ merchant_figure = pygame.image.load(get_asset_path("npcs/merchant_fig.png"))
 class Merchant:
     def __init__(self):
         self.x, self.y = get_random_position_in_grid()
-        self.image = pygame.transform.scale(merchant_image, (200, 200))
-        self.figure = pygame.transform.scale(merchant_figure, (grid_size, grid_size))
+        self.image = pygame.transform.smoothscale(merchant_image, (200, 200))
+        self.figure = pygame.transform.smoothscale(merchant_figure, (grid_size, grid_size))
         self.rect = pygame.Rect(self.x, self.y, grid_size, grid_size)
         self.interacted = False
 

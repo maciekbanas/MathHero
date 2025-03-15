@@ -6,9 +6,9 @@ class Enemy:
         self.x = x
         self.y = y
         self.type = enemy_type
-        self.sprite = pygame.transform.scale(enemy_fig_sprites[enemy_type], (grid_size, grid_size))
+        self.sprite = pygame.transform.smoothscale(enemy_fig_sprites[enemy_type], (grid_size, grid_size))
 
-    def draw(self, surface):  # FIX: Added 'surface' parameter
+    def draw(self, surface):
         surface.blit(self.sprite, (self.x, self.y))
 
     def check_collision(self, player):
