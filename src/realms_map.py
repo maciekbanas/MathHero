@@ -29,21 +29,21 @@ class WorldMap:
         ice_realm_image = pygame.image.load(get_asset_path("lands/ice_realm.png"))
 
         self.land_images = {
-            "Zamek": pygame.transform.scale(castle_image, (100, 100)),
-            "Mglista Puszcza": pygame.transform.scale(goblin_forest_image, (100, 100)),
-            "Grzybowe Bagna": pygame.transform.scale(mushroom_swamps_image, (100, 100)),
-            "Stalowe Wyżyny": pygame.transform.scale(steel_hills_image, (100, 100)),
-            "Lodowa Kraina": pygame.transform.scale(ice_realm_image, (100, 100))
+            "Zamek": pygame.transform.smoothscale(castle_image, (100, 100)),
+            "Mglista Puszcza": pygame.transform.smoothscale(goblin_forest_image, (100, 100)),
+            "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (100, 100)),
+            "Stalowe Wyżyny": pygame.transform.smoothscale(steel_hills_image, (100, 100)),
+            "Lodowa Kraina": pygame.transform.smoothscale(ice_realm_image, (100, 100))
         }
 
         realm_dim = 700
 
         self.realm_images = {
-            "Zamek": pygame.transform.scale(castle_image, (realm_dim, realm_dim)),
-            "Mglista Puszcza": pygame.transform.scale(goblin_forest_image, (realm_dim, realm_dim)),
-            "Grzybowe Bagna": pygame.transform.scale(mushroom_swamps_image, (realm_dim, realm_dim)),
-            "Stalowe Wyżyny": pygame.transform.scale(steel_hills_image, (realm_dim, realm_dim)),
-            "Lodowa Kraina": pygame.transform.scale(ice_realm_image, (realm_dim, realm_dim))
+            "Zamek": pygame.transform.smoothscale(castle_image, (realm_dim, realm_dim)),
+            "Mglista Puszcza": pygame.transform.smoothscale(goblin_forest_image, (realm_dim, realm_dim)),
+            "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (realm_dim, realm_dim)),
+            "Stalowe Wyżyny": pygame.transform.smoothscale(steel_hills_image, (realm_dim, realm_dim)),
+            "Lodowa Kraina": pygame.transform.smoothscale(ice_realm_image, (realm_dim, realm_dim))
         }
 
         self.land_descriptions = {
@@ -75,13 +75,13 @@ class WorldMap:
             screen.blit(self.realm_images[self.selected_land], (WIDTH / 2, 20))
             font = pygame.font.SysFont(None, 40)
             land_text = font.render(self.selected_land, True, WHITE)
-            screen.blit(land_text, (WIDTH / 2, 430))  # Move text below the image
+            screen.blit(land_text, (WIDTH / 2, 620))
 
             description_font = pygame.font.SysFont(None, 30)
             wrapped_text = wrap_text(self.land_descriptions[self.selected_land], description_font, 400)
             for i, line in enumerate(wrapped_text):
                 desc_surface = description_font.render(line, True, WHITE)
-                screen.blit(desc_surface, (WIDTH / 2, 470 + i * 25))
+                screen.blit(desc_surface, (WIDTH / 2, 650 + i * 25))
 
             pygame.draw.rect(screen, (0, 200, 0), self.enter_button)
             enter_text = font.render("Wejdź do krainy", True, WHITE)
