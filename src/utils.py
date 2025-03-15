@@ -24,6 +24,9 @@ def wrap_text(text, font, max_width):
 def get_asset_path(relative_path):
     return os.path.join(ASSETS_DIR, relative_path)
 
+def load_and_resize(image_path, width = 80, height = 80):
+    return pygame.transform.smoothscale(pygame.image.load(get_asset_path(image_path)), (width, height))
+
 def draw_grid():
     """
     Draws a visible grid on the screen.

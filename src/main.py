@@ -25,8 +25,10 @@ ice_realm_map = pygame.transform.scale(ice_realm_map, (WIDTH, HEIGHT))
 castle_map = pygame.image.load(get_asset_path(os.path.join("maps", "castle.png")))
 castle_map = pygame.transform.scale(castle_map, (WIDTH, HEIGHT))
 
-dark_tree_image = pygame.transform.smoothscale(pygame.image.load(get_asset_path("obstacles/dark_forest_tree.png")), (80, 80))
-rock_image = pygame.transform.smoothscale(pygame.image.load(get_asset_path("obstacles/rock.png")), (80, 80))
+dark_tree_image = load_and_resize("obstacles/dark_forest_tree.png")
+rock_image = load_and_resize("obstacles/rock.png")
+icy_rock_image = load_and_resize("obstacles/icy_rock.png")
+murky_swamp_image = load_and_resize("obstacles/murky_swamp.png")
 
 class Obstacle:
     """ Represents an obstacle on the map. """
@@ -75,9 +77,9 @@ def main():
             enemy_types = ["Spider", "Grzybolud"]
             background_color = (85, 116, 119)
             background = swamps_map
-            obstacle_image = dark_tree_image
+            obstacle_image = murky_swamp_image
             obstacle_positions = {
-                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+                (2, 2), (5, 6), (7, 2), (8, 8), (10, 6)
             }
         elif selected_land == "Stalowe Wyżyny":
             enemy_types = ["Golem"]
@@ -85,13 +87,13 @@ def main():
             background = hills_map
             obstacle_image = rock_image
             obstacle_positions = {
-                (3, 4), (5, 6), (13, 12), (22, 18), (16, 16)
+                (3, 4), (5, 6), (8, 12), (4, 10), (9, 7)
             }
         elif selected_land == "Lodowa Kraina":
             enemy_types = ["Wilk", "Golem"]
             background_color = WHITE
             background = ice_realm_map
-            obstacle_image = rock_image
+            obstacle_image = icy_rock_image
             obstacle_positions = {
                 (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
             }
