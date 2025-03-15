@@ -65,7 +65,7 @@ class WorldMap:
         }
 
         self.selected_land = None
-        self.enter_button = pygame.Rect(WIDTH / 2, HEIGHT - 100, 220, 50)
+        self.enter_button = pygame.Rect(WIDTH / 2, HEIGHT - 60, 220, 40)
         self.inventory_button = pygame.Rect(20, HEIGHT - 60, 150, 40)
         self.quit_button = pygame.Rect(WIDTH - 170, HEIGHT - 60, 150, 40)
 
@@ -93,9 +93,10 @@ class WorldMap:
                 desc_surface = description_font.render(line, True, WHITE)
                 screen.blit(desc_surface, (WIDTH / 2, 650 + i * 25))
 
+            font = pygame.font.SysFont(None, 30)
             pygame.draw.rect(screen, (0, 200, 0), self.enter_button)
             enter_text = font.render("Wejdź do krainy", True, WHITE)
-            screen.blit(enter_text, (WIDTH / 2, HEIGHT - 85))
+            screen.blit(enter_text, (WIDTH / 2 + 30, HEIGHT - 50))
 
         pygame.draw.rect(screen, (0, 150, 200), self.inventory_button)
         pygame.draw.rect(screen, (200, 50, 50), self.quit_button)
