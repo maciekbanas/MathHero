@@ -66,12 +66,12 @@ def main():
                 (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
             }
         elif selected_land == "Zamek":
-            enemy_types = ["Gnom"]
+            enemy_types = []
             background_color = (244, 241, 232)
             background = castle_map
             obstacle_image = dark_tree_image
             obstacle_positions = {
-                (0, 0)
+                (10, 10)
             }
         elif selected_land == "Grzybowe Bagna":
             enemy_types = ["Spider", "Grzybolud"]
@@ -112,14 +112,22 @@ def main():
                 (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
             }
 
-        enemies = [
-            Enemy(*get_valid_random_position(obstacle_positions), random.choice(enemy_types))
-            for _ in range(6)
-        ]
+        obstacles = [Obstacle(x, y, obstacle_image) for x, y in obstacle_positions]
 
-        berries = [
-            Berry(*get_valid_random_position(obstacle_positions)) for _ in range(3)
-        ]
+        if enemy_types:
+            enemies = [
+                Enemy(*get_valid_random_position(obstacle_positions), random.choice(enemy_types))
+                for _ in range(6)
+            ]
+        else:
+            enemies = []
+
+        if not selected_land == "Zamek":
+            berries = [
+                Berry(*get_valid_random_position(obstacle_positions)) for _ in range(3)
+            ]
+        else:
+            berries = []
 
         merchant = Merchant()
 
@@ -148,7 +156,7 @@ def main():
 
             pygame.draw.rect(screen, RED, (player.x - 40, player.y - 40, grid_size, 5))
             pygame.draw.rect(screen, GREEN, (player.x - 40, player.y - 40, grid_size * (player.health / 100), 5))
-            obstacles = [Obstacle(x, y, obstacle_image) for x, y in obstacle_positions]
+
             for obstacle in obstacles:
                 obstacle.draw(screen)
 
@@ -178,9 +186,8 @@ def main():
             if not merchant.check_collision(player):
                 merchant.interacted = False
 
-            if not enemies:
+            if not selected_land == "Zamek" and not enemies:
                 show_message("Wygrałeś! Pokonałeś wszystkich przeciwników!")
-                running = False
 
             inventory_button, back_button = draw_ui_buttons()
             pygame.display.flip()
