@@ -14,7 +14,6 @@ class WorldMap:
         self.start_position = start_position
         self.player.x, self.player.y = self.start_position[0] * self.grid_size, self.start_position[1] * self.grid_size
 
-        # Define active lands and their positions
         self.lands = {
             "Mglista Puszcza": (1, 1),
             "Grzybowe Bagna": (2, 1),
@@ -64,7 +63,11 @@ class WorldMap:
             "Lodowa Kraina": "Mroźna i tajemnicza kraina, której mieszkańcy posługują się liczbami w niezwykły sposób."
         }
 
-        self.selected_land = None
+        for land, (col, row) in self.lands.items():
+            if self.player.x == col * self.grid_size and self.player.y == row * self.grid_size:
+                self.selected_land = land
+                break
+
         self.enter_button = pygame.Rect(WIDTH / 2, HEIGHT - 60, 220, 40)
         self.inventory_button = pygame.Rect(20, HEIGHT - 60, 150, 40)
         self.quit_button = pygame.Rect(WIDTH - 170, HEIGHT - 60, 150, 40)
