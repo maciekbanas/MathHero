@@ -27,7 +27,7 @@ def show_merchant_menu(player):
     buy_elixir_img = pygame.image.load(get_asset_path("items/elixir_solution.png"))
     buy_elixir_img = pygame.transform.scale(buy_elixir_img, (100, 100))
     close_button = pygame.Rect(menu_x + 320, menu_y + 360, 100, 30)  # Adjusted position
-    buy_button = pygame.Rect(menu_x + 100, menu_y + 360, 100, 30)  # New buy button
+    buy_button = pygame.Rect(menu_x + 40, menu_y + 360, 100, 30)  # New buy button
     elixir_button = pygame.Rect(menu_x + 50, menu_y + 190, 100, 100)
 
     merchant_running = True
@@ -39,13 +39,10 @@ def show_merchant_menu(player):
         close_text = font.render("Zamknij", True, WHITE)
         buy_text = font.render("Kup", True, WHITE)
         screen.blit(close_text, (menu_x + 330, menu_y + 365))
-        screen.blit(buy_text, (menu_x + 130, menu_y + 365))
+        screen.blit(buy_text, (menu_x + 70, menu_y + 365))
         merchant_image = pygame.transform.smoothscale(pygame.image.load(get_asset_path("npcs/merchant.png")), (200, 200))
         screen.blit(merchant_image, (menu_x + 150, menu_y + 20))
         screen.blit(buy_elixir_img, (menu_x + 50, menu_y + 250))
-
-        price_text = font.render("Eliksir rozwiązania. Koszt: 50 monet", True, WHITE)
-        screen.blit(price_text, (menu_x + 50, menu_y + 270))
 
         pygame.display.flip()
 
