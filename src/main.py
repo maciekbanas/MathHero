@@ -149,7 +149,6 @@ def main():
             screen.fill(background_color)
             # screen.blit(background, (0, 0))
             draw_grid()
-            merchant.draw(screen)
 
             current_image = player.sprite
             screen.blit(current_image, (player.x - 40, player.y - 40))
@@ -175,16 +174,17 @@ def main():
                         player.health = min(100, player.health + 20)
                         berries.remove(berry)
 
-            if merchant.check_collision(player):
-                show_merchant_button = True
+            if selected_land in ["Zamek", "Wieża Maga"]:
+                merchant.draw(screen)
+                if merchant.check_collision(player):
+                    show_merchant_button = True
+                else:
+                    show_merchant_button = False
             else:
                 show_merchant_button = False
 
             if show_merchant_button:
                 merchant_button = draw_merchant_button()
-
-            if not merchant.check_collision(player):
-                merchant.interacted = False
 
             if not selected_land == "Zamek" and not enemies:
                 show_message("Wygrałeś! Pokonałeś wszystkich przeciwników!")
