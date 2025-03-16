@@ -23,6 +23,8 @@ Initial release of `MathHero` game.
   * Ice realm.
 * Enemies:
   * Goblins.
+  * Orcs.
+  * Spiders.
   * Gnomes.
   * Trolls.
   * Mushroomkins.

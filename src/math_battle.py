@@ -12,16 +12,16 @@ def math_battle(player, enemy_type, selected_land):
     coin_rewards = {
         "Goblin": 5, "Grzybolud": 5, "Wilk": 5,
         "Gnom": 5, "Spider": 10,
-        "Troll": 20, "Golem": 20
+        "Troll": 20, "Golem": 20, "Ork": 20
     }
 
     if selected_land == "Mglista Puszcza":
         if enemy_type == "Troll":
-            a, b = random.randint(6, 15), random.randint(6, 15)
+            a, b = random.randint(10, 30), random.randint(10, 30)
         elif enemy_type == "Spider":
-            a, b = random.randint(0, 20), random.randint(0, 20)
+            a, b = random.randint(5, 20), random.randint(5, 20)
         else:
-            a, b = random.randint(1, 10), random.randint(1, 10)
+            a, b = random.randint(0, 10), random.randint(0, 10)
         question = f"Ile to {a} + {b}?"
         correct_answer = a + b
     elif selected_land == "Zamek":
@@ -31,7 +31,7 @@ def math_battle(player, enemy_type, selected_land):
         correct_answer = a + b
     elif selected_land == "Grzybowe Bagna":
         if enemy_type == "Troll":
-            a, b = random.randint(6, 15), random.randint(6, 15)
+            a, b = random.randint(6, 30), random.randint(6, 30)
         elif enemy_type == "Spider":
             a, b = random.randint(0, 20), random.randint(0, 20)
         else:
@@ -44,8 +44,8 @@ def math_battle(player, enemy_type, selected_land):
     elif selected_land == "Zimowe Królestwo":
         if enemy_type == "Wilk":
             while True:
-                a = random.randint(2, 10)
-                b = random.randint(2, 10)
+                a = random.randint(1, 5)
+                b = random.randint(1, 5)
                 if a * b <= 15:
                     break
             question = f"Ile to {a} x {b}?"
@@ -55,6 +55,15 @@ def math_battle(player, enemy_type, selected_land):
             b = random.randint(2, min(30 // a, 10))
             question = f"Ile to {a} x {b}?"
             correct_answer = a * b
+    elif selected_land == "Łyse Łąki":
+        if enemy_type == "Ork":
+            a, b, c = random.randint(0, 10), random.randint(0, 10), random.randint(0, 10)
+            question = f"Ile to {a} + {b} + {c}?"
+            correct_answer = a + b + c
+        elif enemy_type == "Goblin":
+            a, b = random.randint(0, 10), random.randint(0, 10)
+            question = f"Ile to {a} + {b}?"
+            correct_answer = a + b
     else:
         a = random.randint(2, 10)
         b = random.randint(2, min(30 // a, 10))

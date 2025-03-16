@@ -98,7 +98,7 @@ def main():
                 (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
             }
         elif selected_land == "Łyse Łąki":
-            enemy_types = ["Wilk", "Goblin"]
+            enemy_types = ["Ork", "Goblin"]
             background_color = (244, 241, 232)
             obstacle_image = rock_image
             obstacle_positions = {
@@ -114,7 +114,7 @@ def main():
 
         enemies = [
             Enemy(*get_valid_random_position(obstacle_positions), random.choice(enemy_types))
-            for _ in range(8)
+            for _ in range(6)
         ]
 
         berries = [
