@@ -13,6 +13,6 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 GREY = (192, 192, 192)
 
-characters = ["Rycerz", "Czarodziejka", "Wilczas", "Mag"]
+characters = ["Rabbit", "Czarodziejka", "Wilczas"]
 
 grid_size = 80

@@ -26,18 +26,13 @@ def choose_character():
         new_w = single_width
         new_h = int(h * scale_factor)
 
-        # Skalowanie obrazka
         scaled_sprite = pygame.transform.scale(original_sprite, (new_w, new_h))
 
-        # Pozycjonowanie tak, aby wszystkie były w jednym rzędzie, wyśrodkowane w pionie
-        # Start X (dla i=0) możemy obliczyć tak, by łącznie 4 obrazki zajmowały 90% i były wycentrowane
-        start_x = (WIDTH - total_width) // 2  # lewy brzeg całego bloku 90%
-        pos_x = start_x + i * single_width    # pozycja X dla danego obrazka
+        start_x = (WIDTH - total_width) // 2
+        pos_x = start_x + i * single_width
 
-        # Y ustawiamy, by obrazek był mniej więcej wycentrowany na ekranie
         pos_y = (HEIGHT - new_h) // 2
 
-        # Tworzymy prostokąt kliknięcia
         rect = pygame.Rect(pos_x, pos_y, new_w, new_h)
 
         char_data.append((char_name, scaled_sprite, rect))

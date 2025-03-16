@@ -2,19 +2,16 @@ import os
 import pygame
 from utils import get_asset_path
 
-# Wczytywanie grafik
 player_sprites = {
-    "Rycerz": pygame.image.load(get_asset_path(os.path.join("characters", "knight.png"))),
     "Czarodziejka": pygame.image.load(get_asset_path(os.path.join("characters", "sorceress.png"))),
     "Wilczas": pygame.image.load(get_asset_path(os.path.join("characters", "wolf_warrior.png"))),
-    "Mag": pygame.image.load(get_asset_path(os.path.join("characters", "mag.png")))
+    "Rabbit": pygame.image.load(get_asset_path(os.path.join("characters", "rabbit_knight.png")))
 }
 
 player_minifig_sprites = {
-    "Rycerz": get_asset_path(os.path.join("characters", "knight_fig.png")),
     "Czarodziejka": get_asset_path(os.path.join("characters", "sorceress_fig.png")),
     "Wilczas": get_asset_path(os.path.join("characters", "wolf_warrior_fig.png")),
-    "Mag": get_asset_path(os.path.join("characters", "mag_fig.png"))
+    "Rabbit": get_asset_path(os.path.join("characters", "rabbit_knight_fig.png"))
 }
 
 enemy_sprites = {
