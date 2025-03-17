@@ -6,7 +6,7 @@ from inventory import show_inventory
 class WorldMap:
     def __init__(self, player, player_game, start_position=(2, 2)):
         self.grid_size = 100
-        self.cols, self.rows = 5, 5  # Larger grid for future expansion
+        self.cols, self.rows = 8, 8
         self.map_width = self.cols * self.grid_size
         self.map_height = self.rows * self.grid_size
         self.player = player
@@ -15,13 +15,15 @@ class WorldMap:
         self.player.x, self.player.y = self.start_position[0] * self.grid_size, self.start_position[1] * self.grid_size
 
         self.lands = {
-            "Mglista Puszcza": (1, 1),
+            "Zamek": (1, 1),
+            "Złoty Las": (2, 3),
             "Grzybowe Bagna": (2, 1),
-            "Wieża Maga": (1, 4),
+            "Wieża Maga": (1, 6),
             "Łyse Łąki": (1, 2),
-            "Zamek": (2, 2),
+            "Szare Skały": (3, 4),
+            "Mglista Puszcza": (2, 2),
             "Stalowe Wyżyny": (3, 3),
-            "Lodowa Kraina": (4, 4)
+            "Lodowa Kraina": (7, 7)
         }
         castle_image = pygame.image.load(get_asset_path("lands/castle.png"))
         wizard_tower_image = pygame.image.load(get_asset_path("lands/wizard_tower.png"))
@@ -30,36 +32,44 @@ class WorldMap:
         mushroom_swamps_image = pygame.image.load(get_asset_path("lands/mushroom_swamps.png"))
         steel_hills_image = pygame.image.load(get_asset_path("lands/steel_hills.png"))
         ice_realm_image = pygame.image.load(get_asset_path("lands/ice_realm.png"))
+        grey_rocks_image = pygame.image.load(get_asset_path("lands/grey_rocks.png"))
+        golden_forest_image = pygame.image.load(get_asset_path("lands/golden_forest.png"))
 
         self.land_images = {
             "Zamek": pygame.transform.smoothscale(castle_image, (100, 100)),
+            "Złoty Las": pygame.transform.smoothscale(golden_forest_image, (100, 100)),
             "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (100, 100)),
             "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (100, 100)),
             "Mglista Puszcza": pygame.transform.smoothscale(goblin_forest_image, (100, 100)),
             "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (100, 100)),
             "Stalowe Wyżyny": pygame.transform.smoothscale(steel_hills_image, (100, 100)),
-            "Lodowa Kraina": pygame.transform.smoothscale(ice_realm_image, (100, 100))
+            "Lodowa Kraina": pygame.transform.smoothscale(ice_realm_image, (100, 100)),
+            "Szare Skały": pygame.transform.smoothscale(grey_rocks_image, (100, 100))
         }
 
         realm_dim = 700
 
         self.realm_images = {
             "Zamek": pygame.transform.smoothscale(castle_image, (realm_dim, realm_dim)),
+            "Złoty Las": pygame.transform.smoothscale(golden_forest_image, (realm_dim, realm_dim)),
             "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (realm_dim, realm_dim)),
             "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (realm_dim, realm_dim)),
             "Mglista Puszcza": pygame.transform.smoothscale(goblin_forest_image, (realm_dim, realm_dim)),
             "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (realm_dim, realm_dim)),
             "Stalowe Wyżyny": pygame.transform.smoothscale(steel_hills_image, (realm_dim, realm_dim)),
-            "Lodowa Kraina": pygame.transform.smoothscale(ice_realm_image, (realm_dim, realm_dim))
+            "Lodowa Kraina": pygame.transform.smoothscale(ice_realm_image, (realm_dim, realm_dim)),
+            "Szare Skały": pygame.transform.smoothscale(grey_rocks_image, (realm_dim, realm_dim))
         }
 
         self.land_descriptions = {
             "Zamek": "Home sweet home",
+            "Złoty Las": "Zamieszkane przez elfy, gotowe pomóc.",
             "Wieża Maga": "",
             "Łyse Łąki": "Pełne niebezpiecznych maruderów.",
             "Mglista Puszcza": "Gęste, tajemnicze lasy pełne goblinów, gnomów i trolli. Idealne do ćwiczenia dodawania.",
             "Grzybowe Bagna": "Mroczne, wilgotne bagna zamieszkałe przez gobliny i tajemnicze grzyboludy. Nauka odejmowania jest kluczowa, by przetrwać.",
             "Stalowe Wyżyny": "Wysokie wyżyny zamieszkałe przez potężne golemy. Tutaj nauczysz się mnożenia.",
+            "Szare Skały": "Opustoszone, na pierwszy rzut oka.",
             "Lodowa Kraina": "Mroźna i tajemnicza kraina, której mieszkańcy posługują się liczbami w niezwykły sposób."
         }
 
@@ -85,7 +95,7 @@ class WorldMap:
         screen.blit(self.player.realm_sprite, (self.player.x, self.player.y))
 
         if self.selected_land:
-            screen.blit(self.realm_images[self.selected_land], (WIDTH / 2, 20))
+            screen.blit(self.realm_images[self.selected_land], (WIDTH / 2 + 40, 20))
             font = pygame.font.SysFont(None, 40)
             land_text = font.render(self.selected_land, True, WHITE)
             screen.blit(land_text, (WIDTH / 2, 620))
