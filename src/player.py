@@ -1,6 +1,9 @@
 import pygame
 from assets import player_sprites, player_minifig_sprites
 from PIL import Image
+from constants import *
+
+WIDTH, HEIGHT = 1600, 900
 
 def load_gif_frames(filename, new_size=None):
     frames = []
@@ -39,13 +42,15 @@ class Player:
         self.y = y
         self.speed = 5
         self.health = 100
-        self.coins = 0  # New: Coin counter
+        self.coins = 0
         self.character = character
-        self.battle_sprite = pygame.transform.scale(player_sprites[character], (200, 200))
-        self.sprite = load_gif_frames(player_minifig_sprites[character], new_size=(50, 50))
-        self.animation = AnimatedSprite(self.sprite, frame_duration=100)
+        self.battle_sprite = pygame.transform.smoothscale(player_sprites[character], (200, 200))
+        self.sprite = pygame.transform.smoothscale(pygame.image.load(player_minifig_sprites[character]), (grid_size, grid_size))
+        # self.sprite = load_gif_frames(player_minifig_sprites[character], new_size=(grid_size, grid_size))
+        self.realm_sprite = pygame.transform.smoothscale(pygame.image.load(player_minifig_sprites[character]), (100, 100))
+        # self.animation = AnimatedSprite(self.sprite, frame_duration=100)
 
-        self.grid_size = 50
+        self.grid_size = grid_size
         self.target_x = self.x
         self.target_y = self.y
         self.is_moving = False
@@ -57,16 +62,19 @@ class Player:
         if self.is_moving:
             return
 
-        if keys[pygame.K_LEFT]:
-            self.target_x = self.x - self.grid_size
-        elif keys[pygame.K_RIGHT]:
-            self.target_x = self.x + self.grid_size
-        elif keys[pygame.K_UP]:
-            self.target_y = self.y - self.grid_size
-        elif keys[pygame.K_DOWN]:
-            self.target_y = self.y + self.grid_size
+        new_x, new_y = self.x, self.y
 
-        if self.x != self.target_x or self.y != self.target_y:
+        if keys[pygame.K_LEFT]:
+            new_x -= self.grid_size
+        elif keys[pygame.K_RIGHT]:
+            new_x += self.grid_size
+        elif keys[pygame.K_UP]:
+            new_y -= self.grid_size
+        elif keys[pygame.K_DOWN]:
+            new_y += self.grid_size
+
+        if 0 <= new_x < WIDTH and 0 <= new_y < HEIGHT:
+            self.target_x, self.target_y = new_x, new_y
             self.is_moving = True
 
     def update_position(self):
@@ -83,4 +91,4 @@ class Player:
                 self.y = self.target_y
 
             if self.x == self.target_x and self.y == self.target_y:
-                self.is_moving = False  # Ruch zakończony
+                self.is_moving = False
