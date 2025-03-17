@@ -1,4 +1,3 @@
-from constants import *
 from utils import *
 
 merchant_figure = pygame.image.load(get_asset_path("npcs/merchant_fig.png"))
@@ -26,8 +25,8 @@ def show_merchant_menu(player):
     menu_x, menu_y = (WIDTH - menu_width) // 2, (HEIGHT - menu_height) // 2
     buy_elixir_img = pygame.image.load(get_asset_path("items/elixir_solution.png"))
     buy_elixir_img = pygame.transform.scale(buy_elixir_img, (100, 100))
-    close_button = pygame.Rect(menu_x + 320, menu_y + 360, 100, 30)  # Adjusted position
-    buy_button = pygame.Rect(menu_x + 40, menu_y + 360, 100, 30)  # New buy button
+    close_button = pygame.Rect(menu_x + 320, menu_y + 360, 100, 30)
+    buy_button = pygame.Rect(menu_x + 40, menu_y + 360, 100, 30)
     elixir_button = pygame.Rect(menu_x + 50, menu_y + 190, 100, 100)
 
     merchant_running = True
@@ -41,7 +40,7 @@ def show_merchant_menu(player):
         screen.blit(close_text, (menu_x + 330, menu_y + 365))
         screen.blit(buy_text, (menu_x + 70, menu_y + 365))
         merchant_image = pygame.transform.smoothscale(pygame.image.load(get_asset_path("npcs/merchant.png")), (200, 200))
-        screen.blit(merchant_image, (menu_x + 150, menu_y + 20))
+        screen.blit(merchant_image, (menu_x + 130, menu_y + 20))
         screen.blit(buy_elixir_img, (menu_x + 50, menu_y + 250))
 
         pygame.display.flip()

@@ -4,7 +4,7 @@ from utils import *
 from inventory import show_inventory
 
 class WorldMap:
-    def __init__(self, player, player_game, start_position=(2, 2)):
+    def __init__(self, player, player_game, start_position=(1, 1)):
         self.grid_size = 100
         self.cols, self.rows = 8, 8
         self.map_width = self.cols * self.grid_size
@@ -16,14 +16,15 @@ class WorldMap:
 
         self.lands = {
             "Zamek": (1, 1),
-            "Złoty Las": (2, 3),
-            "Grzybowe Bagna": (2, 1),
-            "Wieża Maga": (1, 6),
-            "Łyse Łąki": (1, 2),
-            "Szare Skały": (3, 4),
-            "Mglista Puszcza": (2, 2),
-            "Stalowe Wyżyny": (3, 3),
-            "Lodowa Kraina": (7, 7)
+            "Złoty Las": (4, 2),
+            "Wieża Maga": (0, 7),
+            "Łyse Łąki": (1, 4),
+            "Grzybowe Bagna": (2, 4),
+            "Szare Skały": (1, 6),
+            "Wyschły Wąwóz": (1, 7),
+            "Mglista Puszcza": (2, 3),
+            "Stalowe Wyżyny": (0, 6),
+            "Lodowa Kraina": (7, 0)
         }
         castle_image = pygame.image.load(get_asset_path("lands/castle.png"))
         wizard_tower_image = pygame.image.load(get_asset_path("lands/wizard_tower.png"))
@@ -33,6 +34,7 @@ class WorldMap:
         steel_hills_image = pygame.image.load(get_asset_path("lands/steel_hills.png"))
         ice_realm_image = pygame.image.load(get_asset_path("lands/ice_realm.png"))
         grey_rocks_image = pygame.image.load(get_asset_path("lands/grey_rocks.png"))
+        dry_ravine_image = pygame.image.load(get_asset_path("lands/dry_ravine.png"))
         golden_forest_image = pygame.image.load(get_asset_path("lands/golden_forest.png"))
 
         self.land_images = {
@@ -44,7 +46,8 @@ class WorldMap:
             "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (100, 100)),
             "Stalowe Wyżyny": pygame.transform.smoothscale(steel_hills_image, (100, 100)),
             "Lodowa Kraina": pygame.transform.smoothscale(ice_realm_image, (100, 100)),
-            "Szare Skały": pygame.transform.smoothscale(grey_rocks_image, (100, 100))
+            "Szare Skały": pygame.transform.smoothscale(grey_rocks_image, (100, 100)),
+            "Wyschły Wąwóz": pygame.transform.smoothscale(dry_ravine_image, (100, 100))
         }
 
         realm_dim = 700
@@ -58,7 +61,8 @@ class WorldMap:
             "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (realm_dim, realm_dim)),
             "Stalowe Wyżyny": pygame.transform.smoothscale(steel_hills_image, (realm_dim, realm_dim)),
             "Lodowa Kraina": pygame.transform.smoothscale(ice_realm_image, (realm_dim, realm_dim)),
-            "Szare Skały": pygame.transform.smoothscale(grey_rocks_image, (realm_dim, realm_dim))
+            "Szare Skały": pygame.transform.smoothscale(grey_rocks_image, (realm_dim, realm_dim)),
+            "Wyschły Wąwóz": pygame.transform.smoothscale(dry_ravine_image, (realm_dim, realm_dim))
         }
 
         self.land_descriptions = {
@@ -70,6 +74,7 @@ class WorldMap:
             "Grzybowe Bagna": "Mroczne, wilgotne bagna zamieszkałe przez gobliny i tajemnicze grzyboludy. Nauka odejmowania jest kluczowa, by przetrwać.",
             "Stalowe Wyżyny": "Wysokie wyżyny zamieszkałe przez potężne golemy. Tutaj nauczysz się mnożenia.",
             "Szare Skały": "Opustoszone, na pierwszy rzut oka.",
+            "Wyschły Wąwóz": "Zamieszkany przez wygłodniałe ogry...",
             "Lodowa Kraina": "Mroźna i tajemnicza kraina, której mieszkańcy posługują się liczbami w niezwykły sposób."
         }
 
@@ -98,13 +103,13 @@ class WorldMap:
             screen.blit(self.realm_images[self.selected_land], (WIDTH / 2 + 40, 20))
             font = pygame.font.SysFont(None, 40)
             land_text = font.render(self.selected_land, True, WHITE)
-            screen.blit(land_text, (WIDTH / 2, 620))
+            screen.blit(land_text, (WIDTH / 2 + 40, 680))
 
             description_font = pygame.font.SysFont(None, 30)
             wrapped_text = wrap_text(self.land_descriptions[self.selected_land], description_font, 400)
             for i, line in enumerate(wrapped_text):
                 desc_surface = description_font.render(line, True, WHITE)
-                screen.blit(desc_surface, (WIDTH / 2, 650 + i * 25))
+                screen.blit(desc_surface, (WIDTH / 2 + 40, 710 + i * 25))
 
             font = pygame.font.SysFont(None, 30)
             pygame.draw.rect(screen, (0, 200, 0), self.enter_button)

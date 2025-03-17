@@ -81,6 +81,16 @@ def draw_merchant_button():
     screen.blit(merchant_text, (merchant_button.x + 10, merchant_button.y + 10))
 
     return merchant_button
+
+def draw_aviator_button():
+    font = pygame.font.SysFont(None, 40)
+    aviator_text = font.render("Goblin-lotnik", True, BLACK)
+    aviator_button = pygame.Rect(WIDTH/2 - 100, HEIGHT - 70, 200, 50)
+    pygame.draw.rect(screen, (200, 200, 50), aviator_button)
+    pygame.draw.rect(screen, BLACK, aviator_button, 2)
+    screen.blit(aviator_text, (aviator_button.x + 10, aviator_button.y + 10))
+
+    return aviator_button
 def show_message(message):
     message_font = pygame.font.SysFont(None, 60)
     message_surface = message_font.render(message, True, BLACK)

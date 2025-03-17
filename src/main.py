@@ -6,29 +6,16 @@ from items import Berry
 from math_battle import math_battle
 from inventory import *
 from merchant import *
+from goblin_aviator import *
 
 pygame.init()
 pygame.display.set_caption("Math RPG")
-
-forest_map = pygame.image.load(get_asset_path(os.path.join("maps", "dark_forest.png")))
-forest_map = pygame.transform.scale(forest_map, (WIDTH, HEIGHT))
-
-swamps_map = pygame.image.load(get_asset_path(os.path.join("maps", "mushroom_swamps.png")))
-swamps_map = pygame.transform.scale(swamps_map, (WIDTH, HEIGHT))
-
-hills_map = pygame.image.load(get_asset_path(os.path.join("maps", "steel_hills.png")))
-hills_map = pygame.transform.scale(hills_map, (WIDTH, HEIGHT))
-
-ice_realm_map = pygame.image.load(get_asset_path(os.path.join("maps", "ice_realm.png")))
-ice_realm_map = pygame.transform.scale(ice_realm_map, (WIDTH, HEIGHT))
-
-castle_map = pygame.image.load(get_asset_path(os.path.join("maps", "castle.png")))
-castle_map = pygame.transform.scale(castle_map, (WIDTH, HEIGHT))
 
 dark_tree_image = load_and_resize("obstacles/dark_forest_tree.png")
 rock_image = load_and_resize("obstacles/rock.png")
 icy_rock_image = load_and_resize("obstacles/icy_rock.png")
 murky_swamp_image = load_and_resize("obstacles/murky_swamp.png")
+tree_image = load_and_resize("obstacles/tree.png")
 
 class Obstacle:
     """ Represents an obstacle on the map. """
@@ -47,8 +34,10 @@ def main():
     global running
     player_character = choose_character()
 
-    # Initialize player's starting position
-    world_position = (2, 2)
+    if player_character == "Czarodziejka":
+        world_position = (4, 2)
+    else:
+        world_position = (1, 1)
     player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40, player_character)
     map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
 
@@ -59,46 +48,56 @@ def main():
 
         if selected_land == "Mglista Puszcza":
             enemy_types = ["Goblin", "Spider", "Troll"]
+            enemies_number = 8
             background_color = (85, 116, 119)
-            background = forest_map
             obstacle_image = dark_tree_image
             obstacle_positions = {
-                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+                (3, 4), (3, 5), (5, 6), (7, 2), (2, 8),
+                (6, 6), (6, 7), (7, 7),
             }
         elif selected_land == "Zamek":
             enemy_types = []
+            enemies_number = 0
             background_color = (244, 241, 232)
-            background = castle_map
-            obstacle_image = dark_tree_image
+            obstacle_image = tree_image
             obstacle_positions = {
                 (10, 10)
             }
+        elif selected_land == "Złoty Las":
+            enemy_types = []
+            enemies_number = 0
+            background_color = (244, 241, 232)
+            obstacle_image = tree_image
+            obstacle_positions = {
+                (10, 10), (3, 3), (4, 3), (7, 8)
+            }
         elif selected_land == "Grzybowe Bagna":
             enemy_types = ["Spider", "Grzybolud"]
+            enemies_number = 8
             background_color = (85, 116, 119)
-            background = swamps_map
             obstacle_image = murky_swamp_image
             obstacle_positions = {
                 (2, 2), (5, 6), (7, 2), (8, 8), (10, 6)
             }
         elif selected_land == "Stalowe Wyżyny":
             enemy_types = ["Golem"]
+            enemies_number = 5
             background_color = (244, 241, 232)
-            background = hills_map
             obstacle_image = rock_image
             obstacle_positions = {
                 (3, 4), (5, 6), (8, 12), (4, 10), (9, 7)
             }
         elif selected_land == "Lodowa Kraina":
-            enemy_types = ["Wilk", "Golem"]
+            enemy_types = ["Wilk"]
+            enemies_number = 8
             background_color = WHITE
-            background = ice_realm_map
             obstacle_image = icy_rock_image
             obstacle_positions = {
                 (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
             }
         elif selected_land == "Łyse Łąki":
             enemy_types = ["Ork", "Goblin"]
+            enemies_number = 7
             background_color = (244, 241, 232)
             obstacle_image = rock_image
             obstacle_positions = {
@@ -106,6 +105,7 @@ def main():
             }
         else:
             enemy_types = ["Wilk"]
+            enemies_number = 6
             background_color = (244, 241, 232)
             obstacle_image = rock_image
             obstacle_positions = {
@@ -117,7 +117,7 @@ def main():
         if enemy_types:
             enemies = [
                 Enemy(*get_valid_random_position(obstacle_positions), random.choice(enemy_types))
-                for _ in range(6)
+                for _ in range(enemies_number)
             ]
         else:
             enemies = []
@@ -130,6 +130,7 @@ def main():
             berries = []
 
         merchant = Merchant()
+        aviator = Aviator()
 
         clock = pygame.time.Clock()
         running = True
@@ -176,18 +177,25 @@ def main():
 
             if selected_land in ["Zamek", "Wieża Maga"]:
                 merchant.draw(screen)
+                aviator.draw(screen)
                 if merchant.check_collision(player):
                     show_merchant_button = True
                 else:
                     show_merchant_button = False
+
+                if aviator.check_collision(player):
+                    show_aviator_button = True
+                else:
+                    show_aviator_button = False
             else:
                 show_merchant_button = False
+                show_aviator_button = False
 
             if show_merchant_button:
                 merchant_button = draw_merchant_button()
 
-            if not selected_land == "Zamek" and not enemies:
-                show_message("Wygrałeś! Pokonałeś wszystkich przeciwników!")
+            if show_aviator_button:
+                aviator_button = draw_aviator_button()
 
             inventory_button, back_button = draw_ui_buttons()
             pygame.display.flip()
@@ -203,6 +211,8 @@ def main():
                         running = False
                     if show_merchant_button and merchant_button.collidepoint(event.pos):
                         show_merchant_menu(player)
+                    if show_aviator_button and aviator_button.collidepoint(event.pos):
+                        show_aviator_menu(player)
                 elif event.type == pygame.KEYDOWN:
                     if show_merchant_button and event.key == pygame.K_RETURN:
                         show_merchant_menu(player)
