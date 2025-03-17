@@ -16,17 +16,19 @@ class WorldMap:
 
         self.lands = {
             "Zamek": (1, 1),
+            "Miasto": (1, 2),
             "Złoty Las": (4, 2),
             "Wieża Maga": (0, 7),
             "Łyse Łąki": (1, 4),
-            "Grzybowe Bagna": (2, 4),
+            "Mglista Puszcza": (2, 4),
+            "Grzybowe Bagna": (3, 4),
             "Szare Skały": (1, 6),
             "Wyschły Wąwóz": (1, 7),
-            "Mglista Puszcza": (2, 3),
             "Stalowe Wyżyny": (0, 6),
             "Lodowa Kraina": (7, 0)
         }
         castle_image = pygame.image.load(get_asset_path("lands/castle.png"))
+        town_image = pygame.image.load(get_asset_path("lands/town.png"))
         wizard_tower_image = pygame.image.load(get_asset_path("lands/wizard_tower.png"))
         bald_meadows_image = pygame.image.load(get_asset_path("lands/bald_meadows.png"))
         goblin_forest_image = pygame.image.load(get_asset_path("lands/dark_forest.png"))
@@ -39,6 +41,7 @@ class WorldMap:
 
         self.land_images = {
             "Zamek": pygame.transform.smoothscale(castle_image, (100, 100)),
+            "Miasto": pygame.transform.smoothscale(town_image, (100, 100)),
             "Złoty Las": pygame.transform.smoothscale(golden_forest_image, (100, 100)),
             "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (100, 100)),
             "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (100, 100)),
@@ -54,6 +57,7 @@ class WorldMap:
 
         self.realm_images = {
             "Zamek": pygame.transform.smoothscale(castle_image, (realm_dim, realm_dim)),
+            "Miasto": pygame.transform.smoothscale(town_image, (realm_dim, realm_dim)),
             "Złoty Las": pygame.transform.smoothscale(golden_forest_image, (realm_dim, realm_dim)),
             "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (realm_dim, realm_dim)),
             "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (realm_dim, realm_dim)),
@@ -66,7 +70,8 @@ class WorldMap:
         }
 
         self.land_descriptions = {
-            "Zamek": "Home sweet home",
+            "Zamek": "Górujący nad okolicą, ostoja bezpieczeństwa i spokoju... na jak długo?",
+            "Miasto": "Gwarne i pełne życia",
             "Złoty Las": "Zamieszkane przez elfy, gotowe pomóc.",
             "Wieża Maga": "",
             "Łyse Łąki": "Pełne niebezpiecznych maruderów.",

@@ -36,6 +36,8 @@ def main():
 
     if player_character == "Czarodziejka":
         world_position = (4, 2)
+    elif player_character == "Rabbit":
+        world_position = (1, 2)
     else:
         world_position = (1, 1)
     player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40, player_character)
@@ -61,7 +63,7 @@ def main():
             background_color = (244, 241, 232)
             obstacle_image = tree_image
             obstacle_positions = {
-                (10, 10)
+                (10, 4)
             }
         elif selected_land == "Złoty Las":
             enemy_types = []
@@ -122,7 +124,7 @@ def main():
         else:
             enemies = []
 
-        if not selected_land == "Zamek":
+        if not selected_land in ["Zamek", "Stalowe Wyżyny"]:
             berries = [
                 Berry(*get_valid_random_position(obstacle_positions)) for _ in range(3)
             ]
@@ -154,8 +156,8 @@ def main():
             current_image = player.sprite
             screen.blit(current_image, (player.x - 40, player.y - 40))
 
-            pygame.draw.rect(screen, RED, (player.x - 40, player.y - 40, grid_size, 5))
-            pygame.draw.rect(screen, GREEN, (player.x - 40, player.y - 40, grid_size * (player.health / 100), 5))
+            pygame.draw.rect(screen, RED, (player.x - 40, player.y - 50, grid_size, 5))
+            pygame.draw.rect(screen, GREEN, (player.x - 40, player.y - 50, grid_size * (player.health / 100), 5))
 
             for obstacle in obstacles:
                 obstacle.draw(screen)
