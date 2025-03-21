@@ -21,8 +21,14 @@ def math_battle(player, enemy_type, selected_land):
         "Gnom": 5, "Spider": 10,
         "Troll": 20, "Golem": 20, "Ork": 20
     }
-
-    if selected_land == "Mglista Puszcza":
+    if selected_land in ["Lasy", "Bór", "Łąki"]:
+        if enemy_type == "Gnom":
+            a, b = random.randint(1, 10), random.randint(1, 10)
+        elif enemy_type == "Bees":
+            a, b = random.randint(1, 5), random.randint(1, 5)
+        question = f"Ile to {a} + {b}?"
+        correct_answer = a + b
+    elif selected_land == "Mglista Puszcza":
         if enemy_type == "Troll":
             a, b = random.randint(10, 30), random.randint(10, 30)
         elif enemy_type == "Spider":
@@ -74,8 +80,8 @@ def math_battle(player, enemy_type, selected_land):
     else:
         a = random.randint(2, 10)
         b = random.randint(2, min(30 // a, 10))
-        question = f"Ile to {a} x {b}?"
-        correct_answer = a * b
+        question = f"Ile to {a} + {b}?"
+        correct_answer = a + b
 
     enemy_size = (300, 300) if enemy_type in ["Troll", "Golem"] else (200, 200)
     enemy_sprite = enemy_sprites[enemy_type]

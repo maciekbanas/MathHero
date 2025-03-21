@@ -53,7 +53,24 @@ def main(player, world_position = None, selected_land = None):
         selected_land, world_position = show_world_map(map_player, player, world_position)
         print(f"Gracz wszedł do: {selected_land}")
 
-        if selected_land == "Mglista Puszcza":
+        if selected_land in ["Lasy", "Bór"]:
+            enemy_types = ["Gnom", "Bees"]
+            enemies_number = 5
+            background_color = (244, 241, 232)
+            obstacle_image = tree_image
+            obstacle_positions = {
+                (2, 2), (3, 4), (3, 5), (5, 6), (7, 2), (2, 8),
+                (6, 6), (6, 7), (7, 7), (10, 8)
+            }
+        elif selected_land == "Łąki":
+            enemy_types = ["Gnom", "Bees"]
+            enemies_number = 5
+            background_color = (244, 241, 232)
+            obstacle_image = tree_image
+            obstacle_positions = {
+                (5, 6)
+            }
+        elif selected_land == "Mglista Puszcza":
             enemy_types = ["Goblin", "Spider", "Troll"]
             enemies_number = 8
             background_color = (85, 116, 119)
@@ -69,6 +86,14 @@ def main(player, world_position = None, selected_land = None):
             obstacle_image = tree_image
             obstacle_positions = {
                 (10, 4)
+            }
+        elif selected_land == "Miasto":
+            enemy_types = []
+            enemies_number = 0
+            background_color = (244, 241, 232)
+            obstacle_image = tree_image
+            obstacle_positions = {
+                (8, 6), (6, 8), (10, 3)
             }
         elif selected_land == "Złoty Las":
             enemy_types = []
