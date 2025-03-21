@@ -221,7 +221,7 @@ class WorldMap:
         self.player.x, self.player.y = new_x, new_y
         self.selected_land = None
         for land, (col, row) in self.lands.items():
-            if new_x == col * self.grid_size and new_y == row * self.grid_size:
+            if new_cell == (col, row):
                 self.selected_land = land
 
     def handle_event(self, event):
