@@ -10,6 +10,13 @@ def math_battle(player, enemy_type, selected_land):
     import random
 
     coin_rewards = {
+        "Bees": 2,
+        "Goblin": 5, "Grzybolud": 5, "Wilk": 5,
+        "Gnom": 5, "Spider": 10,
+        "Troll": 20, "Golem": 20, "Ork": 20
+    }
+    xp_rewards = {
+        "Bees": 1,
         "Goblin": 5, "Grzybolud": 5, "Wilk": 5,
         "Gnom": 5, "Spider": 10,
         "Troll": 20, "Golem": 20, "Ork": 20
@@ -115,7 +122,9 @@ def math_battle(player, enemy_type, selected_land):
                         user_answer = int(input_text)
                         if user_answer == correct_answer:
                             player.coins += coin_rewards.get(enemy_type, 0)
-                            show_message(f"Pokonałeś {enemy_type} i zdobyłeś {coin_rewards[enemy_type]} monet!")
+                            player.xp += xp_rewards.get(enemy_type, 0)
+                            show_message(f"Pokonałeś {enemy_type}. Zdobyłeś {coin_rewards[enemy_type]} monet oraz {xp_rewards[enemy_type]} punktów XP!")
+
                             return True
                         else:
                             player.health -= 20
