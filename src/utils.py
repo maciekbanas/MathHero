@@ -72,6 +72,13 @@ def draw_ui_buttons():
 
     return inventory_rect, back_rect
 
+def draw_quit_button():
+    font_buttons = pygame.font.SysFont(None, 30)
+    quit_button = pygame.Rect(WIDTH - 170, HEIGHT - 60, 150, 40)
+    pygame.draw.rect(screen, (200, 50, 50), quit_button)
+    quit_text = font_buttons.render("Zakończ", True, WHITE)
+    screen.blit(quit_text, (WIDTH - 145, HEIGHT - 50))
+
 def draw_merchant_button():
     font = pygame.font.SysFont(None, 40)
     merchant_text = font.render("Kupiec-mag", True, BLACK)

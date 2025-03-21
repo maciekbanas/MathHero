@@ -166,7 +166,6 @@ class WorldMap:
 
         self.enter_button = pygame.Rect(WIDTH / 2, HEIGHT - 60, 220, 40)
         self.inventory_button = pygame.Rect(20, HEIGHT - 60, 150, 40)
-        self.quit_button = pygame.Rect(WIDTH - 170, HEIGHT - 60, 150, 40)
 
     def draw(self, screen):
         screen.fill((50, 50, 50))
@@ -203,8 +202,7 @@ class WorldMap:
         inventory_text = font.render("Ekwipunek", True, WHITE)
         quit_text = font.render("Zakończ", True, WHITE)
         screen.blit(inventory_text, (35, HEIGHT - 50))
-        screen.blit(quit_text, (WIDTH - 145, HEIGHT - 50))
-
+        self.quit_button = draw_quit_button()
 
     def move_player(self, direction):
         new_x, new_y = self.player.x, self.player.y
