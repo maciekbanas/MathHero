@@ -27,20 +27,23 @@ class Obstacle:
     def draw(self, screen):
         screen.blit(self.image, (self.x * grid_size, self.y * grid_size))
 
-def main():
+def main(player, world_position = None, selected_land = None):
     """
     Main game loop.
     """
     global running
     player_character = choose_character()
 
-    if player_character == "Czarodziejka":
-        world_position = (4, 2)
-    elif player_character == "Rabbit":
-        world_position = (1, 2)
-    else:
-        world_position = (1, 1)
-    player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40, player_character)
+    if world_position is None:
+        if player_character == "Czarodziejka":
+            world_position = (3, 2)
+        elif player_character == "Rabbit":
+            world_position = (0, 1)
+        elif player_character == "Kocias":
+            world_position = (0, 1)
+        else:
+            world_position = (0, 0)
+
     map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
 
     while True:
@@ -218,9 +221,52 @@ def main():
                 elif event.type == pygame.KEYDOWN:
                     if show_merchant_button and event.key == pygame.K_RETURN:
                         show_merchant_menu(player)
+                    if event.key == pygame.K_s:  # klawisz S do zapisu
+                        save_game_state(player, world_position, selected_land)
+                        show_message("Zapisany stan gry!")
+                    if event.key == pygame.K_l:  # klawisz L do ładowania
+                        state = load_game_state()
+                        show_message("Załadowano grę!")
+                        if state is not None:
+                            player.x = state["player"]["x"]
+                            player.y = state["player"]["y"]
+                            player.health = state["player"]["health"]
+                            player.xp = state["player"]["xp"]
+                            player.coins = state["player"]["coins"]
+                            player.character = state["player"]["character"]
+                            player.inventory = state["player"]["inventory"]
+                            world_position = state["world_position"]
+                            selected_land = state["selected_land"]
 
     pygame.quit()
 
 
 if __name__ == "__main__":
-    main()
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Math RPG")
+
+    selection = start_screen(screen)
+    if selection == "new":
+        player_character = choose_character()
+        player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40,
+                        player_character)
+        main(player)
+    else:
+        state = load_game_state()
+        show_message("Załadowano grę!")
+        if state is not None:
+            player_character = state["player"]["character"]
+            player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40,
+                            player_character)
+            player.x = state["player"]["x"]
+            player.y = state["player"]["y"]
+            player.health = state["player"]["health"]
+            player.xp = state["player"]["xp"]
+            player.coins = state["player"]["coins"]
+            player.character = state["player"]["character"]
+            player.inventory = state["player"]["inventory"]
+            world_position = state["world_position"]
+            selected_land = state["selected_land"]
+
+            main(player, world_position, selected_land)
