@@ -34,7 +34,6 @@ def main(player, world_position = None, selected_land = None):
     Main game loop.
     """
     global running
-    player_character = choose_character()
 
     if world_position is None:
         if player_character == "Czarodziejka":
@@ -175,7 +174,7 @@ def main(player, world_position = None, selected_land = None):
                     running = False
 
             keys = pygame.key.get_pressed()
-            player.move(keys)
+            player.move(keys, obstacle_positions)
             player.update_position()
             # player.animation.update(dt)
 
