@@ -1,9 +1,12 @@
+import os
 import pygame
 from save_load import load_game_state
 
 WIDTH, HEIGHT = 1600, 900
 WHITE = (255, 255, 255)
 
+background_image = pygame.image.load(os.path.join("assets", "start", "start_panorama.png"))
+background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 def start_screen(screen):
     """
@@ -20,7 +23,7 @@ def start_screen(screen):
     load_game_button = pygame.Rect(WIDTH // 2 - 150, HEIGHT // 2 + 10, 300, 60)
 
     while running:
-        screen.fill((30, 30, 30))  # ciemne tło
+        screen.blit(background_image, (0, 0))
         title_text = font.render("Math RPG", True, WHITE)
         screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, HEIGHT // 4))
 
