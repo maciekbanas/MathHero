@@ -57,8 +57,8 @@ class Player:
 
         self.inventory = []
 
-    def move(self, keys):
-        """ Obsługuje wejście gracza, jeśli nie jest w trakcie ruchu """
+    def move(self, keys, obstacle_positions):
+        """ Obsługuje wejście gracza, jeśli nie jest w trakcie ruchu i sprawdza kolizje z przeszkodami """
         if self.is_moving:
             return
 
@@ -72,6 +72,13 @@ class Player:
             new_y -= self.grid_size
         elif keys[pygame.K_DOWN]:
             new_y += self.grid_size
+
+        grid_offset = 40
+        grid_x = (new_x - grid_offset) // self.grid_size
+        grid_y = (new_y - grid_offset) // self.grid_size
+
+        if (grid_x, grid_y) in obstacle_positions:
+            return
 
         if 0 <= new_x < WIDTH and 0 <= new_y < HEIGHT:
             self.target_x, self.target_y = new_x, new_y
