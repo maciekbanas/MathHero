@@ -197,10 +197,8 @@ class WorldMap:
             screen.blit(enter_text, (WIDTH / 2 + 30, HEIGHT - 50))
 
         pygame.draw.rect(screen, (0, 150, 200), self.inventory_button)
-        pygame.draw.rect(screen, (200, 50, 50), self.quit_button)
         font = pygame.font.SysFont(None, 30)
         inventory_text = font.render("Ekwipunek", True, WHITE)
-        quit_text = font.render("Zakończ", True, WHITE)
         screen.blit(inventory_text, (35, HEIGHT - 50))
         self.quit_button = draw_quit_button()
 
