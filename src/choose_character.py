@@ -10,15 +10,10 @@ def choose_character():
 
     single_width = total_width // 4
 
-    # Lista, w której będziemy przechowywać (nazwa_postaci, sprite, rect)
     char_data = []
 
-    # Przygotowujemy pozycje i skalujemy grafiki
     for i, char_name in enumerate(characters):
-        # Oryginalny sprite
         original_sprite = player_sprites[char_name]
-        # Proporcja skalowania
-        # Najpierw obliczamy współczynnik, żeby obrazek miał szerokość single_width
         w = original_sprite.get_width()
         h = original_sprite.get_height()
         scale_factor = single_width / w
