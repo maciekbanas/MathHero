@@ -101,3 +101,9 @@ def show_message(message):
     pygame.display.flip()
 
     pygame.time.delay(1000)
+
+def get_npc_image(image_path):
+    return pygame.transform.smoothscale(pygame.image.load(get_asset_path(image_path)), (250, 250))
+
+def draw_npc_screen(menu_width, menu_height, menu_x, menu_y):
+    pygame.draw.rect(screen, BROWN, (menu_x, menu_y, menu_width, menu_height))

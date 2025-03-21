@@ -31,15 +31,15 @@ def show_aviator_menu(player):
 
     aviator_running = True
     while aviator_running:
-        pygame.draw.rect(screen, (150, 100, 50), (menu_x, menu_y, menu_width, menu_height))
+        pygame.draw.rect(screen, BROWN, (menu_x, menu_y, menu_width, menu_height))
         pygame.draw.rect(screen, (200, 50, 50), close_button)
         pygame.draw.rect(screen, (50, 200, 50), buy_button)  # Green buy button
         font = pygame.font.SysFont(None, 30)
         close_text = font.render("Zamknij", True, WHITE)
         buy_text = font.render("Kup lot", True, WHITE)
         screen.blit(close_text, (menu_x + 330, menu_y + 365))
-        screen.blit(buy_text, (menu_x + 40, menu_y + 365))
-        aviator_image = pygame.transform.smoothscale(pygame.image.load(get_asset_path("npcs/goblin_aviator.png")), (200, 200))
+        screen.blit(buy_text, (menu_x + 45, menu_y + 365))
+        aviator_image = get_npc_image("npcs/goblin_aviator.png")
         screen.blit(aviator_image, (menu_x + 130, menu_y + 20))
         #screen.blit(buy_elixir_img, (menu_x + 50, menu_y + 250))
 

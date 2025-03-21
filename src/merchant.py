@@ -31,16 +31,16 @@ def show_merchant_menu(player):
 
     merchant_running = True
     while merchant_running:
-        pygame.draw.rect(screen, (150, 100, 50), (menu_x, menu_y, menu_width, menu_height))
+        draw_npc_screen(menu_width, menu_height, menu_x, menu_y)
         pygame.draw.rect(screen, (200, 50, 50), close_button)
-        pygame.draw.rect(screen, (50, 200, 50), buy_button)  # Green buy button
+        pygame.draw.rect(screen, (GREEN), buy_button)
         font = pygame.font.SysFont(None, 30)
         close_text = font.render("Zamknij", True, WHITE)
         buy_text = font.render("Kup", True, WHITE)
         screen.blit(close_text, (menu_x + 330, menu_y + 365))
         screen.blit(buy_text, (menu_x + 70, menu_y + 365))
-        merchant_image = pygame.transform.smoothscale(pygame.image.load(get_asset_path("npcs/merchant.png")), (200, 200))
-        screen.blit(merchant_image, (menu_x + 130, menu_y + 20))
+        merchant_image = get_npc_image("npcs/merchant.png")
+        screen.blit(merchant_image, (menu_x + 100, menu_y + 20))
         screen.blit(buy_elixir_img, (menu_x + 50, menu_y + 250))
 
         pygame.display.flip()
