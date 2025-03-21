@@ -7,6 +7,8 @@ from math_battle import math_battle
 from inventory import *
 from merchant import *
 from goblin_aviator import *
+from save_load import *
+from start import start_screen
 
 pygame.init()
 pygame.display.set_caption("Math RPG")
