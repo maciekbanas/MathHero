@@ -42,6 +42,7 @@ class Player:
         self.y = y
         self.speed = 5
         self.health = 100
+        self.xp = 0
         self.coins = 0
         self.character = character
         self.battle_sprite = pygame.transform.smoothscale(player_sprites[character], (200, 200))
