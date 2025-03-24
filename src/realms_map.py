@@ -1,5 +1,3 @@
-import pygame
-
 from utils import *
 from inventory import show_inventory
 
@@ -21,17 +19,18 @@ class WorldMap:
             "Bór": (1, 1),
             "Łąki": (1, 2),
             "Rwąca Rzeka": (0, 3),
-            "Brzeg Morza": (0, 4),
             "Tajemnicza Zatoka": (0, 5),
-            "Dzikie Brzegi": (1, 5),
+            "Dzikie Brzegi": (0, 4),
             "Most": (1, 3),
             "Rzeka": (2, 2),
             "Góry": (1, 0),
-            "Przeczysty Strumień": (2, 0),
+            "Górska Wies": (2, 0),
+            "Przeczysty Strumień": (3, 0),
             "Złoty Las": (3, 2),
             "Łyse Łąki": (1, 4),
             "Czyste Jezioro": (2, 1),
-            "Mglista Puszcza": (2, 3),
+            "Dzikie Bory": (2, 3),
+            "Mglista Puszcza": (2, 4),
             "Grzybowe Bagna": (3, 4),
             "Szare Skały": (1, 6),
             "Wyschły Wąwóz": (1, 7),
@@ -45,17 +44,19 @@ class WorldMap:
         meadow_image = pygame.image.load(get_asset_path("lands/meadow.png"))
         woods_image = pygame.image.load(get_asset_path("lands/woods.png"))
         forest_image = pygame.image.load(get_asset_path("lands/forest.png"))
+        village_image = pygame.image.load(get_asset_path("lands/mountain_village.png"))
         magic_lake_image = pygame.image.load(get_asset_path("lands/magic_lake.png"))
         river_image = pygame.image.load(get_asset_path("lands/river.png"))
         bridge_image = pygame.image.load(get_asset_path("lands/bridge.png"))
         rushing_river_image = pygame.image.load(get_asset_path("lands/rushing_river.png"))
         mountain_stream_image = pygame.image.load(get_asset_path("lands/mountain_stream.png"))
         mountains_image = pygame.image.load(get_asset_path("lands/mountains.png"))
-        sea_shore_image = pygame.image.load(get_asset_path("lands/sea_shore.png"))
+
         mysterious_bay_image = pygame.image.load(get_asset_path("lands/mysterious_bay.png"))
         wild_shores_image = pygame.image.load(get_asset_path("lands/wild_shores.png"))
         wizard_tower_image = pygame.image.load(get_asset_path("lands/wizard_tower.png"))
         bald_meadows_image = pygame.image.load(get_asset_path("lands/bald_meadows.png"))
+        wild_forest_image = pygame.image.load(get_asset_path("lands/wild_forest.png"))
         goblin_forest_image = pygame.image.load(get_asset_path("lands/dark_forest.png"))
         mushroom_swamps_image = pygame.image.load(get_asset_path("lands/mushroom_swamps.png"))
         steel_hills_image = pygame.image.load(get_asset_path("lands/steel_hills.png"))
@@ -71,11 +72,11 @@ class WorldMap:
             "Łąki": pygame.transform.smoothscale(meadow_image, (100, 100)),
             "Bór": pygame.transform.smoothscale(forest_image, (100, 100)),
             "Lasy": pygame.transform.smoothscale(woods_image, (100, 100)),
-            "Brzeg Morza": pygame.transform.smoothscale(sea_shore_image, (100, 100)),
             "Tajemnicza Zatoka": pygame.transform.smoothscale(mysterious_bay_image, (100, 100)),
             "Dzikie Brzegi": pygame.transform.smoothscale(wild_shores_image, (100, 100)),
             "Czyste Jezioro": pygame.transform.smoothscale(magic_lake_image, (100, 100)),
             "Góry": pygame.transform.smoothscale(mountains_image, (100, 100)),
+            "Górska Wies": pygame.transform.smoothscale(village_image, (100, 100)),
             "Przeczysty Strumień": pygame.transform.smoothscale(mountain_stream_image, (100, 100)),
             "Rzeka": pygame.transform.smoothscale(river_image, (100, 100)),
             "Most": pygame.transform.smoothscale(bridge_image, (100, 100)),
@@ -83,6 +84,7 @@ class WorldMap:
             "Złoty Las": pygame.transform.smoothscale(golden_forest_image, (100, 100)),
             "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (100, 100)),
             "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (100, 100)),
+            "Dzikie Bory": pygame.transform.smoothscale(wild_forest_image, (100, 100)),
             "Mglista Puszcza": pygame.transform.smoothscale(goblin_forest_image, (100, 100)),
             "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (100, 100)),
             "Stalowe Wyżyny": pygame.transform.smoothscale(steel_hills_image, (100, 100)),
@@ -100,11 +102,11 @@ class WorldMap:
             "Łąki": pygame.transform.smoothscale(meadow_image, (realm_dim, realm_dim)),
             "Bór": pygame.transform.smoothscale(forest_image, (realm_dim, realm_dim)),
             "Lasy": pygame.transform.smoothscale(woods_image, (realm_dim, realm_dim)),
-            "Brzeg Morza": pygame.transform.smoothscale(sea_shore_image, (realm_dim, realm_dim)),
             "Tajemnicza Zatoka": pygame.transform.smoothscale(mysterious_bay_image, (realm_dim, realm_dim)),
             "Dzikie Brzegi": pygame.transform.smoothscale(wild_shores_image, (realm_dim, realm_dim)),
             "Czyste Jezioro": pygame.transform.smoothscale(magic_lake_image, (realm_dim, realm_dim)),
             "Góry": pygame.transform.smoothscale(mountains_image, (realm_dim, realm_dim)),
+            "Górska Wies": pygame.transform.smoothscale(village_image, (realm_dim, realm_dim)),
             "Przeczysty Strumień": pygame.transform.smoothscale(mountain_stream_image, (realm_dim, realm_dim)),
             "Złoty Las": pygame.transform.smoothscale(golden_forest_image, (realm_dim, realm_dim)),
             "Rzeka": pygame.transform.smoothscale(river_image, (realm_dim, realm_dim)),
@@ -112,6 +114,7 @@ class WorldMap:
             "Rwąca Rzeka": pygame.transform.smoothscale(rushing_river_image, (realm_dim, realm_dim)),
             "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (realm_dim, realm_dim)),
             "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (realm_dim, realm_dim)),
+            "Dzikie Bory": pygame.transform.smoothscale(wild_forest_image, (realm_dim, realm_dim)),
             "Mglista Puszcza": pygame.transform.smoothscale(goblin_forest_image, (realm_dim, realm_dim)),
             "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (realm_dim, realm_dim)),
             "Stalowe Wyżyny": pygame.transform.smoothscale(steel_hills_image, (realm_dim, realm_dim)),
@@ -122,7 +125,7 @@ class WorldMap:
         }
 
         self.forbidden_lands = {
-            "Mglista Puszcza": 0,
+            "Mglista Puszcza": 50,
             "Łyse Łąki": 100,
             "Dzikie Brzegi": 100,
             "Tajemnicza Zatoka": 100,
@@ -141,15 +144,16 @@ class WorldMap:
             "Złoty Las": "Zamieszkane przez elfy, gotowe pomóc.",
             "Czyste Jezioro": "",
             "Góry": "",
+            "Górska Wies": "",
             "Przeczysty Strumień": "",
             "Rzeka": "",
             "Most": "",
             "Rwąca Rzeka": "",
-            "Brzeg Morza": "",
             "Dzikie Brzegi": "",
             "Tajemnicza Zatoka": "",
             "Wieża Maga": "",
             "Łyse Łąki": "Pełne niebezpiecznych maruderów.",
+            "Dzikie Bory": "",
             "Mglista Puszcza": "Gęste, tajemnicze lasy pełne goblinów, gnomów i trolli. Idealne do ćwiczenia dodawania.",
             "Grzybowe Bagna": "Mroczne, wilgotne bagna zamieszkałe przez gobliny i tajemnicze grzyboludy. Nauka odejmowania jest kluczowa, by przetrwać.",
             "Stalowe Wyżyny": "Wysokie wyżyny zamieszkałe przez potężne golemy. Tutaj nauczysz się mnożenia.",
@@ -184,17 +188,21 @@ class WorldMap:
             font = pygame.font.SysFont(None, 40)
             land_text = font.render(self.selected_land, True, WHITE)
             screen.blit(land_text, (WIDTH / 2 + 40, 680))
-
             description_font = pygame.font.SysFont(None, 30)
             wrapped_text = wrap_text(self.land_descriptions[self.selected_land], description_font, 400)
             for i, line in enumerate(wrapped_text):
                 desc_surface = description_font.render(line, True, WHITE)
                 screen.blit(desc_surface, (WIDTH / 2 + 40, 710 + i * 25))
 
-            font = pygame.font.SysFont(None, 30)
-            pygame.draw.rect(screen, (0, 200, 0), self.enter_button)
-            enter_text = font.render("Wejdź do krainy", True, WHITE)
-            screen.blit(enter_text, (WIDTH / 2 + 30, HEIGHT - 50))
+            if self.selected_land in self.forbidden_lands:
+                required_xp = self.forbidden_lands[self.selected_land]
+                if self.player_game.xp >= required_xp:
+                    self.forbidden_lands.pop(self.selected_land, None)
+                    self.draw_enter_button(screen)
+                else:
+                    self.block_realm(required_xp)
+            else:
+                self.draw_enter_button(screen)
 
         pygame.draw.rect(screen, (0, 150, 200), self.inventory_button)
         font = pygame.font.SysFont(None, 30)
@@ -224,6 +232,19 @@ class WorldMap:
             if new_cell == (col, row):
                 self.selected_land = land
 
+    def draw_enter_button(self, screen):
+        font = pygame.font.SysFont(None, 30)
+        pygame.draw.rect(screen, GREEN, self.enter_button)
+        enter_text = font.render("Wejdź do krainy", True, WHITE)
+        screen.blit(enter_text, (WIDTH / 2 + 30, HEIGHT - 50))
+        return self.enter_button
+
+    def block_realm(self, required_xp):
+        font = pygame.font.SysFont(None, 30)
+        lock_text = font.render(f"Zablokowane - wymaga {required_xp} XP", True, RED)
+        screen.blit(lock_text, (WIDTH / 2 + 30, HEIGHT - 50))
+        return(lock_text)
+
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
@@ -236,11 +257,21 @@ class WorldMap:
                 self.move_player("RIGHT")
             elif event.key == pygame.K_RETURN:
                 if self.selected_land:
+                    if (self.selected_land in self.forbidden_lands and
+                            self.player_game.xp < self.forbidden_lands[self.selected_land]):
+                        return None
                     return self.selected_land
             return None
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if self.selected_land and self.enter_button.collidepoint(event.pos):
-                return self.selected_land
+                if self.selected_land in self.forbidden_lands:
+                    required_xp = self.forbidden_lands[self.selected_land]
+                    if self.player_game.xp >= required_xp:
+                        return self.selected_land
+                    else:
+                        return None
+                else:
+                    return self.selected_land
             elif self.inventory_button.collidepoint(event.pos):
                 show_inventory(self.player_game)
             elif self.quit_button.collidepoint(event.pos):

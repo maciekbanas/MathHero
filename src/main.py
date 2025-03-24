@@ -42,8 +42,8 @@ def main(player, world_position = None, selected_land = None):
             world_position = (0, 1)
         elif player_character == "Kocias":
             world_position = (0, 1)
-        else:
-            world_position = (0, 0)
+        elif player_character == "Wilczas":
+            world_position = (2, 3)
 
     map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
 
@@ -87,6 +87,14 @@ def main(player, world_position = None, selected_land = None):
                 (10, 4)
             }
         elif selected_land == "Miasto":
+            enemy_types = []
+            enemies_number = 0
+            background_color = (244, 241, 232)
+            obstacle_image = tree_image
+            obstacle_positions = {
+                (8, 6), (6, 8), (10, 3)
+            }
+        elif selected_land == "Górska Wies":
             enemy_types = []
             enemies_number = 0
             background_color = (244, 241, 232)
