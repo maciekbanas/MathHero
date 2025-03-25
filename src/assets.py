@@ -25,7 +25,8 @@ enemy_sprites = {
     "Ork": pygame.image.load(get_asset_path(os.path.join("enemies", "orc.png"))),
     "Troll": pygame.image.load(get_asset_path(os.path.join("enemies", "troll.png"))),
     "Grzybolud": pygame.image.load(get_asset_path(os.path.join("enemies", "mushroomkin.png"))),
-    "Wilk": pygame.image.load(get_asset_path(os.path.join("enemies", "wolf.png")))
+    "Wilk": pygame.image.load(get_asset_path(os.path.join("enemies", "wolf.png"))),
+    "Niedzwiedz": pygame.image.load(get_asset_path(os.path.join("enemies", "bear.png")))
 }
 
 enemy_fig_sprites = {
@@ -37,5 +38,6 @@ enemy_fig_sprites = {
     "Ork": pygame.image.load(get_asset_path(os.path.join("enemies", "orc_fig.png"))),
     "Troll": pygame.image.load(get_asset_path(os.path.join("enemies", "troll_fig.png"))),
     "Grzybolud": pygame.image.load(get_asset_path(os.path.join("enemies", "mushroomkin_fig.png"))),
-    "Wilk": pygame.image.load(get_asset_path(os.path.join("enemies", "wolf_fig.png")))
+    "Wilk": pygame.image.load(get_asset_path(os.path.join("enemies", "wolf_fig.png"))),
+    "Niedzwiedz": pygame.image.load(get_asset_path(os.path.join("enemies", "bear_fig.png")))
 }

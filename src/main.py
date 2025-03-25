@@ -53,13 +53,26 @@ def main(player, world_position = None, selected_land = None):
         print(f"Gracz wszedł do: {selected_land}")
 
         if selected_land in ["Lasy", "Bór"]:
-            enemy_types = ["Gnom", "Bees"]
-            enemies_number = 5
+            enemy_types = ["Gnom", "Bees", "Niedzwiedz"]
+            enemies_number = 6
             background_color = (244, 241, 232)
             obstacle_image = tree_image
             obstacle_positions = {
                 (2, 2), (3, 4), (3, 5), (5, 6), (7, 2), (2, 8),
-                (6, 6), (6, 7), (7, 7), (10, 8)
+                (6, 6), (6, 7), (7, 7), (10, 8),
+                (13, 5), (13, 6),
+                (15, 1), (15, 2), (16, 2), (16, 3)
+            }
+        elif selected_land in ["Dzikie Bory"]:
+            enemy_types = ["Gnom", "Niedzwiedz", "Goblin"]
+            enemies_number = 7
+            background_color = (244, 241, 232)
+            obstacle_image = tree_image
+            obstacle_positions = {
+                (2, 2), (3, 4), (3, 5), (5, 6), (7, 2), (2, 8),
+                (6, 6), (6, 7), (7, 7), (10, 8),
+                (13, 5), (13, 6),
+                (15, 1), (15, 2), (16, 2), (16, 3)
             }
         elif selected_land == "Łąki":
             enemy_types = ["Gnom", "Bees"]
