@@ -12,6 +12,9 @@ class WorldMap:
         self.start_position = start_position
         self.player.x, self.player.y = self.start_position[0] * self.grid_size, self.start_position[1] * self.grid_size
 
+        self.offset_x = (WIDTH - self.map_width) // 10
+        self.offset_y = (HEIGHT - self.map_height) // 2
+
         self.lands = {
             "Zamek": (0, 0),
             "Miasto": (0, 1),
@@ -27,6 +30,7 @@ class WorldMap:
             "Górska Wies": (2, 0),
             "Przeczysty Strumień": (3, 0),
             "Złoty Las": (3, 2),
+            "Starożytne Ruiny": (3, 3),
             "Łyse Łąki": (1, 4),
             "Czyste Jezioro": (2, 1),
             "Dzikie Bory": (2, 3),
@@ -45,12 +49,16 @@ class WorldMap:
         woods_image = pygame.image.load(get_asset_path("lands/woods.png"))
         forest_image = pygame.image.load(get_asset_path("lands/forest.png"))
         village_image = pygame.image.load(get_asset_path("lands/mountain_village.png"))
+
         magic_lake_image = pygame.image.load(get_asset_path("lands/magic_lake.png"))
         river_image = pygame.image.load(get_asset_path("lands/river.png"))
         bridge_image = pygame.image.load(get_asset_path("lands/bridge.png"))
         rushing_river_image = pygame.image.load(get_asset_path("lands/rushing_river.png"))
         mountain_stream_image = pygame.image.load(get_asset_path("lands/mountain_stream.png"))
         mountains_image = pygame.image.load(get_asset_path("lands/mountains.png"))
+
+        ancient_ruins_image = pygame.image.load(get_asset_path("lands/ancient_ruins.png"))
+        golden_forest_image = pygame.image.load(get_asset_path("lands/golden_forest.png"))
 
         mysterious_bay_image = pygame.image.load(get_asset_path("lands/mysterious_bay.png"))
         wild_shores_image = pygame.image.load(get_asset_path("lands/wild_shores.png"))
@@ -63,7 +71,6 @@ class WorldMap:
         ice_realm_image = pygame.image.load(get_asset_path("lands/ice_realm.png"))
         grey_rocks_image = pygame.image.load(get_asset_path("lands/grey_rocks.png"))
         dry_ravine_image = pygame.image.load(get_asset_path("lands/dry_ravine.png"))
-        golden_forest_image = pygame.image.load(get_asset_path("lands/golden_forest.png"))
         magma_hills_image = pygame.image.load(get_asset_path("lands/magma_hills.png"))
 
         self.land_images = {
@@ -82,6 +89,7 @@ class WorldMap:
             "Most": pygame.transform.smoothscale(bridge_image, (100, 100)),
             "Rwąca Rzeka": pygame.transform.smoothscale(rushing_river_image, (100, 100)),
             "Złoty Las": pygame.transform.smoothscale(golden_forest_image, (100, 100)),
+            "Starożytne Ruiny": pygame.transform.smoothscale(ancient_ruins_image, (100, 100)),
             "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (100, 100)),
             "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (100, 100)),
             "Dzikie Bory": pygame.transform.smoothscale(wild_forest_image, (100, 100)),
@@ -109,6 +117,7 @@ class WorldMap:
             "Górska Wies": pygame.transform.smoothscale(village_image, (realm_dim, realm_dim)),
             "Przeczysty Strumień": pygame.transform.smoothscale(mountain_stream_image, (realm_dim, realm_dim)),
             "Złoty Las": pygame.transform.smoothscale(golden_forest_image, (realm_dim, realm_dim)),
+            "Starożytne Ruiny": pygame.transform.smoothscale(ancient_ruins_image, (realm_dim, realm_dim)),
             "Rzeka": pygame.transform.smoothscale(river_image, (realm_dim, realm_dim)),
             "Most": pygame.transform.smoothscale(bridge_image, (realm_dim, realm_dim)),
             "Rwąca Rzeka": pygame.transform.smoothscale(rushing_river_image, (realm_dim, realm_dim)),
@@ -126,6 +135,7 @@ class WorldMap:
 
         self.forbidden_lands = {
             "Mglista Puszcza": 50,
+            "Starożytne Ruiny": 50,
             "Łyse Łąki": 100,
             "Dzikie Brzegi": 100,
             "Tajemnicza Zatoka": 100,
@@ -142,6 +152,7 @@ class WorldMap:
             "Bór": "",
             "Lasy": "",
             "Złoty Las": "Zamieszkane przez elfy, gotowe pomóc.",
+            "Starożytne Ruiny": "",
             "Czyste Jezioro": "",
             "Góry": "",
             "Górska Wies": "",
@@ -168,31 +179,32 @@ class WorldMap:
                 self.selected_land = land
                 break
 
-        self.enter_button = pygame.Rect(WIDTH / 2, HEIGHT - 60, 220, 40)
-        self.inventory_button = pygame.Rect(20, HEIGHT - 60, 150, 40)
+        self.enter_button = pygame.Rect(self.offset_x + WIDTH / 2, HEIGHT - 60, 220, 40)
+        self.inventory_button = pygame.Rect(self.offset_x + 20, HEIGHT - 60, 150, 40)
 
     def draw(self, screen):
         screen.fill((50, 50, 50))
         for col in range(self.cols):
             for row in range(self.rows):
                 pygame.draw.rect(screen, (100, 100, 100),
-                                 (col * self.grid_size, row * self.grid_size, self.grid_size, self.grid_size), 1)
+                                 (self.offset_x + col * self.grid_size, self.offset_y + row * self.grid_size, self.grid_size,
+                                  self.grid_size), 1)
 
         for land, (col, row) in self.lands.items():
-            screen.blit(self.land_images[land], (col * self.grid_size, row * self.grid_size))
+            screen.blit(self.land_images[land], (self.offset_x + col * self.grid_size, self.offset_y + row * self.grid_size))
 
-        screen.blit(self.player.realm_sprite, (self.player.x, self.player.y))
+        screen.blit(self.player.realm_sprite, (self.offset_x + self.player.x, self.offset_y + self.player.y))
 
         if self.selected_land:
-            screen.blit(self.realm_images[self.selected_land], (WIDTH / 2 + 40, 20))
+            screen.blit(self.realm_images[self.selected_land], (self.offset_x + WIDTH / 2 + 40, self.offset_y + 20))
             font = pygame.font.SysFont(None, 40)
             land_text = font.render(self.selected_land, True, WHITE)
-            screen.blit(land_text, (WIDTH / 2 + 40, 680))
+            screen.blit(land_text, (self.offset_x + WIDTH / 2 + 40, self.offset_y + 680))
             description_font = pygame.font.SysFont(None, 30)
-            wrapped_text = wrap_text(self.land_descriptions[self.selected_land], description_font, 400)
+            wrapped_text = wrap_text(self.land_descriptions[self.selected_land], description_font, WIDTH / 2 - self.offset_x)
             for i, line in enumerate(wrapped_text):
                 desc_surface = description_font.render(line, True, WHITE)
-                screen.blit(desc_surface, (WIDTH / 2 + 40, 710 + i * 25))
+                screen.blit(desc_surface, (self.offset_x + WIDTH / 2 + 40, self.offset_y + 720 + i * 25))
 
             if self.selected_land in self.forbidden_lands:
                 required_xp = self.forbidden_lands[self.selected_land]
@@ -236,13 +248,13 @@ class WorldMap:
         font = pygame.font.SysFont(None, 30)
         pygame.draw.rect(screen, GREEN, self.enter_button)
         enter_text = font.render("Wejdź do krainy", True, WHITE)
-        screen.blit(enter_text, (WIDTH / 2 + 30, HEIGHT - 50))
+        screen.blit(enter_text, (self.offset_x + WIDTH / 2 + 30, HEIGHT - 50))
         return self.enter_button
 
     def block_realm(self, required_xp):
         font = pygame.font.SysFont(None, 30)
         lock_text = font.render(f"Zablokowane - wymaga {required_xp} XP", True, RED)
-        screen.blit(lock_text, (WIDTH / 2 + 30, HEIGHT - 50))
+        screen.blit(lock_text, (self.offset_x + WIDTH / 2 + 30, HEIGHT - 50))
         return(lock_text)
 
     def handle_event(self, event):
