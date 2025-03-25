@@ -24,6 +24,15 @@ def math_battle(player, enemy_type, selected_land):
         "Troll": 20, "Golem": 20, "Ork": 20
     }
 
+    damage = {
+        "Bees": 5,
+        "Gnom": 10,
+        "Wilk": 10, "Goblin": 10, "Grzybolud": 10,
+        "Spider": 15,
+        "Niedzwiedz": 20,
+        "Troll": 30, "Golem": 40, "Ork": 20
+    }
+
     if enemy_type == "Gnom":
         a, b = random.randint(1, 10), random.randint(1, 10)
         question = f"Ile to {a} + {b}?"
@@ -78,12 +87,14 @@ def math_battle(player, enemy_type, selected_land):
         elixir_buttons = []
         for idx, item in enumerate(player.inventory):
             if item == "Eliksir rozwiązania":
-                elixir_path = "assets/items/elixir_solution.png"
+                item_path = "assets/items/elixir_solution.png"
+            elif item == "Tarcza":
+                item_path = "assets/items/shield.png"
             else:
                 continue
 
-            if os.path.exists(elixir_path):
-                elixir_img = pygame.image.load(elixir_path)
+            if os.path.exists(item_path):
+                elixir_img = pygame.image.load(item_path)
                 elixir_img = pygame.transform.scale(elixir_img, (50, 50))
                 rect = pygame.Rect(50 + idx * 80, HEIGHT - 100, 50, 50)
                 elixir_buttons.append((rect, item, elixir_img))
@@ -115,7 +126,7 @@ def math_battle(player, enemy_type, selected_land):
 
                             return True
                         else:
-                            player.health -= 20
+                            player.health -= damage[enemy_type]
                     except ValueError:
                         pass
                     input_text = ""
