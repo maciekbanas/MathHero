@@ -6,6 +6,7 @@ from items import Berry
 from math_battle import math_battle
 from inventory import *
 from merchant import *
+from blacksmith import *
 from goblin_aviator import *
 from save_load import *
 from start import start_screen
@@ -183,6 +184,7 @@ def main(player, world_position = None, selected_land = None):
 
         merchant = Merchant()
         aviator = Aviator()
+        blacksmith = Blacksmith()
 
         clock = pygame.time.Clock()
         running = True
@@ -227,13 +229,23 @@ def main(player, world_position = None, selected_land = None):
                         player.health = min(100, player.health + 20)
                         berries.remove(berry)
 
+            show_merchant_button = False
+            show_aviator_button = False
+            show_blacksmith_button = False
+
             if selected_land in ["Zamek", "Wieża Maga"]:
                 merchant.draw(screen)
-                aviator.draw(screen)
                 if merchant.check_collision(player):
                     show_merchant_button = True
                 else:
                     show_merchant_button = False
+            elif selected_land == "Miasto":
+                aviator.draw(screen)
+                blacksmith.draw(screen)
+                if blacksmith.check_collision(player):
+                    show_blacksmith_button = True
+                else:
+                    show_blacksmith_button = False
 
                 if aviator.check_collision(player):
                     show_aviator_button = True
@@ -242,12 +254,16 @@ def main(player, world_position = None, selected_land = None):
             else:
                 show_merchant_button = False
                 show_aviator_button = False
+                show_blacksmith_button = False
 
             if show_merchant_button:
                 merchant_button = draw_merchant_button()
 
             if show_aviator_button:
                 aviator_button = draw_aviator_button()
+
+            if show_blacksmith_button:
+                blacksmith_button = draw_blacksmith_button()
 
             inventory_button, back_button = draw_ui_buttons()
             pygame.display.flip()
@@ -265,13 +281,15 @@ def main(player, world_position = None, selected_land = None):
                         show_merchant_menu(player)
                     if show_aviator_button and aviator_button.collidepoint(event.pos):
                         show_aviator_menu(player)
+                    if show_blacksmith_button and blacksmith_button.collidepoint(event.pos):
+                        show_blacksmith_menu(player)
                 elif event.type == pygame.KEYDOWN:
                     if show_merchant_button and event.key == pygame.K_RETURN:
                         show_merchant_menu(player)
-                    if event.key == pygame.K_s:  # klawisz S do zapisu
+                    if event.key == pygame.K_s:
                         save_game_state(player, world_position, selected_land)
                         show_message("Zapisany stan gry!")
-                    if event.key == pygame.K_l:  # klawisz L do ładowania
+                    if event.key == pygame.K_l:
                         state = load_game_state()
                         show_message("Załadowano grę!")
                         if state is not None:

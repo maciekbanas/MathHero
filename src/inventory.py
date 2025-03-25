@@ -69,8 +69,15 @@ def show_inventory(player):
         for item, count in inventory_count.items():
             if item == "Eliksir rozwiązania":
                 elixir_img = pygame.image.load("assets/items/elixir_solution.png")
-                elixir_img = pygame.transform.scale(elixir_img, (50, 50))
+                elixir_img = pygame.transform.smoothscale(elixir_img, (50, 50))
                 screen.blit(elixir_img, (elixir_x + idx * elixir_spacing, elixir_y))
+                count_text = font.render(f"x{count}", True, BLACK)
+                screen.blit(count_text, (elixir_x + idx * elixir_spacing + 40, elixir_y + 30))
+                idx += 1
+            if item == "Tarcza":
+                shield_img = pygame.image.load("assets/items/shield.png")
+                shield_img = pygame.transform.smoothscale(shield_img, (50, 50))
+                screen.blit(shield_img, (elixir_x + idx * elixir_spacing, elixir_y))
                 count_text = font.render(f"x{count}", True, BLACK)
                 screen.blit(count_text, (elixir_x + idx * elixir_spacing + 40, elixir_y + 30))
                 idx += 1
