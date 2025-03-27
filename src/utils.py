@@ -98,12 +98,19 @@ def draw_aviator_button():
     screen.blit(aviator_text, (aviator_button.x + 10, aviator_button.y + 10))
 
     return aviator_button
+
+
 def show_message(message):
     message_font = pygame.font.SysFont(None, 60)
     message_surface = message_font.render(message, True, BLACK)
     message_rect = message_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
-    screen.fill(WHITE)
+    padding = 20
+    box_rect = message_rect.inflate(padding * 2, padding * 2)
+
+    pygame.draw.rect(screen, WHITE, box_rect)
+    pygame.draw.rect(screen, BLACK, box_rect, 2)
+
     screen.blit(message_surface, message_rect)
     pygame.display.flip()
 
