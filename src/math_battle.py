@@ -93,6 +93,9 @@ def math_battle(player, enemy_type, selected_land):
     font_large = pygame.font.SysFont(None, 48)
     font_small = pygame.font.SysFont(None, 36)
 
+    if "Tarcza" in player.inventory and not hasattr(player, "shield_health"):
+        player.shield_health = 40
+
     def load_items():
         elixir_buttons = []
         for idx, item in enumerate(player.inventory):
@@ -132,11 +135,26 @@ def math_battle(player, enemy_type, selected_land):
                         if user_answer == correct_answer:
                             player.coins += coin_rewards.get(enemy_type, 0)
                             player.xp += xp_rewards.get(enemy_type, 0)
-                            show_message(f"Pokonałeś {enemy_type}. Zdobyłeś {coin_rewards[enemy_type]} monet oraz {xp_rewards[enemy_type]} punktów XP!")
-
+                            show_message(
+                                f"Pokonałeś {enemy_type}. Zdobyłeś {coin_rewards[enemy_type]} monet oraz {xp_rewards[enemy_type]} punktów XP!")
                             return True
                         else:
-                            player.health -= damage[enemy_type]
+                            dmg = damage[enemy_type]
+                            if "Tarcza" in player.inventory and hasattr(player,
+                                                                        "shield_health") and player.shield_health > 0:
+                                if player.shield_health >= dmg:
+                                    player.shield_health -= dmg
+                                    if player.shield_health == 0:
+                                        player.inventory.remove("Tarcza")
+                                        show_message("Tarcza uległa zniszczeniu!")
+                                else:
+                                    overflow = dmg - player.shield_health
+                                    player.shield_health = 0
+                                    player.inventory.remove("Tarcza")
+                                    show_message("Tarcza uległa zniszczeniu!")
+                                    player.health -= overflow
+                            else:
+                                player.health -= dmg
                     except ValueError:
                         pass
                     input_text = ""
@@ -164,6 +182,16 @@ def math_battle(player, enemy_type, selected_land):
         bar_y = hero_rect.y - 15
         pygame.draw.rect(screen, RED, (bar_x, bar_y, health_bar_width, health_bar_height))
         pygame.draw.rect(screen, GREEN, (bar_x, bar_y, health_bar_width * health_ratio, health_bar_height))
+
+        if "Tarcza" in player.inventory and hasattr(player, "shield_health") and player.shield_health > 0:
+            shield_bar_width = hero_sprite.get_width()
+            shield_bar_height = 10
+            shield_ratio = player.shield_health / 40.0
+            shield_bar_x = hero_rect.x
+            shield_bar_y = hero_rect.y - 30
+            pygame.draw.rect(screen, (128, 128, 128), (shield_bar_x, shield_bar_y, shield_bar_width, shield_bar_height))
+            pygame.draw.rect(screen, (0, 0, 255),
+                             (shield_bar_x, shield_bar_y, shield_bar_width * shield_ratio, shield_bar_height))
 
         for rect, _, elixir_img in elixir_buttons:
             screen.blit(elixir_img, rect.topleft)
