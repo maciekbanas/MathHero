@@ -53,8 +53,19 @@ def main(player, world_position = None, selected_land = None):
         selected_land, world_position = show_world_map(map_player, player, world_position)
         print(f"Gracz wszedł do: {selected_land}")
 
-        if selected_land in ["Lasy", "Bór"]:
-            enemy_types = ["Gnom", "Bees", "Niedzwiedz"]
+        if selected_land == "Lasy":
+            enemy_types = ["Gnom", "Grzybołak", "Bees", "Wilk"]
+            enemies_number = 6
+            background_color = (244, 241, 232)
+            obstacle_image = tree_image
+            obstacle_positions = {
+                (2, 2), (3, 4), (3, 5), (5, 6), (7, 2), (2, 8),
+                (6, 6), (6, 7), (7, 7), (10, 8),
+                (13, 5), (13, 6),
+                (15, 1), (15, 2), (16, 2), (16, 3)
+            }
+        elif selected_land == "Bór":
+            enemy_types = ["Gnom", "Grzybołak", "Wilk", "Bees", "Niedzwiedz"]
             enemies_number = 6
             background_color = (244, 241, 232)
             obstacle_image = tree_image
@@ -65,7 +76,7 @@ def main(player, world_position = None, selected_land = None):
                 (15, 1), (15, 2), (16, 2), (16, 3)
             }
         elif selected_land in ["Dzikie Bory"]:
-            enemy_types = ["Gnom", "Niedzwiedz", "Goblin"]
+            enemy_types = ["Gnom", "Grzybołak", "Niedzwiedz", "Goblin"]
             enemies_number = 7
             background_color = (244, 241, 232)
             obstacle_image = tree_image
@@ -156,6 +167,14 @@ def main(player, world_position = None, selected_land = None):
             obstacle_positions = {
                 (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
             }
+        elif selected_land == "Wyschły Wąwóz":
+            enemy_types = ["Ork", "Szkielet"]
+            enemies_number = 7
+            background_color = (244, 241, 232)
+            obstacle_image = rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+            }
         else:
             enemy_types = ["Wilk"]
             enemies_number = 6
@@ -175,7 +194,7 @@ def main(player, world_position = None, selected_land = None):
         else:
             enemies = []
 
-        if not selected_land in ["Zamek", "Stalowe Wyżyny"]:
+        if not selected_land in ["Zamek", "Stalowe Wyżyny", "Wyschły Wąwóz"]:
             berries = [
                 Berry(*get_valid_random_position(obstacle_positions)) for _ in range(3)
             ]

@@ -24,9 +24,11 @@ enemy_sprites = {
     "Bees": pygame.image.load(get_asset_path(os.path.join("enemies", "bees.png"))),
     "Ork": pygame.image.load(get_asset_path(os.path.join("enemies", "orc.png"))),
     "Troll": pygame.image.load(get_asset_path(os.path.join("enemies", "troll.png"))),
+    "Grzybołak": pygame.image.load(get_asset_path(os.path.join("enemies", "mushroom_creature.png"))),
     "Grzybolud": pygame.image.load(get_asset_path(os.path.join("enemies", "mushroomkin.png"))),
     "Wilk": pygame.image.load(get_asset_path(os.path.join("enemies", "wolf.png"))),
-    "Niedzwiedz": pygame.image.load(get_asset_path(os.path.join("enemies", "bear.png")))
+    "Niedzwiedz": pygame.image.load(get_asset_path(os.path.join("enemies", "bear.png"))),
+    "Szkielet": pygame.image.load(get_asset_path(os.path.join("enemies", "skeleton_warrior.png")))
 }
 
 enemy_fig_sprites = {
@@ -37,7 +39,9 @@ enemy_fig_sprites = {
     "Bees": pygame.image.load(get_asset_path(os.path.join("enemies", "bees_fig.png"))),
     "Ork": pygame.image.load(get_asset_path(os.path.join("enemies", "orc_fig.png"))),
     "Troll": pygame.image.load(get_asset_path(os.path.join("enemies", "troll_fig.png"))),
+    "Grzybołak": pygame.image.load(get_asset_path(os.path.join("enemies", "mushroom_creature_fig.png"))),
     "Grzybolud": pygame.image.load(get_asset_path(os.path.join("enemies", "mushroomkin_fig.png"))),
     "Wilk": pygame.image.load(get_asset_path(os.path.join("enemies", "wolf_fig.png"))),
-    "Niedzwiedz": pygame.image.load(get_asset_path(os.path.join("enemies", "bear_fig.png")))
+    "Niedzwiedz": pygame.image.load(get_asset_path(os.path.join("enemies", "bear_fig.png"))),
+    "Szkielet": pygame.image.load(get_asset_path(os.path.join("enemies", "skeleton_warrior_fig.png")))
 }

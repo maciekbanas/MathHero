@@ -11,24 +11,24 @@ def math_battle(player, enemy_type, selected_land):
 
     coin_rewards = {
         "Bees": 0,
-        "Goblin": 10, "Grzybolud": 5, "Wilk": 5,
+        "Goblin": 10, "Grzybolak": 10, "Grzybolud": 5, "Wilk": 5,
         "Niedzwiedz": 0,
-        "Gnom": 5, "Spider": 10,
+        "Gnom": 5, "Spider": 10, "Szkielet": 10,
         "Troll": 20, "Golem": 20, "Ork": 20
     }
     xp_rewards = {
         "Bees": 5,
-        "Goblin": 10, "Grzybolud": 5, "Wilk": 5,
+        "Goblin": 10, "Grzybolud": 5, "Grzybolak": 5, "Wilk": 5,
         "Niedzwiedz": 10,
-        "Gnom": 5, "Spider": 10,
+        "Gnom": 5, "Spider": 10, "Szkielet": 10,
         "Troll": 20, "Golem": 20, "Ork": 20
     }
 
     damage = {
         "Bees": 5,
         "Gnom": 10,
-        "Wilk": 10, "Goblin": 10, "Grzybolud": 10,
-        "Spider": 15,
+        "Wilk": 10, "Goblin": 10, "Grzybolak": 10, "Grzybolud": 10,
+        "Spider": 15, "Szkielet": 15,
         "Niedzwiedz": 20,
         "Troll": 30, "Golem": 40, "Ork": 20
     }
@@ -53,6 +53,12 @@ def math_battle(player, enemy_type, selected_land):
         a, b = random.randint(10, 30), random.randint(10, 30)
         question = f"Ile to {a} + {b}?"
         correct_answer = a + b
+    elif enemy_type == "Grzybołak":
+        a, b = random.randint(1, 10), random.randint(0, 5)
+        if a < b:
+            a, b = b, a
+        question = f"Ile to {a} - {b}?"
+        correct_answer = a - b
     elif enemy_type == "Grzybolud":
         a, b = random.randint(6, 30), random.randint(6, 20)
         if a < b:
@@ -66,6 +72,10 @@ def math_battle(player, enemy_type, selected_land):
         correct_answer = a * b
     elif enemy_type == "Ork":
         a, b = random.randint(1, 10), random.randint(1, 10)
+        question = f"Ile to {a} x {b}?"
+        correct_answer = a * b
+    elif enemy_type == "Szkielet":
+        a, b = random.randint(1, 5), random.randint(1, 5)
         question = f"Ile to {a} x {b}?"
         correct_answer = a * b
     else:
@@ -83,7 +93,7 @@ def math_battle(player, enemy_type, selected_land):
     font_large = pygame.font.SysFont(None, 48)
     font_small = pygame.font.SysFont(None, 36)
 
-    def load_elixirs():
+    def load_items():
         elixir_buttons = []
         for idx, item in enumerate(player.inventory):
             if item == "Eliksir rozwiązania":
@@ -95,12 +105,12 @@ def math_battle(player, enemy_type, selected_land):
 
             if os.path.exists(item_path):
                 elixir_img = pygame.image.load(item_path)
-                elixir_img = pygame.transform.scale(elixir_img, (50, 50))
-                rect = pygame.Rect(50 + idx * 80, HEIGHT - 100, 50, 50)
+                elixir_img = pygame.transform.smoothscale(elixir_img, (80, 80))
+                rect = pygame.Rect(50 + idx * 80, HEIGHT - 100, 80, 80)
                 elixir_buttons.append((rect, item, elixir_img))
         return elixir_buttons
 
-    elixir_buttons = load_elixirs()
+    elixir_buttons = load_items()
 
     while battle_active:
         screen.fill((200, 200, 200))
@@ -142,7 +152,7 @@ def math_battle(player, enemy_type, selected_land):
                         if item == "Eliksir rozwiązania":
                             input_text = str(correct_answer)
                             player.inventory.remove(item)
-                        elixir_buttons = load_elixirs()  # Update buttons
+                        elixir_buttons = load_items()
 
         screen.blit(hero_sprite, hero_rect)
         screen.blit(enemy_sprite, enemy_rect)
