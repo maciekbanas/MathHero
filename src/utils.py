@@ -78,6 +78,7 @@ def draw_quit_button():
     pygame.draw.rect(screen, (200, 50, 50), quit_button)
     quit_text = font_buttons.render("Zakończ", True, WHITE)
     screen.blit(quit_text, (WIDTH - 145, HEIGHT - 50))
+    return quit_button
 
 def draw_merchant_button():
     font = pygame.font.SysFont(None, 40)
@@ -88,6 +89,18 @@ def draw_merchant_button():
     screen.blit(merchant_text, (merchant_button.x + 10, merchant_button.y + 10))
 
     return merchant_button
+
+
+def draw_blacksmith_button():
+    font = pygame.font.SysFont(None, 40)
+    merchant_text = font.render("Kowal", True, BLACK)
+    merchant_button = pygame.Rect(WIDTH/2 - 100, HEIGHT - 70, 180, 50)
+    pygame.draw.rect(screen, (200, 200, 50), merchant_button)
+    pygame.draw.rect(screen, BLACK, merchant_button, 2)
+    screen.blit(merchant_text, (merchant_button.x + 50, merchant_button.y + 10))
+
+    return merchant_button
+
 
 def draw_aviator_button():
     font = pygame.font.SysFont(None, 40)
