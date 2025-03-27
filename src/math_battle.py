@@ -147,11 +147,13 @@ def math_battle(player, enemy_type, selected_land):
                                     if player.shield_health == 0:
                                         player.inventory.remove("Tarcza")
                                         show_message("Tarcza uległa zniszczeniu!")
+                                        elixir_buttons = load_items()
                                 else:
                                     overflow = dmg - player.shield_health
                                     player.shield_health = 0
                                     player.inventory.remove("Tarcza")
                                     show_message("Tarcza uległa zniszczeniu!")
+                                    elixir_buttons = load_items()
                                     player.health -= overflow
                             else:
                                 player.health -= dmg
