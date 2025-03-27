@@ -135,6 +135,14 @@ def main(player, world_position = None, selected_land = None):
             obstacle_positions = {
                 (10, 10), (3, 3), (4, 3), (7, 8)
             }
+        elif selected_land == "Starożytne Ruiny":
+            enemy_types = ["Grzybołak", "Niedzwiedz", "Troll"]
+            enemies_number = 6
+            background_color = (244, 241, 232)
+            obstacle_image = tree_image
+            obstacle_positions = {
+                (10, 10), (3, 3), (4, 3), (7, 8)
+            }
         elif selected_land == "Grzybowe Bagna":
             enemy_types = ["Spider", "Grzybolud"]
             enemies_number = 8
@@ -159,7 +167,33 @@ def main(player, world_position = None, selected_land = None):
             obstacle_positions = {
                 (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
             }
+        elif selected_land == "Most":
+            enemy_types = ["Wilk"]
+            enemies_number = 4
+            background_color = (244, 241, 232)
+            obstacle_image = rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+            }
+            guard_image = load_and_resize("places/guard_tower.png", 200, 200)
+            guard_position = (8, 4)
         elif selected_land == "Łyse Łąki":
+            enemy_types = ["Ork", "Goblin"]
+            enemies_number = 7
+            background_color = (244, 241, 232)
+            obstacle_image = rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+            }
+        elif selected_land == "Krwawe Wzgórza":
+            enemy_types = ["Ork"]
+            enemies_number = 10
+            background_color = (244, 241, 232)
+            obstacle_image = rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+            }
+        elif selected_land == "Dzikie Brzegi":
             enemy_types = ["Ork", "Goblin"]
             enemies_number = 7
             background_color = (244, 241, 232)
@@ -170,6 +204,24 @@ def main(player, world_position = None, selected_land = None):
         elif selected_land == "Wyschły Wąwóz":
             enemy_types = ["Ork", "Szkielet"]
             enemies_number = 7
+            background_color = (244, 241, 232)
+            obstacle_image = rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+            }
+        elif selected_land == "Szare Skały":
+            enemy_types = ["Szkielet"]
+            enemies_number = 7
+            background_color = (244, 241, 232)
+            obstacle_image = rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6),
+                (10, 8), (10, 9), (8, 2), (8, 4), (9, 6),
+                (16, 4), (15, 7), (18, 9)
+            }
+        elif selected_land == "Wieża Maga":
+            enemy_types = ["Szkielet", "Golem"]
+            enemies_number = 5
             background_color = (244, 241, 232)
             obstacle_image = rock_image
             obstacle_positions = {
@@ -194,7 +246,7 @@ def main(player, world_position = None, selected_land = None):
         else:
             enemies = []
 
-        if not selected_land in ["Zamek", "Stalowe Wyżyny", "Wyschły Wąwóz"]:
+        if not selected_land in ["Zamek", "Stalowe Wyżyny", "Wyschły Wąwóz", "Szare Skały", "Wieża Maga"]:
             berries = [
                 Berry(*get_valid_random_position(obstacle_positions)) for _ in range(3)
             ]
@@ -252,6 +304,9 @@ def main(player, world_position = None, selected_land = None):
             show_aviator_button = False
             show_blacksmith_button = False
 
+            if selected_land == "Most":
+                screen.blit(guard_image, (guard_position[0] * grid_size, guard_position[1] * grid_size))
+
             if selected_land in ["Zamek", "Wieża Maga"]:
                 merchant.draw(screen)
                 if merchant.check_collision(player):
@@ -305,6 +360,10 @@ def main(player, world_position = None, selected_land = None):
                 elif event.type == pygame.KEYDOWN:
                     if show_merchant_button and event.key == pygame.K_RETURN:
                         show_merchant_menu(player)
+                    if show_aviator_button and event.key == pygame.K_RETURN:
+                        show_aviator_menu(player)
+                    if show_blacksmith_button and event.key == pygame.K_RETURN:
+                        show_blacksmith_menu(player)
                     if event.key == pygame.K_s:
                         save_game_state(player, world_position, selected_land)
                         show_message("Zapisany stan gry!")

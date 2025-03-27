@@ -32,6 +32,7 @@ class WorldMap:
             "Złoty Las": (3, 2),
             "Starożytne Ruiny": (3, 3),
             "Łyse Łąki": (1, 4),
+            "Krwawe Wzgórza": (1, 5),
             "Czyste Jezioro": (2, 1),
             "Dzikie Bory": (2, 3),
             "Mglista Puszcza": (2, 4),
@@ -64,6 +65,7 @@ class WorldMap:
         wild_shores_image = pygame.image.load(get_asset_path("lands/wild_shores.png"))
         wizard_tower_image = pygame.image.load(get_asset_path("lands/wizard_tower.png"))
         bald_meadows_image = pygame.image.load(get_asset_path("lands/bald_meadows.png"))
+        withering_hills_image = pygame.image.load(get_asset_path("lands/withering_heights.png"))
         wild_forest_image = pygame.image.load(get_asset_path("lands/wild_forest.png"))
         goblin_forest_image = pygame.image.load(get_asset_path("lands/dark_forest.png"))
         mushroom_swamps_image = pygame.image.load(get_asset_path("lands/mushroom_swamps.png"))
@@ -92,6 +94,7 @@ class WorldMap:
             "Starożytne Ruiny": pygame.transform.smoothscale(ancient_ruins_image, (100, 100)),
             "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (100, 100)),
             "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (100, 100)),
+            "Krwawe Wzgórza": pygame.transform.smoothscale(withering_hills_image, (100, 100)),
             "Dzikie Bory": pygame.transform.smoothscale(wild_forest_image, (100, 100)),
             "Mglista Puszcza": pygame.transform.smoothscale(goblin_forest_image, (100, 100)),
             "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (100, 100)),
@@ -123,6 +126,7 @@ class WorldMap:
             "Rwąca Rzeka": pygame.transform.smoothscale(rushing_river_image, (realm_dim, realm_dim)),
             "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (realm_dim, realm_dim)),
             "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (realm_dim, realm_dim)),
+            "Krwawe Wzgórza": pygame.transform.smoothscale(withering_hills_image, (realm_dim, realm_dim)),
             "Dzikie Bory": pygame.transform.smoothscale(wild_forest_image, (realm_dim, realm_dim)),
             "Mglista Puszcza": pygame.transform.smoothscale(goblin_forest_image, (realm_dim, realm_dim)),
             "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (realm_dim, realm_dim)),
@@ -134,15 +138,19 @@ class WorldMap:
         }
 
         self.forbidden_lands = {
-            "Mglista Puszcza": 50,
-            "Starożytne Ruiny": 50,
-            "Łyse Łąki": 100,
-            "Dzikie Brzegi": 100,
-            "Tajemnicza Zatoka": 100,
-            "Grzybowe Bagna": 100,
-            "Stalowe Wyżyny": 200,
-            "Szare Skały": 200,
-            "Wyschły Wąwóz": 200
+            "Dzikie Bory": 100,
+            "Mglista Puszcza": 150,
+            "Starożytne Ruiny": 150,
+            "Łyse Łąki": 150,
+            "Dzikie Brzegi": 150,
+            "Krwawe Wzgórza": 200,
+            "Tajemnicza Zatoka": 200,
+            "Grzybowe Bagna": 250,
+            "Stalowe Wyżyny": 250,
+            "Szare Skały": 300,
+            "Wyschły Wąwóz": 300,
+            "Magmowe Wzgórza": 500,
+            "Lodowa Kraina": 500
         }
 
         self.land_descriptions = {
@@ -164,6 +172,7 @@ class WorldMap:
             "Tajemnicza Zatoka": "",
             "Wieża Maga": "",
             "Łyse Łąki": "Pełne niebezpiecznych maruderów.",
+            "Krwawe Wzgórza": "Zamieszkane przez dumnych i wojowniczych orków",
             "Dzikie Bory": "",
             "Mglista Puszcza": "Gęste, tajemnicze lasy pełne goblinów, gnomów i trolli. Idealne do ćwiczenia dodawania.",
             "Grzybowe Bagna": "Mroczne, wilgotne bagna zamieszkałe przez gobliny i tajemnicze grzyboludy. Nauka odejmowania jest kluczowa, by przetrwać.",
@@ -187,8 +196,9 @@ class WorldMap:
         for col in range(self.cols):
             for row in range(self.rows):
                 pygame.draw.rect(screen, (100, 100, 100),
-                                 (self.offset_x + col * self.grid_size, self.offset_y + row * self.grid_size, self.grid_size,
-                                  self.grid_size), 1)
+                                 (self.offset_x + col * self.grid_size,
+                                  self.offset_y + row * self.grid_size,
+                                  self.grid_size, self.grid_size), 1)
 
         for land, (col, row) in self.lands.items():
             screen.blit(self.land_images[land], (self.offset_x + col * self.grid_size, self.offset_y + row * self.grid_size))
@@ -219,7 +229,7 @@ class WorldMap:
         pygame.draw.rect(screen, (0, 150, 200), self.inventory_button)
         font = pygame.font.SysFont(None, 30)
         inventory_text = font.render("Ekwipunek", True, WHITE)
-        screen.blit(inventory_text, (35, HEIGHT - 50))
+        screen.blit(inventory_text, (self.offset_x + 35, HEIGHT - 50))
         self.quit_button = draw_quit_button()
 
     def move_player(self, direction):
@@ -251,12 +261,6 @@ class WorldMap:
         screen.blit(enter_text, (self.offset_x + WIDTH / 2 + 30, HEIGHT - 50))
         return self.enter_button
 
-    def block_realm(self, required_xp):
-        font = pygame.font.SysFont(None, 30)
-        lock_text = font.render(f"Zablokowane - wymaga {required_xp} XP", True, RED)
-        screen.blit(lock_text, (self.offset_x + WIDTH / 2 + 30, HEIGHT - 50))
-        return(lock_text)
-
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
@@ -270,7 +274,7 @@ class WorldMap:
             elif event.key == pygame.K_RETURN:
                 if self.selected_land:
                     if (self.selected_land in self.forbidden_lands and
-                            self.player_game.xp < self.forbidden_lands[self.selected_land]):
+                        self.player_game.xp < self.forbidden_lands[self.selected_land]):
                         return None
                     return self.selected_land
             return None
@@ -298,6 +302,7 @@ def show_world_map(player, player_game, start_position):
         screen.fill((0, 0, 0))
         world_map.draw(screen)
         pygame.display.flip()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
