@@ -24,7 +24,7 @@ def show_merchant_menu(player):
     menu_width, menu_height = 450, 400
     menu_x, menu_y = (WIDTH - menu_width) // 2, (HEIGHT - menu_height) // 2
     buy_elixir_img = pygame.image.load(get_asset_path("items/elixir_solution.png"))
-    buy_elixir_img = pygame.transform.scale(buy_elixir_img, (100, 100))
+    buy_elixir_img = pygame.transform.smoothscale(buy_elixir_img, (100, 100))
     close_button = pygame.Rect(menu_x + 320, menu_y + 360, 100, 30)
     buy_button = pygame.Rect(menu_x + 40, menu_y + 360, 100, 30)
     elixir_button = pygame.Rect(menu_x + 50, menu_y + 190, 100, 100)
