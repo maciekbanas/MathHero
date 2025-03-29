@@ -220,8 +220,8 @@ def main(player, world_position = None, selected_land = None):
                 (16, 4), (15, 7), (18, 9)
             }
         elif selected_land == "Wieża Maga":
-            enemy_types = ["Szkielet", "Golem"]
-            enemies_number = 5
+            enemy_types = ["Mag", "Mag Ognia", "Golem"]
+            enemies_number = 8
             background_color = (244, 241, 232)
             obstacle_image = rock_image
             obstacle_positions = {

@@ -3,34 +3,70 @@ from constants import *
 from utils import show_message
 import os
 
+import pygame
+import math
+
+def draw_clock(surface, center, radius, hour, minute):
+    pygame.draw.circle(surface, (255, 255, 255), center, radius)
+    pygame.draw.circle(surface, (0, 0, 0), center, radius, 3)
+
+    for h in range(12):
+        angle = math.radians(h * 30 - 90)  # co 30 stopni
+        x = center[0] + int(math.cos(angle) * (radius - 10))
+        y = center[1] + int(math.sin(angle) * (radius - 10))
+        pygame.draw.circle(surface, (0, 0, 0), (x, y), 4)
+
+    # Wskazówka minutowa
+    minute_angle = math.radians(minute * 6 - 90)  # 360/60 = 6 stopni na minutę
+    minute_x = center[0] + int(math.cos(minute_angle) * (radius - 20))
+    minute_y = center[1] + int(math.sin(minute_angle) * (radius - 20))
+    pygame.draw.line(surface, (0, 0, 0), center, (minute_x, minute_y), 3)
+
+    # Wskazówka godzinowa
+    hour_angle = math.radians((hour % 12 + minute / 60) * 30 - 90)  # 360/12 = 30 stopni na godzinę
+    hour_x = center[0] + int(math.cos(hour_angle) * (radius - 40))
+    hour_y = center[1] + int(math.sin(hour_angle) * (radius - 40))
+    pygame.draw.line(surface, (0, 0, 0), center, (hour_x, hour_y), 5)
+
+    # Środek zegara
+    pygame.draw.circle(surface, (0, 0, 0), center, 5)
+
 def math_battle(player, enemy_type, selected_land):
     """
     Displays the battle screen and awards coins for winning.
     """
     import random
 
+    hour_input = ""
+    minute_input = ""
+    active_field = "hour"  # lub "minute"
+    max_length = 2
+
     coin_rewards = {
         "Bees": 0,
-        "Goblin": 10, "Grzybolak": 10, "Grzybolud": 5, "Wilk": 5,
+        "Goblin": 10, "Grzybołak": 5, "Grzybolud": 5, "Wilk": 5,
         "Niedzwiedz": 0,
         "Gnom": 5, "Spider": 10, "Szkielet": 10,
-        "Troll": 20, "Golem": 20, "Ork": 20
+        "Troll": 20, "Golem": 20, "Ork": 20,
+        "Mag": 30
     }
     xp_rewards = {
         "Bees": 5,
-        "Goblin": 10, "Grzybolud": 5, "Grzybolak": 5, "Wilk": 5,
+        "Goblin": 10, "Grzybolud": 5, "Grzybołak": 5, "Wilk": 5,
         "Niedzwiedz": 10,
         "Gnom": 5, "Spider": 10, "Szkielet": 10,
-        "Troll": 20, "Golem": 20, "Ork": 20
+        "Troll": 20, "Golem": 20, "Ork": 20,
+        "Mag": 50
     }
 
     damage = {
         "Bees": 5,
         "Gnom": 10,
-        "Wilk": 10, "Goblin": 10, "Grzybolak": 10, "Grzybolud": 10,
+        "Wilk": 10, "Goblin": 10, "Grzybołak": 10, "Grzybolud": 10,
         "Spider": 15, "Szkielet": 15,
         "Niedzwiedz": 20,
-        "Troll": 30, "Golem": 40, "Ork": 20
+        "Troll": 30, "Golem": 30, "Ork": 20,
+        "Mag": 30
     }
 
     if enemy_type == "Gnom":
@@ -78,6 +114,18 @@ def math_battle(player, enemy_type, selected_land):
         a, b = random.randint(1, 5), random.randint(1, 5)
         question = f"Ile to {a} x {b}?"
         correct_answer = a * b
+    elif enemy_type in ["Zjawa", "Upiór"]:
+        divisor = random.randint(2, 10)
+        quotient = random.randint(1, 10)
+        dividend = divisor * quotient
+        question = f"Ile to {dividend} ÷ {divisor}?"
+        correct_answer = quotient
+    elif enemy_type == "Mag":
+        hour = random.randint(1, 12)
+        minute = random.choice([0, 15, 30, 45])
+        question = "Która jest godzina na zegarze?"
+        correct_answer = f"{hour:02}:{minute:02}"
+        clock_time = (hour, minute)
     else:
         a = random.randint(2, 10)
         b = random.randint(2, min(30 // a, 10))
@@ -122,16 +170,28 @@ def math_battle(player, enemy_type, selected_land):
         hero_rect = hero_sprite.get_rect(center=(WIDTH // 4, HEIGHT // 2))
         enemy_rect = enemy_sprite.get_rect(center=(3 * WIDTH // 4, HEIGHT // 2))
 
+        if enemy_type == "Mag":
+            draw_clock(screen, (WIDTH // 2, HEIGHT // 2), 120, *clock_time)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
-                    input_text = input_text[:-1]
+                    if enemy_type == "Mag":
+                        if active_field == "minute" and minute_input:
+                            minute_input = minute_input[:-1]
+                        elif active_field == "hour" and hour_input:
+                            hour_input = hour_input[:-1]
+                    else:
+                        input_text = input_text[:-1]
                 elif event.key == pygame.K_RETURN:
                     try:
-                        user_answer = int(input_text)
+                        if enemy_type == "Mag":
+                            user_answer = f"{int(hour_input):02}:{int(minute_input):02}"
+                        else:
+                            user_answer = int(input_text)
                         if user_answer == correct_answer:
                             player.coins += coin_rewards.get(enemy_type, 0)
                             player.xp += xp_rewards.get(enemy_type, 0)
@@ -165,7 +225,20 @@ def math_battle(player, enemy_type, selected_land):
                         pygame.quit()
                 else:
                     if event.unicode.isdigit():
-                        input_text += event.unicode
+                        if enemy_type == "Mag":
+                            if active_field == "hour" and len(hour_input) < max_length:
+                                hour_input += event.unicode
+                                if len(hour_input) == max_length:
+                                    active_field = "minute"
+                            elif active_field == "minute" and len(minute_input) < max_length:
+                                minute_input += event.unicode
+                        else:
+                            input_text += event.unicode
+                    elif event.key in [pygame.K_RIGHT, pygame.K_LEFT]:
+                        if active_field == "hour":
+                            active_field = "minute"
+                        else:
+                            active_field = "hour"
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for rect, item, _ in elixir_buttons:
                     if rect.collidepoint(event.pos):
@@ -200,9 +273,19 @@ def math_battle(player, enemy_type, selected_land):
 
         question_surface = font_large.render(question, True, BLACK)
         screen.blit(question_surface, (WIDTH // 2, HEIGHT // 4))
-        input_prompt = "Odpowiedź: " + input_text
-        input_surface = font_small.render(input_prompt, True, BLACK)
-        screen.blit(input_surface, (WIDTH // 2, 3 * HEIGHT // 4))
+        if enemy_type == "Mag":
+            input_prompt = f"Odpowiedź: {hour_input: <2}:{minute_input: <2}"
+            color = (0, 0, 0)
+            if active_field == "hour":
+                input_prompt = f"[{hour_input: <2}]:{minute_input: <2}"
+            else:
+                input_prompt = f"{hour_input: <2}:[{minute_input: <2}]"
+            input_surface = font_small.render(input_prompt, True, BLACK)
+            screen.blit(input_surface, (WIDTH // 2 - 50, 3 * HEIGHT // 4))
+        else:
+            input_prompt = "Odpowiedź: " + input_text
+            input_surface = font_small.render(input_prompt, True, BLACK)
+            screen.blit(input_surface, (WIDTH // 2, 3 * HEIGHT // 4))
 
         pygame.display.flip()
         clock.tick(30)
