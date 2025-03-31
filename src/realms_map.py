@@ -2,7 +2,7 @@ from utils import *
 from inventory import show_inventory
 
 class WorldMap:
-    def __init__(self, player, player_game, start_position=(1, 1)):
+    def __init__(self, player, player_game, completed_realms, start_position=(1, 1)):
         self.grid_size = 100
         self.cols, self.rows = 8, 8
         self.map_width = self.cols * self.grid_size
@@ -14,6 +14,11 @@ class WorldMap:
 
         self.offset_x = (WIDTH - self.map_width) // 10
         self.offset_y = (HEIGHT - self.map_height) // 2
+
+        self.completed_realms = completed_realms
+        self.green_tick = pygame.transform.smoothscale(
+            pygame.image.load(get_asset_path("ui/green_tick.png")), (30, 30)
+        )
 
         self.lands = {
             "Zamek": (0, 0),
@@ -137,7 +142,21 @@ class WorldMap:
             "Magmowe Wzgórza": pygame.transform.smoothscale(magma_hills_image, (realm_dim, realm_dim))
         }
 
-        self.forbidden_lands = {
+        self.hidden_lands_conditions = {
+            "Dzikie Bory": ["Most"],
+            "Łyse Łąki": ["Dzikie Bory"],
+            "Mglista Puszcza": ["Dzikie Bory"],
+            "Starożytne Ruiny": ["Dzikie Bory"],
+            "Krwawe Wzgórza": ["Łyse Łąki"],
+            "Dzikie Brzegi": ["Łyse Łąki"],
+            "Grzybowe Bagna": ["Mglista Puszcza"],
+            "Tajemnicza Zatoka": ["Dzikie Brzegi"],
+            "Stalowe Wyżyny": ["Tajemnicza Zatoka"],
+            "Szare Skały": ["Krwawe Wzgórza"],
+            "Wyschły Wąwóz": ["Krwawe Wzgórza"]
+        }
+
+        self.locked_lands = {
             "Dzikie Bory": 100,
             "Mglista Puszcza": 150,
             "Starożytne Ruiny": 150,
@@ -191,6 +210,12 @@ class WorldMap:
         self.enter_button = pygame.Rect(self.offset_x + WIDTH / 2, HEIGHT - 60, 220, 40)
         self.inventory_button = pygame.Rect(self.offset_x + 20, HEIGHT - 60, 150, 40)
 
+    def is_land_visible(self, land):
+        if land not in self.hidden_lands_conditions:
+            return True
+        required_realms = self.hidden_lands_conditions[land]
+        return all(req in self.completed_realms for req in required_realms)
+
     def draw(self, screen):
         screen.fill((50, 50, 50))
         for col in range(self.cols):
@@ -201,28 +226,40 @@ class WorldMap:
                                   self.grid_size, self.grid_size), 1)
 
         for land, (col, row) in self.lands.items():
-            screen.blit(self.land_images[land], (self.offset_x + col * self.grid_size, self.offset_y + row * self.grid_size))
+            if not self.is_land_visible(land):
+                continue
+            else:
+                if land in self.completed_realms:
+                    screen.blit(self.land_images[land],
+                                (self.offset_x + col * self.grid_size,
+                                 self.offset_y + row * self.grid_size))
+                    screen.blit(self.green_tick,
+                                (self.offset_x + col * self.grid_size + self.grid_size - 35,
+                                 self.offset_y + row * self.grid_size + 5))
+                else:
+                    screen.blit(self.land_images[land],
+                                (self.offset_x + col * self.grid_size,
+                                 self.offset_y + row * self.grid_size))
 
-        screen.blit(self.player.realm_sprite, (self.offset_x + self.player.x, self.offset_y + self.player.y))
+        screen.blit(self.player.realm_sprite,
+                    (self.offset_x + self.player.x, self.offset_y + self.player.y))
 
         if self.selected_land:
-            screen.blit(self.realm_images[self.selected_land], (self.offset_x + WIDTH / 2 + 40, self.offset_y + 20))
+            screen.blit(self.realm_images[self.selected_land],
+                        (self.offset_x + WIDTH / 2 + 40, self.offset_y + 20))
             font = pygame.font.SysFont(None, 40)
             land_text = font.render(self.selected_land, True, WHITE)
             screen.blit(land_text, (self.offset_x + WIDTH / 2 + 40, self.offset_y + 680))
             description_font = pygame.font.SysFont(None, 30)
-            wrapped_text = wrap_text(self.land_descriptions[self.selected_land], description_font, WIDTH / 2 - self.offset_x)
+            wrapped_text = wrap_text(self.land_descriptions[self.selected_land],
+                                     description_font, WIDTH / 2 - self.offset_x)
             for i, line in enumerate(wrapped_text):
                 desc_surface = description_font.render(line, True, WHITE)
                 screen.blit(desc_surface, (self.offset_x + WIDTH / 2 + 40, self.offset_y + 720 + i * 25))
-
-            if self.selected_land in self.forbidden_lands:
-                required_xp = self.forbidden_lands[self.selected_land]
-                if self.player_game.xp >= required_xp:
-                    self.forbidden_lands.pop(self.selected_land, None)
-                    self.draw_enter_button(screen)
-                else:
-                    self.block_realm(required_xp)
+            if self.selected_land in self.locked_lands and self.player_game.xp < self.locked_lands[self.selected_land]:
+                font = pygame.font.SysFont(None, 40)
+                lock_text = font.render(f"Zablokowane - wymaga {self.locked_lands[self.selected_land]} XP", True, RED)
+                screen.blit(lock_text, (self.offset_x + WIDTH / 2 + 40, HEIGHT - 100))
             else:
                 self.draw_enter_button(screen)
 
@@ -244,7 +281,9 @@ class WorldMap:
             new_x += self.grid_size
 
         new_cell = (new_x // self.grid_size, new_y // self.grid_size)
-        allowed_cells = set(self.lands.values())
+        allowed_cells = {cell for land, cell in self.lands.items()
+                         if self.is_land_visible(land)}
+
         if new_cell not in allowed_cells:
             return
 
@@ -273,15 +312,15 @@ class WorldMap:
                 self.move_player("RIGHT")
             elif event.key == pygame.K_RETURN:
                 if self.selected_land:
-                    if (self.selected_land in self.forbidden_lands and
-                        self.player_game.xp < self.forbidden_lands[self.selected_land]):
+                    if (self.selected_land in self.locked_lands and
+                        self.player_game.xp < self.locked_lands[self.selected_land]):
                         return None
                     return self.selected_land
             return None
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if self.selected_land and self.enter_button.collidepoint(event.pos):
-                if self.selected_land in self.forbidden_lands:
-                    required_xp = self.forbidden_lands[self.selected_land]
+                if self.selected_land in self.locked_lands:
+                    required_xp = self.locked_lands[self.selected_land]
                     if self.player_game.xp >= required_xp:
                         return self.selected_land
                     else:
@@ -295,8 +334,8 @@ class WorldMap:
                 exit()
         return None
 
-def show_world_map(player, player_game, start_position):
-    world_map = WorldMap(player, player_game, start_position)
+def show_world_map(player, player_game, completed_realms, start_position):
+    world_map = WorldMap(player, player_game, completed_realms, start_position)
     running = True
     while running:
         screen.fill((0, 0, 0))
