@@ -46,7 +46,7 @@ def main(player, world_position = None, selected_land = None):
         elif player_character == "Kocias":
             world_position = (0, 1)
         elif player_character == "Wilczas":
-            world_position = (2, 3)
+            world_position = (1, 1)
 
     map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
 
@@ -198,6 +198,14 @@ def main(player, world_position = None, selected_land = None):
         elif selected_land == "Dzikie Brzegi":
             enemy_types = ["Ork", "Goblin"]
             enemies_number = 7
+            background_color = (244, 241, 232)
+            obstacle_image = rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+            }
+        elif selected_land == "Tajemnicza Zatoka":
+            enemy_types = ["Zjawa"]
+            enemies_number = 8
             background_color = (244, 241, 232)
             obstacle_image = rock_image
             obstacle_positions = {
