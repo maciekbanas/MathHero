@@ -371,7 +371,13 @@ def main(player, world_position = None, selected_land = None):
                     if show_merchant_button and merchant_button.collidepoint(event.pos):
                         show_merchant_menu(player)
                     if show_aviator_button and aviator_button.collidepoint(event.pos):
-                        show_aviator_menu(player)
+                        aviator_output = show_aviator_menu(player)
+                        if (aviator_output):
+                            running = False
+                            world_position = (0, 7)
+                            map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
+                            selected_land, world_position = show_world_map(map_player, player_character,
+                                                                           completed_realms, world_position)
                     if show_blacksmith_button and blacksmith_button.collidepoint(event.pos):
                         show_blacksmith_menu(player)
                 elif event.type == pygame.KEYDOWN:
