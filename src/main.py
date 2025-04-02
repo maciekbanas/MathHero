@@ -52,7 +52,7 @@ def main(player, world_position = None, selected_land = None):
 
     while True:
 
-        selected_land, world_position = show_world_map(map_player, player, world_position)
+        selected_land, world_position = show_world_map(map_player, player, completed_realms, world_position)
         print(f"Gracz wszedł do: {selected_land}")
 
         if selected_land == "Lasy":
