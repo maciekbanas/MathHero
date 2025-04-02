@@ -30,6 +30,8 @@ class Obstacle:
     def draw(self, screen):
         screen.blit(self.image, (self.x * grid_size, self.y * grid_size))
 
+completed_realms = set()
+
 def main(player, world_position = None, selected_land = None):
     """
     Main game loop.
