@@ -204,7 +204,7 @@ def main(player, world_position = None, selected_land = None):
                 (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
             }
         elif selected_land == "Tajemnicza Zatoka":
-            enemy_types = ["Zjawa"]
+            enemy_types = ["Upiór"]
             enemies_number = 8
             background_color = (244, 241, 232)
             obstacle_image = rock_image

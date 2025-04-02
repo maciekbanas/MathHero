@@ -29,6 +29,7 @@ enemy_sprites = {
     "Wilk": pygame.image.load(get_asset_path(os.path.join("enemies", "wolf.png"))),
     "Niedzwiedz": pygame.image.load(get_asset_path(os.path.join("enemies", "bear.png"))),
     "Szkielet": pygame.image.load(get_asset_path(os.path.join("enemies", "skeleton_warrior.png"))),
+    "Upiór": pygame.image.load(get_asset_path(os.path.join("enemies", "phantom.png"))),
     "Mag": pygame.image.load(get_asset_path(os.path.join("enemies", "mage.png"))),
     "Mag Ognia": pygame.image.load(get_asset_path(os.path.join("enemies", "fire_mage.png")))
 }
@@ -46,6 +47,7 @@ enemy_fig_sprites = {
     "Wilk": pygame.image.load(get_asset_path(os.path.join("enemies", "wolf_fig.png"))),
     "Niedzwiedz": pygame.image.load(get_asset_path(os.path.join("enemies", "bear_fig.png"))),
     "Szkielet": pygame.image.load(get_asset_path(os.path.join("enemies", "skeleton_warrior_fig.png"))),
+    "Upiór": pygame.image.load(get_asset_path(os.path.join("enemies", "phantom_fig.png"))),
     "Mag": pygame.image.load(get_asset_path(os.path.join("enemies", "mage_fig.png"))),
     "Mag Ognia": pygame.image.load(get_asset_path(os.path.join("enemies", "fire_mage_fig.png")))
 }

@@ -47,7 +47,7 @@ def math_battle(player, enemy_type, selected_land):
         "Goblin": 10, "Grzybołak": 5, "Grzybolud": 5, "Wilk": 5,
         "Niedzwiedz": 0,
         "Gnom": 5, "Spider": 10, "Szkielet": 10,
-        "Troll": 20, "Golem": 20, "Ork": 20,
+        "Troll": 20, "Golem": 20, "Ork": 20, "Upiór": 10,
         "Mag": 30
     }
     xp_rewards = {
@@ -55,7 +55,7 @@ def math_battle(player, enemy_type, selected_land):
         "Goblin": 10, "Grzybolud": 5, "Grzybołak": 5, "Wilk": 5,
         "Niedzwiedz": 10,
         "Gnom": 5, "Spider": 10, "Szkielet": 10,
-        "Troll": 20, "Golem": 20, "Ork": 20,
+        "Troll": 20, "Golem": 20, "Ork": 20, "Upiór": 20,
         "Mag": 50
     }
 
@@ -64,7 +64,7 @@ def math_battle(player, enemy_type, selected_land):
         "Gnom": 10,
         "Wilk": 10, "Goblin": 10, "Grzybołak": 10, "Grzybolud": 10,
         "Spider": 15, "Szkielet": 15,
-        "Niedzwiedz": 20,
+        "Niedzwiedz": 20, "Upiór": 20,
         "Troll": 30, "Golem": 30, "Ork": 20,
         "Mag": 30
     }
@@ -114,7 +114,7 @@ def math_battle(player, enemy_type, selected_land):
         a, b = random.randint(1, 5), random.randint(1, 5)
         question = f"Ile to {a} x {b}?"
         correct_answer = a * b
-    elif enemy_type in ["Zjawa", "Upiór"]:
+    elif enemy_type in ["Upiór"]:
         divisor = random.randint(2, 10)
         quotient = random.randint(1, 10)
         dividend = divisor * quotient
