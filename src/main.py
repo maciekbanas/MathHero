@@ -343,6 +343,13 @@ def main(player, world_position = None, selected_land = None):
             pygame.display.flip()
             pygame.time.delay(30)
 
+            if not enemies and selected_land not in ["Zamek", "Złoty Las", "Miasto", "Górska Wies"]:
+                completed_realms.add(selected_land)
+                pygame.time.delay(1000)
+                show_message("Wrogowie pokonani!")
+
+            aviator_output = False
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -361,7 +368,13 @@ def main(player, world_position = None, selected_land = None):
                     if show_merchant_button and event.key == pygame.K_RETURN:
                         show_merchant_menu(player)
                     if show_aviator_button and event.key == pygame.K_RETURN:
-                        show_aviator_menu(player)
+                        aviator_output = show_aviator_menu(player)
+                        if (aviator_output):
+                            running = False
+                            world_position = (0, 7)
+                            map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
+                            selected_land, world_position = show_world_map(map_player, player_character,
+                                                                           completed_realms, world_position)
                     if show_blacksmith_button and event.key == pygame.K_RETURN:
                         show_blacksmith_menu(player)
                     if event.key == pygame.K_s:

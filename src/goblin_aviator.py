@@ -23,8 +23,8 @@ def show_aviator_menu(player):
     """ Displays the aviator menu."""
     menu_width, menu_height = 450, 400
     menu_x, menu_y = (WIDTH - menu_width) // 2, (HEIGHT - menu_height) // 2
-    #buy_flight_img = pygame.image.load(get_asset_path("items/flight.png"))
-    #buy_flight_img = pygame.transform.scale(buy_flight_img, (100, 100))
+    buy_flight_img = pygame.image.load(get_asset_path("lands/wizard_tower.png"))
+    buy_flight_img = pygame.transform.smoothscale(buy_flight_img, (100, 100))
     close_button = pygame.Rect(menu_x + 320, menu_y + 360, 100, 30)
     buy_button = pygame.Rect(menu_x + 40, menu_y + 360, 100, 30)
     travel_button = pygame.Rect(menu_x + 50, menu_y + 190, 100, 100)
@@ -41,7 +41,7 @@ def show_aviator_menu(player):
         screen.blit(buy_text, (menu_x + 45, menu_y + 365))
         aviator_image = get_npc_image("npcs/goblin_aviator.png")
         screen.blit(aviator_image, (menu_x + 130, menu_y + 20))
-        #screen.blit(buy_elixir_img, (menu_x + 50, menu_y + 250))
+        screen.blit(buy_flight_img, (menu_x + 50, menu_y + 250))
 
         pygame.display.flip()
 
@@ -54,8 +54,9 @@ def show_aviator_menu(player):
                     aviator.interacted = True
                     aviator_running = False
                 elif travel_button.collidepoint(event.pos) or buy_button.collidepoint(event.pos):
-                    if player.coins >= 500:
-                        player.coins -= 500
+                    if player.coins >= 100:
+                        player.coins -= 100
                         show_message("Zakupiłeś lot!")
+                        return True
                     else:
                         show_message("Brak odpowiedniej ilości monet (500)!")
