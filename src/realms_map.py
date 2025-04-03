@@ -168,8 +168,8 @@ class WorldMap:
             "Stalowe Wyżyny": 250,
             "Szare Skały": 300,
             "Wyschły Wąwóz": 300,
-            "Magmowe Wzgórza": 500,
-            "Lodowa Kraina": 500
+            "Magmowe Wzgórza": 300,
+            "Lodowa Kraina": 300
         }
 
         self.land_descriptions = {

@@ -39,7 +39,7 @@ def math_battle(player, enemy_type, selected_land):
 
     hour_input = ""
     minute_input = ""
-    active_field = "hour"  # lub "minute"
+    active_field = "hour"
     max_length = 2
 
     coin_rewards = {
@@ -48,7 +48,7 @@ def math_battle(player, enemy_type, selected_land):
         "Niedzwiedz": 0,
         "Gnom": 5, "Spider": 10, "Szkielet": 10,
         "Troll": 20, "Golem": 20, "Ork": 20, "Upiór": 10,
-        "Mag": 30
+        "Mag": 30, "Magmowy Golem": 30
     }
     xp_rewards = {
         "Bees": 5,
@@ -56,7 +56,7 @@ def math_battle(player, enemy_type, selected_land):
         "Niedzwiedz": 10,
         "Gnom": 5, "Spider": 10, "Szkielet": 10,
         "Troll": 20, "Golem": 20, "Ork": 20, "Upiór": 20,
-        "Mag": 50
+        "Mag": 50, "Magmowy Golem": 50
     }
 
     damage = {
@@ -66,7 +66,7 @@ def math_battle(player, enemy_type, selected_land):
         "Spider": 15, "Szkielet": 15,
         "Niedzwiedz": 20, "Upiór": 20,
         "Troll": 30, "Golem": 30, "Ork": 20,
-        "Mag": 30
+        "Mag": 30, "Magmowy Golem": 40
     }
 
     if enemy_type == "Gnom":
@@ -114,9 +114,16 @@ def math_battle(player, enemy_type, selected_land):
         a, b = random.randint(1, 5), random.randint(1, 5)
         question = f"Ile to {a} x {b}?"
         correct_answer = a * b
-    elif enemy_type in ["Upiór"]:
-        divisor = random.randint(2, 10)
-        quotient = random.randint(1, 10)
+    elif enemy_type in ["Upiór", "Mag Ognia", "Magmowy Golem"]:
+        if enemy_type == "Mag Ognia":
+            divisor = random.randint(2, 10)
+            quotient = random.randint(1, 5)
+        elif enemy_type == "Magmowy Golem":
+            divisor = random.randint(2, 20)
+            quotient = random.randint(1, 5)
+        else:
+            divisor = random.randint(2, 5)
+            quotient = random.randint(1, 5)
         dividend = divisor * quotient
         question = f"Ile to {dividend} ÷ {divisor}?"
         correct_answer = quotient
@@ -132,7 +139,7 @@ def math_battle(player, enemy_type, selected_land):
         question = f"Ile to {a} + {b}?"
         correct_answer = a + b
 
-    enemy_size = (300, 300) if enemy_type in ["Troll", "Golem"] else (200, 200)
+    enemy_size = (300, 300) if enemy_type in ["Troll", "Golem", "Magmowy Golem"] else (200, 200)
     enemy_sprite = enemy_sprites[enemy_type]
     enemy_sprite = pygame.transform.smoothscale(enemy_sprite, enemy_size)
     input_text = ""
@@ -220,7 +227,7 @@ def math_battle(player, enemy_type, selected_land):
                     except ValueError:
                         pass
                     input_text = ""
-                    if player.health == 0:
+                    if player.health <= 0:
                         show_message("Koniec gry!")
                         pygame.quit()
                 else:

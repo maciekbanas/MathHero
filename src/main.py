@@ -20,6 +20,8 @@ icy_rock_image = load_and_resize("obstacles/icy_rock.png")
 murky_swamp_image = load_and_resize("obstacles/murky_swamp.png")
 tree_image = load_and_resize("obstacles/tree.png")
 
+magma_rock_image = load_and_resize("obstacles/magma_rock.png")
+
 class Obstacle:
     """ Represents an obstacle on the map. """
     def __init__(self, x, y, image):
@@ -237,6 +239,16 @@ def main(player, world_position = None, selected_land = None):
             obstacle_positions = {
                 (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
             }
+        elif selected_land == "Magmowe Wzgórza":
+            enemy_types = ["Mag Ognia", "Magmowy Golem"]
+            enemies_number = 8
+            background_color = (80, 36, 20)
+            obstacle_image = magma_rock_image
+            obstacle_positions = {
+                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6),
+                (10, 10), (10, 5), (12, 8), (15, 7),
+                (9, 2), (8, 3), (14, 4), (18, 3)
+            }
         else:
             enemy_types = ["Wilk"]
             enemies_number = 6
@@ -256,7 +268,7 @@ def main(player, world_position = None, selected_land = None):
         else:
             enemies = []
 
-        if not selected_land in ["Zamek", "Stalowe Wyżyny", "Wyschły Wąwóz", "Szare Skały", "Wieża Maga"]:
+        if not selected_land in ["Zamek", "Stalowe Wyżyny", "Wyschły Wąwóz", "Szare Skały", "Wieża Maga", "Magmowe Wzgórza"]:
             berries = [
                 Berry(*get_valid_random_position(obstacle_positions)) for _ in range(3)
             ]
@@ -358,7 +370,7 @@ def main(player, world_position = None, selected_land = None):
                 pygame.time.delay(1000)
                 show_message("Wrogowie pokonani!")
 
-            aviator_output = False
+            aviator_output = ""
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -372,11 +384,14 @@ def main(player, world_position = None, selected_land = None):
                         show_merchant_menu(player)
                     if show_aviator_button and aviator_button.collidepoint(event.pos):
                         aviator_output = show_aviator_menu(player)
-                        if (aviator_output):
+                        if (aviator_output != ""):
                             running = False
-                            world_position = (0, 7)
+                            if (aviator_output == "wizard_tower"):
+                                world_position = (0, 7)
+                            elif (aviator_output == "magma_hills"):
+                                world_position = (4, 7)
                             map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
-                            selected_land, world_position = show_world_map(map_player, player_character,
+                            selected_land, world_position = show_world_map(map_player, player,
                                                                            completed_realms, world_position)
                     if show_blacksmith_button and blacksmith_button.collidepoint(event.pos):
                         show_blacksmith_menu(player)
@@ -385,11 +400,14 @@ def main(player, world_position = None, selected_land = None):
                         show_merchant_menu(player)
                     if show_aviator_button and event.key == pygame.K_RETURN:
                         aviator_output = show_aviator_menu(player)
-                        if (aviator_output):
+                        if (aviator_output != ""):
                             running = False
-                            world_position = (0, 7)
+                            if (aviator_output == "wizard_tower"):
+                                world_position = (0, 7)
+                            elif (aviator_output == "magma_hills"):
+                                world_position = (4, 7)
                             map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
-                            selected_land, world_position = show_world_map(map_player, player_character,
+                            selected_land, world_position = show_world_map(map_player, player,
                                                                            completed_realms, world_position)
                     if show_blacksmith_button and event.key == pygame.K_RETURN:
                         show_blacksmith_menu(player)

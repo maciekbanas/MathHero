@@ -21,27 +21,32 @@ aviator = Aviator()
 
 def show_aviator_menu(player):
     """ Displays the aviator menu."""
-    menu_width, menu_height = 450, 400
+    menu_width, menu_height = 450, 450
     menu_x, menu_y = (WIDTH - menu_width) // 2, (HEIGHT - menu_height) // 2
-    buy_flight_img = pygame.image.load(get_asset_path("lands/wizard_tower.png"))
-    buy_flight_img = pygame.transform.smoothscale(buy_flight_img, (100, 100))
+
+    wizard_tower_flight_img = pygame.image.load(get_asset_path("lands/wizard_tower.png"))
+    wizard_tower_flight_img = pygame.transform.smoothscale(wizard_tower_flight_img, (100, 100))
+
+    magma_hills_flight_img = pygame.image.load(get_asset_path("lands/magma_hills.png"))
+    magma_hills_flight_img = pygame.transform.smoothscale(magma_hills_flight_img, (100, 100))
+
     close_button = pygame.Rect(menu_x + 320, menu_y + 360, 100, 30)
-    buy_button = pygame.Rect(menu_x + 40, menu_y + 360, 100, 30)
-    travel_button = pygame.Rect(menu_x + 50, menu_y + 190, 100, 100)
 
     aviator_running = True
     while aviator_running:
         pygame.draw.rect(screen, BROWN, (menu_x, menu_y, menu_width, menu_height))
         pygame.draw.rect(screen, (200, 50, 50), close_button)
-        pygame.draw.rect(screen, (50, 200, 50), buy_button)  # Green buy button
         font = pygame.font.SysFont(None, 30)
         close_text = font.render("Zamknij", True, WHITE)
-        buy_text = font.render("Kup lot", True, WHITE)
         screen.blit(close_text, (menu_x + 330, menu_y + 365))
-        screen.blit(buy_text, (menu_x + 45, menu_y + 365))
         aviator_image = get_npc_image("npcs/goblin_aviator.png")
-        screen.blit(aviator_image, (menu_x + 130, menu_y + 20))
-        screen.blit(buy_flight_img, (menu_x + 50, menu_y + 250))
+        screen.blit(aviator_image, (menu_x + 100, menu_y + 20))
+
+        wizard_tower_flight_btn = pygame.Rect(menu_x + 50, menu_y + 300, 100, 100)
+        screen.blit(wizard_tower_flight_img, (menu_x + 50, menu_y + 300))
+
+        magma_hills_flight_btn = pygame.Rect(menu_x + 150, menu_y + 300, 100, 100)
+        screen.blit(magma_hills_flight_img, (menu_x + 150, menu_y + 300))
 
         pygame.display.flip()
 
@@ -53,10 +58,17 @@ def show_aviator_menu(player):
                 if close_button.collidepoint(event.pos):
                     aviator.interacted = True
                     aviator_running = False
-                elif travel_button.collidepoint(event.pos) or buy_button.collidepoint(event.pos):
-                    if player.coins >= 100:
-                        player.coins -= 100
+                elif wizard_tower_flight_btn.collidepoint(event.pos):
+                    if player.coins >= 150:
+                        player.coins -= 150
                         show_message("Zakupiłeś lot!")
-                        return True
+                        return "wizard_tower"
                     else:
-                        show_message("Brak odpowiedniej ilości monet (500)!")
+                        show_message("Brak odpowiedniej ilości monet (150)!")
+                elif magma_hills_flight_btn.collidepoint(event.pos):
+                    if player.coins >= 300:
+                        player.coins -= 300
+                        show_message("Zakupiłeś lot!")
+                        return "magma_hills"
+                    else:
+                        show_message("Brak odpowiedniej ilości monet (300)!")

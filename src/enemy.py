@@ -6,7 +6,7 @@ class Enemy:
         self.x = x
         self.y = y
         self.type = enemy_type
-        self.size = 160 if enemy_type in ["Troll", "Golem"] else grid_size
+        self.size = 160 if enemy_type in ["Troll", "Golem", "Magmowy Golem"] else grid_size
         self.sprite = pygame.transform.smoothscale(enemy_fig_sprites[enemy_type], (self.size, self.size))
 
     def draw(self, surface):

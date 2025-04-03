@@ -31,7 +31,8 @@ enemy_sprites = {
     "Szkielet": pygame.image.load(get_asset_path(os.path.join("enemies", "skeleton_warrior.png"))),
     "Upiór": pygame.image.load(get_asset_path(os.path.join("enemies", "phantom.png"))),
     "Mag": pygame.image.load(get_asset_path(os.path.join("enemies", "mage.png"))),
-    "Mag Ognia": pygame.image.load(get_asset_path(os.path.join("enemies", "fire_mage.png")))
+    "Mag Ognia": pygame.image.load(get_asset_path(os.path.join("enemies", "fire_mage.png"))),
+    "Magmowy Golem": pygame.image.load(get_asset_path(os.path.join("enemies", "fire_golem_fig.png")))
 }
 
 enemy_fig_sprites = {
@@ -49,5 +50,6 @@ enemy_fig_sprites = {
     "Szkielet": pygame.image.load(get_asset_path(os.path.join("enemies", "skeleton_warrior_fig.png"))),
     "Upiór": pygame.image.load(get_asset_path(os.path.join("enemies", "phantom_fig.png"))),
     "Mag": pygame.image.load(get_asset_path(os.path.join("enemies", "mage_fig.png"))),
-    "Mag Ognia": pygame.image.load(get_asset_path(os.path.join("enemies", "fire_mage_fig.png")))
+    "Mag Ognia": pygame.image.load(get_asset_path(os.path.join("enemies", "fire_mage_fig.png"))),
+    "Magmowy Golem": pygame.image.load(get_asset_path(os.path.join("enemies", "fire_golem_fig.png")))
 }
