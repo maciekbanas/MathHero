@@ -9,10 +9,11 @@ WIDTH, HEIGHT = screen.get_size()
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+BROWN = (150, 100, 50)
 RED = (255, 0, 0)
-GREEN = (0, 255, 0)
+GREEN = (50, 200, 50)
 GREY = (192, 192, 192)
 
-characters = ["Rabbit", "Czarodziejka", "Wilczas"]
+characters = ["Rabbit", "Czarodziejka", "Wilczas", "Kocias"]
 
 grid_size = 80

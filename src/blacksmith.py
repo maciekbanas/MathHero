@@ -1,11 +1,11 @@
 from utils import *
 
-merchant_figure = pygame.image.load(get_asset_path("npcs/merchant_fig.png"))
+blacksmith_figure = pygame.image.load(get_asset_path("npcs/blacksmith_fig.png"))
 
-class Merchant:
+class Blacksmith:
     def __init__(self):
         self.x, self.y = get_random_position_in_grid()
-        self.figure = pygame.transform.smoothscale(merchant_figure, (grid_size, grid_size))
+        self.figure = pygame.transform.smoothscale(blacksmith_figure, (grid_size, grid_size))
         self.rect = pygame.Rect(self.x, self.y, grid_size, grid_size)
         self.interacted = False
 
@@ -16,21 +16,21 @@ class Merchant:
         return self.rect.colliderect(pygame.Rect(player.x, player.y, grid_size, grid_size))
 
 
-merchant = Merchant()
+blacksmith = Blacksmith()
 
 
-def show_merchant_menu(player):
-    """ Displays the merchant menu."""
+def show_blacksmith_menu(player):
+    """ Displays the blacksmith menu."""
     menu_width, menu_height = 450, 400
     menu_x, menu_y = (WIDTH - menu_width) // 2, (HEIGHT - menu_height) // 2
-    buy_elixir_img = pygame.image.load(get_asset_path("items/elixir_solution.png"))
-    buy_elixir_img = pygame.transform.smoothscale(buy_elixir_img, (100, 100))
+    buy_shield_img = pygame.image.load(get_asset_path("items/shield.png"))
+    buy_shield_img = pygame.transform.smoothscale(buy_shield_img, (100, 100))
     close_button = pygame.Rect(menu_x + 320, menu_y + 360, 100, 30)
     buy_button = pygame.Rect(menu_x + 40, menu_y + 360, 100, 30)
     elixir_button = pygame.Rect(menu_x + 50, menu_y + 190, 100, 100)
 
-    merchant_running = True
-    while merchant_running:
+    blacksmith_running = True
+    while blacksmith_running:
         draw_npc_screen(menu_width, menu_height, menu_x, menu_y)
         pygame.draw.rect(screen, (200, 50, 50), close_button)
         pygame.draw.rect(screen, (GREEN), buy_button)
@@ -39,9 +39,9 @@ def show_merchant_menu(player):
         buy_text = font.render("Kup", True, WHITE)
         screen.blit(close_text, (menu_x + 330, menu_y + 365))
         screen.blit(buy_text, (menu_x + 70, menu_y + 365))
-        merchant_image = get_npc_image("npcs/merchant.png")
-        screen.blit(merchant_image, (menu_x + 100, menu_y + 20))
-        screen.blit(buy_elixir_img, (menu_x + 50, menu_y + 250))
+        blacksmith_image = get_npc_image("npcs/blacksmith.png")
+        screen.blit(blacksmith_image, (menu_x + 100, menu_y + 10))
+        screen.blit(buy_shield_img, (menu_x + 50, menu_y + 250))
 
         pygame.display.flip()
 
@@ -51,13 +51,13 @@ def show_merchant_menu(player):
                 exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if close_button.collidepoint(event.pos):
-                    merchant.interacted = True
-                    merchant_running = False
+                    blacksmith.interacted = True
+                    blacksmith_running = False
                 elif elixir_button.collidepoint(event.pos) or buy_button.collidepoint(event.pos):
-                    if player.coins >= 50:
-                        player.coins -= 50
-                        player.inventory.append("Eliksir rozwiązania")
-                        show_message("Zakupiłeś eliksir rozwiązania zagadki!")
+                    if player.coins >= 20:
+                        player.coins -= 20
+                        player.inventory.append("Tarcza")
+                        show_message("Zakupiłeś tarczę!")
                     else:
-                        show_message("Brak odpowiedniej ilości monet (50)!")
+                        show_message("Brak odpowiedniej ilości monet (20)!")
 

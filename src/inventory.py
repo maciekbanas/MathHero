@@ -31,7 +31,7 @@ def show_inventory(player):
     coin_x = inventory_x + (inventory_width // 2) - 50
     coin_y = char_y + sprite_height + 30
 
-    close_button_rect = pygame.Rect(inventory_x + (inventory_width - 140) // 2, coin_y + 80, 140, 50)
+    close_button_rect = pygame.Rect(inventory_x + (inventory_width - 140) // 2, coin_y + 100, 140, 50)
 
     elixir_x = inventory_x + 30
     elixir_y = coin_y + 80
@@ -48,6 +48,18 @@ def show_inventory(player):
         coins_text = font.render(f"{player.coins}", True, BLACK)
         screen.blit(coins_text, (coin_x + 60, coin_y + 10))
 
+        xp_bar_width = inventory_width - 60  # pasek zajmuje niemal całą szerokość okna ekwipunku
+        xp_bar_height = 20
+        xp_bar_x = inventory_x + 30
+        xp_bar_y = coin_y + 60  # pasek poniżej monet
+
+        max_xp = 200  # przykładowa maksymalna wartość XP; dostosuj wg potrzeb
+        xp_percentage = min(player.xp / max_xp, 1)
+        pygame.draw.rect(screen, BLACK, (xp_bar_x, xp_bar_y, xp_bar_width, xp_bar_height), 2)
+        pygame.draw.rect(screen, (0, 255, 0), (xp_bar_x, xp_bar_y, xp_bar_width * xp_percentage, xp_bar_height))
+        xp_text = font.render(f"XP: {player.xp}", True, BLACK)
+        screen.blit(xp_text, (xp_bar_x, xp_bar_y - 30))
+
         pygame.draw.rect(screen, GREY, close_button_rect, border_radius=8)
         pygame.draw.rect(screen, BLACK, close_button_rect, 2)
         close_text = font.render("Zamknij", True, BLACK)
@@ -57,8 +69,15 @@ def show_inventory(player):
         for item, count in inventory_count.items():
             if item == "Eliksir rozwiązania":
                 elixir_img = pygame.image.load("assets/items/elixir_solution.png")
-                elixir_img = pygame.transform.scale(elixir_img, (50, 50))
+                elixir_img = pygame.transform.smoothscale(elixir_img, (50, 50))
                 screen.blit(elixir_img, (elixir_x + idx * elixir_spacing, elixir_y))
+                count_text = font.render(f"x{count}", True, BLACK)
+                screen.blit(count_text, (elixir_x + idx * elixir_spacing + 40, elixir_y + 30))
+                idx += 1
+            if item == "Tarcza":
+                shield_img = pygame.image.load("assets/items/shield.png")
+                shield_img = pygame.transform.smoothscale(shield_img, (50, 50))
+                screen.blit(shield_img, (elixir_x + idx * elixir_spacing, elixir_y))
                 count_text = font.render(f"x{count}", True, BLACK)
                 screen.blit(count_text, (elixir_x + idx * elixir_spacing + 40, elixir_y + 30))
                 idx += 1

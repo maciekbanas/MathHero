@@ -42,23 +42,20 @@ class Player:
         self.y = y
         self.speed = 5
         self.health = 100
+        self.xp = 0
         self.coins = 0
         self.character = character
         self.battle_sprite = pygame.transform.smoothscale(player_sprites[character], (200, 200))
         self.sprite = pygame.transform.smoothscale(pygame.image.load(player_minifig_sprites[character]), (grid_size, grid_size))
-        # self.sprite = load_gif_frames(player_minifig_sprites[character], new_size=(grid_size, grid_size))
         self.realm_sprite = pygame.transform.smoothscale(pygame.image.load(player_minifig_sprites[character]), (100, 100))
-        # self.animation = AnimatedSprite(self.sprite, frame_duration=100)
-
         self.grid_size = grid_size
         self.target_x = self.x
         self.target_y = self.y
         self.is_moving = False
-
         self.inventory = []
 
-    def move(self, keys):
-        """ Obsługuje wejście gracza, jeśli nie jest w trakcie ruchu """
+    def move(self, keys, obstacle_positions):
+        """ Obsługuje wejście gracza, jeśli nie jest w trakcie ruchu i sprawdza kolizje z przeszkodami """
         if self.is_moving:
             return
 
@@ -72,6 +69,13 @@ class Player:
             new_y -= self.grid_size
         elif keys[pygame.K_DOWN]:
             new_y += self.grid_size
+
+        grid_offset = 40
+        grid_x = (new_x - grid_offset) // self.grid_size
+        grid_y = (new_y - grid_offset) // self.grid_size
+
+        if (grid_x, grid_y) in obstacle_positions:
+            return
 
         if 0 <= new_x < WIDTH and 0 <= new_y < HEIGHT:
             self.target_x, self.target_y = new_x, new_y

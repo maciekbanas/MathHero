@@ -72,6 +72,14 @@ def draw_ui_buttons():
 
     return inventory_rect, back_rect
 
+def draw_quit_button():
+    font_buttons = pygame.font.SysFont(None, 30)
+    quit_button = pygame.Rect(WIDTH - 170, HEIGHT - 60, 150, 40)
+    pygame.draw.rect(screen, (200, 50, 50), quit_button)
+    quit_text = font_buttons.render("Zakończ", True, WHITE)
+    screen.blit(quit_text, (WIDTH - 145, HEIGHT - 50))
+    return quit_button
+
 def draw_merchant_button():
     font = pygame.font.SysFont(None, 40)
     merchant_text = font.render("Kupiec-mag", True, BLACK)
@@ -81,13 +89,48 @@ def draw_merchant_button():
     screen.blit(merchant_text, (merchant_button.x + 10, merchant_button.y + 10))
 
     return merchant_button
+
+
+def draw_blacksmith_button():
+    font = pygame.font.SysFont(None, 40)
+    merchant_text = font.render("Kowal", True, BLACK)
+    merchant_button = pygame.Rect(WIDTH/2 - 100, HEIGHT - 70, 180, 50)
+    pygame.draw.rect(screen, (200, 200, 50), merchant_button)
+    pygame.draw.rect(screen, BLACK, merchant_button, 2)
+    screen.blit(merchant_text, (merchant_button.x + 50, merchant_button.y + 10))
+
+    return merchant_button
+
+
+def draw_aviator_button():
+    font = pygame.font.SysFont(None, 40)
+    aviator_text = font.render("Goblin-lotnik", True, BLACK)
+    aviator_button = pygame.Rect(WIDTH/2 - 100, HEIGHT - 70, 200, 50)
+    pygame.draw.rect(screen, (200, 200, 50), aviator_button)
+    pygame.draw.rect(screen, BLACK, aviator_button, 2)
+    screen.blit(aviator_text, (aviator_button.x + 10, aviator_button.y + 10))
+
+    return aviator_button
+
+
 def show_message(message):
     message_font = pygame.font.SysFont(None, 60)
     message_surface = message_font.render(message, True, BLACK)
     message_rect = message_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
-    screen.fill(WHITE)
+    padding = 20
+    box_rect = message_rect.inflate(padding * 2, padding * 2)
+
+    pygame.draw.rect(screen, WHITE, box_rect)
+    pygame.draw.rect(screen, BLACK, box_rect, 2)
+
     screen.blit(message_surface, message_rect)
     pygame.display.flip()
 
     pygame.time.delay(1000)
+
+def get_npc_image(image_path):
+    return pygame.transform.smoothscale(pygame.image.load(get_asset_path(image_path)), (250, 250))
+
+def draw_npc_screen(menu_width, menu_height, menu_x, menu_y):
+    pygame.draw.rect(screen, BROWN, (menu_x, menu_y, menu_width, menu_height))
