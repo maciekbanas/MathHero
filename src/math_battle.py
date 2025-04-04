@@ -48,6 +48,7 @@ def math_battle(player, enemy_type, selected_land):
         "Niedzwiedz": 0,
         "Gnom": 5, "Spider": 10, "Szkielet": 10,
         "Troll": 20, "Golem": 20, "Ork": 20, "Upiór": 10,
+        "Mag Ognia": 30,
         "Mag": 30, "Magmowy Golem": 30
     }
     xp_rewards = {
@@ -56,6 +57,7 @@ def math_battle(player, enemy_type, selected_land):
         "Niedzwiedz": 10,
         "Gnom": 5, "Spider": 10, "Szkielet": 10,
         "Troll": 20, "Golem": 20, "Ork": 20, "Upiór": 20,
+        "Mag Ognia": 30,
         "Mag": 50, "Magmowy Golem": 50
     }
 
@@ -66,6 +68,7 @@ def math_battle(player, enemy_type, selected_land):
         "Spider": 15, "Szkielet": 15,
         "Niedzwiedz": 20, "Upiór": 20,
         "Troll": 30, "Golem": 30, "Ork": 20,
+        "Mag Ognia": 30,
         "Mag": 30, "Magmowy Golem": 40
     }
 
