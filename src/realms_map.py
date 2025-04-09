@@ -27,7 +27,7 @@ class WorldMap:
         self.lands = {
             "Zamek": (1, 0),
             "Lasy": (1, 1),
-            "Rwąca Rzeka": (1, 2),
+            "Rushing River": (1, 2),
             "Tajemnicza Zatoka": (0, 5),
             "Dzikie Brzegi": (0, 4),
             "Most": (2, 2),
@@ -94,7 +94,7 @@ class WorldMap:
             "Starożytne Ruiny": pygame.transform.smoothscale(ancient_ruins_image, (realm_dim, realm_dim)),
             "Rzeka": pygame.transform.smoothscale(river_image, (realm_dim, realm_dim)),
             "Most": pygame.transform.smoothscale(bridge_image, (realm_dim, realm_dim)),
-            "Rwąca Rzeka": pygame.transform.smoothscale(rushing_river_image, (realm_dim, realm_dim)),
+            "Rushing River": pygame.transform.smoothscale(rushing_river_image, (realm_dim, realm_dim)),
             "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (realm_dim, realm_dim)),
             "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (realm_dim, realm_dim)),
             "Krwawe Wzgórza": pygame.transform.smoothscale(withering_hills_image, (realm_dim, realm_dim)),
@@ -110,7 +110,7 @@ class WorldMap:
 
         self.hidden_lands_conditions = {
             "Most": ["Lasy"],
-            "Rwąca Rzeka": ["Lasy"],
+            "Rushing River": ["Lasy"],
             "Dzikie Bory": ["Most"],
             "Łyse Łąki": ["Dzikie Bory"],
             "Mglista Puszcza": ["Dzikie Bory"],
@@ -159,7 +159,7 @@ class WorldMap:
             "Przeczysty Strumień": "",
             "Rzeka": "",
             "Most": "",
-            "Rwąca Rzeka": "",
+            "Rushing River": "",
             "Dzikie Brzegi": "",
             "Tajemnicza Zatoka": "",
             "Wieża Maga": "",

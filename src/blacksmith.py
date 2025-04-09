@@ -3,8 +3,8 @@ from utils import *
 blacksmith_figure = pygame.image.load(get_asset_path("npcs/blacksmith_fig.png"))
 
 class Blacksmith:
-    def __init__(self):
-        self.x, self.y = get_random_position_in_grid()
+    def __init__(self, x, y):
+        self.x, self.y = x, y
         self.figure = pygame.transform.smoothscale(blacksmith_figure, (grid_size, grid_size))
         self.rect = pygame.Rect(self.x, self.y, grid_size, grid_size)
         self.interacted = False
@@ -16,7 +16,7 @@ class Blacksmith:
         return self.rect.colliderect(pygame.Rect(player.x, player.y, grid_size, grid_size))
 
 
-blacksmith = Blacksmith()
+blacksmith = Blacksmith(100, 100)
 
 
 def show_blacksmith_menu(player):

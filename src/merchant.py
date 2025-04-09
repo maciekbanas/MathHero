@@ -3,8 +3,8 @@ from utils import *
 merchant_figure = pygame.image.load(get_asset_path("npcs/merchant_fig.png"))
 
 class Merchant:
-    def __init__(self):
-        self.x, self.y = get_random_position_in_grid()
+    def __init__(self, x, y):
+        self.x, self.y = x, y
         self.figure = pygame.transform.smoothscale(merchant_figure, (grid_size, grid_size))
         self.rect = pygame.Rect(self.x, self.y, grid_size, grid_size)
         self.interacted = False
@@ -16,7 +16,7 @@ class Merchant:
         return self.rect.colliderect(pygame.Rect(player.x, player.y, grid_size, grid_size))
 
 
-merchant = Merchant()
+merchant = Merchant(100, 100)
 
 
 def show_merchant_menu(player):
