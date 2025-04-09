@@ -32,9 +32,9 @@ class Obstacle:
     def draw(self, screen):
         screen.blit(self.image, (self.x * grid_size, self.y * grid_size))
 
-completed_realms = set()
-
-def main(player, world_position = None, selected_land = None):
+bridge_background_image = load_and_resize("maps/Bridge.png", WIDTH, HEIGHT)
+forest_background_image = load_and_resize("maps/Forest.png", WIDTH, HEIGHT)
+def main(player, world_position = None, selected_land = None, completed_realms = set()):
     """
     Main game loop.
     """
@@ -391,7 +391,7 @@ def main(player, world_position = None, selected_land = None):
                             elif (aviator_output == "magma_hills"):
                                 world_position = (4, 7)
                             map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
-                            selected_land, world_position = show_world_map(map_player, player,
+                            selected_land, world_position, completed_realms = show_world_map(map_player, player,
                                                                            completed_realms, world_position)
                     if show_blacksmith_button and blacksmith_button.collidepoint(event.pos):
                         show_blacksmith_menu(player)
@@ -407,12 +407,12 @@ def main(player, world_position = None, selected_land = None):
                             elif (aviator_output == "magma_hills"):
                                 world_position = (4, 7)
                             map_player = Player(world_position[0] * 100, world_position[1] * 100, player_character)
-                            selected_land, world_position = show_world_map(map_player, player,
+                            selected_land, world_position, completed_realms = show_world_map(map_player, player,
                                                                            completed_realms, world_position)
                     if show_blacksmith_button and event.key == pygame.K_RETURN:
                         show_blacksmith_menu(player)
                     if event.key == pygame.K_s:
-                        save_game_state(player, world_position, selected_land)
+                        save_game_state(player, world_position, selected_land, completed_realms)
                         show_message("Zapisany stan gry!")
                     if event.key == pygame.K_l:
                         state = load_game_state()
@@ -427,6 +427,7 @@ def main(player, world_position = None, selected_land = None):
                             player.inventory = state["player"]["inventory"]
                             world_position = state["world_position"]
                             selected_land = state["selected_land"]
+                            completed_realms = set(state["completed_realms"])
 
     pygame.quit()
 
@@ -458,5 +459,6 @@ if __name__ == "__main__":
             player.inventory = state["player"]["inventory"]
             world_position = state["world_position"]
             selected_land = state["selected_land"]
+            completed_realms = set(state["completed_realms"])
 
-            main(player, world_position, selected_land)
+            main(player, world_position, selected_land, completed_realms)

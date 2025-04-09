@@ -348,4 +348,4 @@ def show_world_map(player, player_game, completed_realms, start_position):
                 exit()
             selected_land = world_map.handle_event(event)
             if selected_land:
-                return selected_land, (world_map.player.x // 100, world_map.player.y // 100)
+                return selected_land, (world_map.player.x // 100, world_map.player.y // 100), world_map.completed_realms
