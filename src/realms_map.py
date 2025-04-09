@@ -20,25 +20,21 @@ class WorldMap:
             pygame.image.load(get_asset_path("ui/green_tick.png")), (30, 30)
         )
 
+        self.map_background = pygame.transform.smoothscale(
+            pygame.image.load(get_asset_path("maps/world_map.png")), (self.map_width, self.map_height)
+        )
+
         self.lands = {
-            "Zamek": (0, 0),
-            "Miasto": (0, 1),
-            "Lasy": (0, 2),
-            "Bór": (1, 1),
-            "Łąki": (1, 2),
-            "Rwąca Rzeka": (0, 3),
+            "Zamek": (1, 0),
+            "Lasy": (1, 1),
+            "Rwąca Rzeka": (1, 2),
             "Tajemnicza Zatoka": (0, 5),
             "Dzikie Brzegi": (0, 4),
-            "Most": (1, 3),
-            "Rzeka": (2, 2),
-            "Góry": (1, 0),
-            "Górska Wies": (2, 0),
-            "Przeczysty Strumień": (3, 0),
+            "Most": (2, 2),
             "Złoty Las": (3, 2),
             "Starożytne Ruiny": (3, 3),
             "Łyse Łąki": (1, 4),
             "Krwawe Wzgórza": (1, 5),
-            "Czyste Jezioro": (2, 1),
             "Dzikie Bory": (2, 3),
             "Mglista Puszcza": (2, 4),
             "Grzybowe Bagna": (3, 4),
@@ -80,36 +76,6 @@ class WorldMap:
         dry_ravine_image = pygame.image.load(get_asset_path("lands/dry_ravine.png"))
         magma_hills_image = pygame.image.load(get_asset_path("lands/magma_hills.png"))
 
-        self.land_images = {
-            "Zamek": pygame.transform.smoothscale(castle_image, (100, 100)),
-            "Miasto": pygame.transform.smoothscale(town_image, (100, 100)),
-            "Łąki": pygame.transform.smoothscale(meadow_image, (100, 100)),
-            "Bór": pygame.transform.smoothscale(forest_image, (100, 100)),
-            "Lasy": pygame.transform.smoothscale(woods_image, (100, 100)),
-            "Tajemnicza Zatoka": pygame.transform.smoothscale(mysterious_bay_image, (100, 100)),
-            "Dzikie Brzegi": pygame.transform.smoothscale(wild_shores_image, (100, 100)),
-            "Czyste Jezioro": pygame.transform.smoothscale(magic_lake_image, (100, 100)),
-            "Góry": pygame.transform.smoothscale(mountains_image, (100, 100)),
-            "Górska Wies": pygame.transform.smoothscale(village_image, (100, 100)),
-            "Przeczysty Strumień": pygame.transform.smoothscale(mountain_stream_image, (100, 100)),
-            "Rzeka": pygame.transform.smoothscale(river_image, (100, 100)),
-            "Most": pygame.transform.smoothscale(bridge_image, (100, 100)),
-            "Rwąca Rzeka": pygame.transform.smoothscale(rushing_river_image, (100, 100)),
-            "Złoty Las": pygame.transform.smoothscale(golden_forest_image, (100, 100)),
-            "Starożytne Ruiny": pygame.transform.smoothscale(ancient_ruins_image, (100, 100)),
-            "Wieża Maga": pygame.transform.smoothscale(wizard_tower_image, (100, 100)),
-            "Łyse Łąki": pygame.transform.smoothscale(bald_meadows_image, (100, 100)),
-            "Krwawe Wzgórza": pygame.transform.smoothscale(withering_hills_image, (100, 100)),
-            "Dzikie Bory": pygame.transform.smoothscale(wild_forest_image, (100, 100)),
-            "Mglista Puszcza": pygame.transform.smoothscale(goblin_forest_image, (100, 100)),
-            "Grzybowe Bagna": pygame.transform.smoothscale(mushroom_swamps_image, (100, 100)),
-            "Stalowe Wyżyny": pygame.transform.smoothscale(steel_hills_image, (100, 100)),
-            "Lodowa Kraina": pygame.transform.smoothscale(ice_realm_image, (100, 100)),
-            "Szare Skały": pygame.transform.smoothscale(grey_rocks_image, (100, 100)),
-            "Wyschły Wąwóz": pygame.transform.smoothscale(dry_ravine_image, (100, 100)),
-            "Magmowe Wzgórza": pygame.transform.smoothscale(magma_hills_image, (100, 100))
-        }
-
         realm_dim = 700
 
         self.realm_images = {
@@ -143,6 +109,8 @@ class WorldMap:
         }
 
         self.hidden_lands_conditions = {
+            "Most": ["Lasy"],
+            "Rwąca Rzeka": ["Lasy"],
             "Dzikie Bory": ["Most"],
             "Łyse Łąki": ["Dzikie Bory"],
             "Mglista Puszcza": ["Dzikie Bory"],
@@ -152,8 +120,12 @@ class WorldMap:
             "Grzybowe Bagna": ["Mglista Puszcza"],
             "Tajemnicza Zatoka": ["Dzikie Brzegi"],
             "Stalowe Wyżyny": ["Tajemnicza Zatoka"],
+            "Wieża Maga": ["Stalowe Wyżyny"],
+            "Złoty Las": ["Most"],
             "Szare Skały": ["Krwawe Wzgórza"],
-            "Wyschły Wąwóz": ["Krwawe Wzgórza"]
+            "Wyschły Wąwóz": ["Krwawe Wzgórza"],
+            "Lodowa Kraina": ["Złoty Las"],
+            "Magmowe Wzgórza": ["Wieża Maga"]
         }
 
         self.locked_lands = {
@@ -166,6 +138,7 @@ class WorldMap:
             "Tajemnicza Zatoka": 200,
             "Grzybowe Bagna": 250,
             "Stalowe Wyżyny": 250,
+            "Wieża Maga": 300,
             "Szare Skały": 300,
             "Wyschły Wąwóz": 300,
             "Magmowe Wzgórza": 300,
@@ -202,6 +175,16 @@ class WorldMap:
             "Lodowa Kraina": "Mroźna i tajemnicza kraina, której mieszkańcy posługują się liczbami w niezwykły sposób."
         }
 
+        self.land_rects = {}
+        for land, (col, row) in self.lands.items():
+            rect = pygame.Rect(
+                self.offset_x + col * self.grid_size,
+                self.offset_y + row * self.grid_size,
+                self.grid_size,
+                self.grid_size
+            )
+            self.land_rects[land] = rect
+
         for land, (col, row) in self.lands.items():
             if self.player.x == col * self.grid_size and self.player.y == row * self.grid_size:
                 self.selected_land = land
@@ -218,31 +201,22 @@ class WorldMap:
 
     def draw(self, screen):
         screen.fill((50, 50, 50))
-        for col in range(self.cols):
-            for row in range(self.rows):
-                pygame.draw.rect(screen, (100, 100, 100),
-                                 (self.offset_x + col * self.grid_size,
-                                  self.offset_y + row * self.grid_size,
-                                  self.grid_size, self.grid_size), 1)
+        screen.blit(self.map_background, (self.offset_x, self.offset_y))
 
         for land, (col, row) in self.lands.items():
             if not self.is_land_visible(land):
                 continue
+            dot_x = self.offset_x + col * self.grid_size + self.grid_size // 2
+            dot_y = self.offset_y + row * self.grid_size + self.grid_size // 2
+            if land in self.locked_lands and self.player_game.xp < self.locked_lands[land]:
+                color = (255, 165, 0)
+            elif land in self.completed_realms:
+                color = (0, 255, 0)
             else:
-                if land in self.completed_realms:
-                    screen.blit(self.land_images[land],
-                                (self.offset_x + col * self.grid_size,
-                                 self.offset_y + row * self.grid_size))
-                    screen.blit(self.green_tick,
-                                (self.offset_x + col * self.grid_size + self.grid_size - 35,
-                                 self.offset_y + row * self.grid_size + 5))
-                else:
-                    screen.blit(self.land_images[land],
-                                (self.offset_x + col * self.grid_size,
-                                 self.offset_y + row * self.grid_size))
+                color = (255, 255, 255)
+            pygame.draw.circle(screen, color, (dot_x, dot_y), 20)
 
-        screen.blit(self.player.realm_sprite,
-                    (self.offset_x + self.player.x, self.offset_y + self.player.y))
+        screen.blit(self.player.realm_sprite, (self.offset_x + self.player.x, self.offset_y + self.player.y))
 
         if self.selected_land:
             screen.blit(self.realm_images[self.selected_land],
@@ -318,6 +292,17 @@ class WorldMap:
                     return self.selected_land
             return None
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            for land, rect in self.land_rects.items():
+                if rect.collidepoint(event.pos):
+                    if not self.is_land_visible(land):
+                        continue
+                    if land in self.locked_lands and self.player_game.xp < self.locked_lands[land]:
+                        continue
+                    col, row = self.lands[land]
+                    self.player.x = col * self.grid_size
+                    self.player.y = row * self.grid_size
+                    self.selected_land = land
+                    break
             if self.selected_land and self.enter_button.collidepoint(event.pos):
                 if self.selected_land in self.locked_lands:
                     required_xp = self.locked_lands[self.selected_land]
@@ -348,4 +333,4 @@ def show_world_map(player, player_game, completed_realms, start_position):
                 exit()
             selected_land = world_map.handle_event(event)
             if selected_land:
-                return selected_land, (world_map.player.x // 100, world_map.player.y // 100)
+                return selected_land, (world_map.player.x // 100, world_map.player.y // 100), world_map.completed_realms

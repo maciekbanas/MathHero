@@ -3,7 +3,7 @@ import json
 SAVE_FILE = "savegame.json"
 
 
-def save_game_state(player, world_position, selected_land):
+def save_game_state(player, world_position, selected_land, completed_realms):
     state = {
         "player": {
             "x": player.x,
@@ -15,7 +15,8 @@ def save_game_state(player, world_position, selected_land):
             "inventory": player.inventory
         },
         "world_position": world_position,
-        "selected_land": selected_land
+        "selected_land": selected_land,
+        "completed_realms": list(completed_realms)
     }
 
     try:

@@ -40,7 +40,7 @@ class Player:
     def __init__(self, x, y, character):
         self.x = x
         self.y = y
-        self.speed = 5
+        self.speed = 10
         self.health = 100
         self.xp = 0
         self.coins = 0
