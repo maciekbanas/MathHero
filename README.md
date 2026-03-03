@@ -15,3 +15,12 @@ pip install -r requirements.txt
 ````
 python src/main.py
 ````
+
+## Run game on Windows (double-click launcher)
+
+Use the launcher file in project root:
+
+````
+Uruchom_MathHero.bat
+````
+
