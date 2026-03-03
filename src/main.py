@@ -14,11 +14,17 @@ from start import start_screen
 pygame.init()
 pygame.display.set_caption("Math RPG")
 
+forest_tree1 = load_and_resize("obstacles/forest/tree2.png")
+forest_tree2 = load_and_resize("obstacles/forest/tree3.png")
+forest_tree3 = load_and_resize("obstacles/forest/tree4.png")
+forest_tree4 = load_and_resize("obstacles/forest/tree5.png")
+
 dark_tree_image = load_and_resize("obstacles/dark_forest_tree.png")
 rock_image = load_and_resize("obstacles/rock.png")
 icy_rock_image = load_and_resize("obstacles/icy_rock.png")
 murky_swamp_image = load_and_resize("obstacles/murky_swamp.png")
 tree_image = load_and_resize("obstacles/tree.png")
+empty_image = load_and_resize("obstacles/empty.png")
 
 magma_rock_image = load_and_resize("obstacles/magma_rock.png")
 
@@ -32,8 +38,10 @@ class Obstacle:
     def draw(self, screen):
         screen.blit(self.image, (self.x * grid_size, self.y * grid_size))
 
-bridge_background_image = load_and_resize("maps/Bridge.png", WIDTH, HEIGHT)
 forest_background_image = load_and_resize("maps/Forest.png", WIDTH, HEIGHT)
+river_background_image = load_and_resize("maps/RushingRiver.png", WIDTH, HEIGHT)
+bridge_background_image = load_and_resize("maps/Bridge.png", WIDTH, HEIGHT)
+
 def main(player, world_position = None, selected_land = None, completed_realms = set()):
     """
     Main game loop.
@@ -44,9 +52,9 @@ def main(player, world_position = None, selected_land = None, completed_realms =
         if player_character == "Czarodziejka":
             world_position = (3, 2)
         elif player_character == "Rabbit":
-            world_position = (0, 1)
+            world_position = (1, 0)
         elif player_character == "Kocias":
-            world_position = (0, 1)
+            world_position = (1, 1)
         elif player_character == "Wilczas":
             world_position = (1, 1)
 
@@ -54,33 +62,101 @@ def main(player, world_position = None, selected_land = None, completed_realms =
 
     while True:
 
-        selected_land, world_position = show_world_map(map_player, player, completed_realms, world_position)
+        selected_land, world_position, completed_realms = show_world_map(map_player, player, completed_realms, world_position)
         print(f"Gracz wszedł do: {selected_land}")
 
-        if selected_land == "Lasy":
-            enemy_types = ["Gnom", "Grzybołak", "Bees", "Wilk"]
-            enemies_number = 6
+        START_POSITIONS = {
+            "Lasy": (2, 2),
+            "Zamek": (1, 1),
+            "Most": (10, 0),
+            "Rushing River": (1, 1),
+            "Grzybowe Bagna": (3, 6),
+            "Szare Skały": (5, 5),
+            "Wieża Maga": (6, 2)
+        }
+
+        if selected_land in START_POSITIONS:
+            start_x, start_y = START_POSITIONS[selected_land]
+            player.x = start_x * grid_size
+            player.y = start_y * grid_size
+
+        PREDEFINED_NPCS = {
+            "Zamek": {
+                "Merchant": (5, 5),
+                "Aviator": (7, 6),
+                "Blacksmith": (4, 6)
+            },
+            "Wieża Maga": {
+                "Merchant": (6, 4)
+            },
+            # Dodawaj NPC-ów w innych krainach tutaj
+        }
+
+        PREDEFINED_ENEMIES = {
+            "Lasy": [
+                ((4, 4), "Gnom"),
+                ((6, 5), "Wilk"),
+                ((8, 6), "Niedzwiedz"),
+                ((10, 7), "Gnom"),
+                ((12, 4), "Wilk"),
+                ((5, 8), "Niedzwiedz")
+            ],
+            "Rushing River": [
+                ((4, 4), "Gnom")
+            ],
+            "Grzybowe Bagna": [
+                ((4, 5), "Grzybołak"),
+                ((6, 6), "Grzybolud"),
+                ((7, 4), "Grzybolud"),
+                ((8, 7), "Grzybołak")
+            ],
+            "Szare Skały": [
+                ((8, 4), "Szkielet"),
+                ((10, 6), "Szkielet"),
+                ((11, 5), "Szkielet")
+            ]
+        }
+
+        PREDEFINED_BERRIES = {
+            "Lasy": [
+                (3, 3),
+                (6, 6),
+                (8, 4)
+            ],
+            "Grzybowe Bagna": [
+                (5, 5),
+                (7, 6),
+                (9, 8)
+            ]
+        }
+
+        if selected_land == "Zamek":
+            enemy_types = []
+            enemies_number = 0
             background_color = (244, 241, 232)
             obstacle_image = tree_image
+            obstacle_positions = {
+                (10, 4)
+            }
+        elif selected_land == "Lasy":
+            enemy_types = None
+            background_image = forest_background_image
+            obstacle_images = [forest_tree1, forest_tree2, forest_tree3, forest_tree4]
             obstacle_positions = {
                 (2, 2), (3, 4), (3, 5), (5, 6), (7, 2), (2, 8),
                 (6, 6), (6, 7), (7, 7), (10, 8),
                 (13, 5), (13, 6),
                 (15, 1), (15, 2), (16, 2), (16, 3)
             }
-        elif selected_land == "Bór":
-            enemy_types = ["Gnom", "Grzybołak", "Wilk", "Bees", "Niedzwiedz"]
-            enemies_number = 6
-            background_color = (244, 241, 232)
+        elif selected_land == "Rushing River":
+            enemy_types = None
+            background_image = river_background_image
             obstacle_image = tree_image
             obstacle_positions = {
-                (2, 2), (3, 4), (3, 5), (5, 6), (7, 2), (2, 8),
-                (6, 6), (6, 7), (7, 7), (10, 8),
-                (13, 5), (13, 6),
-                (15, 1), (15, 2), (16, 2), (16, 3)
+                (2, 2)
             }
         elif selected_land in ["Dzikie Bory"]:
-            enemy_types = ["Gnom", "Grzybołak", "Niedzwiedz", "Goblin"]
+            enemy_types = ["Gnom", "Niedzwiedz", "Goblin"]
             enemies_number = 7
             background_color = (244, 241, 232)
             obstacle_image = tree_image
@@ -90,46 +166,14 @@ def main(player, world_position = None, selected_land = None, completed_realms =
                 (13, 5), (13, 6),
                 (15, 1), (15, 2), (16, 2), (16, 3)
             }
-        elif selected_land == "Łąki":
-            enemy_types = ["Gnom", "Bees"]
-            enemies_number = 5
-            background_color = (244, 241, 232)
-            obstacle_image = tree_image
-            obstacle_positions = {
-                (5, 6)
-            }
         elif selected_land == "Mglista Puszcza":
-            enemy_types = ["Goblin", "Spider", "Troll"]
+            enemy_types = ["Goblin", "Grzybołak", "Troll"]
             enemies_number = 8
             background_color = (85, 116, 119)
             obstacle_image = dark_tree_image
             obstacle_positions = {
                 (3, 4), (3, 5), (5, 6), (7, 2), (2, 8),
                 (6, 6), (6, 7), (7, 7),
-            }
-        elif selected_land == "Zamek":
-            enemy_types = []
-            enemies_number = 0
-            background_color = (244, 241, 232)
-            obstacle_image = tree_image
-            obstacle_positions = {
-                (10, 4)
-            }
-        elif selected_land == "Miasto":
-            enemy_types = []
-            enemies_number = 0
-            background_color = (244, 241, 232)
-            obstacle_image = tree_image
-            obstacle_positions = {
-                (8, 6), (6, 8), (10, 3)
-            }
-        elif selected_land == "Górska Wies":
-            enemy_types = []
-            enemies_number = 0
-            background_color = (244, 241, 232)
-            obstacle_image = tree_image
-            obstacle_positions = {
-                (8, 6), (6, 8), (10, 3)
             }
         elif selected_land == "Złoty Las":
             enemy_types = []
@@ -148,8 +192,7 @@ def main(player, world_position = None, selected_land = None, completed_realms =
                 (10, 10), (3, 3), (4, 3), (7, 8)
             }
         elif selected_land == "Grzybowe Bagna":
-            enemy_types = ["Spider", "Grzybolud"]
-            enemies_number = 8
+            enemy_types = None
             background_color = (85, 116, 119)
             obstacle_image = murky_swamp_image
             obstacle_positions = {
@@ -174,13 +217,12 @@ def main(player, world_position = None, selected_land = None, completed_realms =
         elif selected_land == "Most":
             enemy_types = ["Wilk"]
             enemies_number = 4
-            background_color = (244, 241, 232)
-            obstacle_image = rock_image
+            background_image = bridge_background_image
+            obstacle_image = empty_image
             obstacle_positions = {
-                (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
+                (0, 4), (1, 4), (2, 4), (3, 4), (5, 4), (6, 4), (7, 4), (8, 4),
+                (0, 5), (1, 5), (2, 5), (3, 5), (5, 5), (6, 5), (7, 5), (8, 5)
             }
-            guard_image = load_and_resize("places/guard_tower.png", 200, 200)
-            guard_position = (8, 4)
         elif selected_land == "Łyse Łąki":
             enemy_types = ["Ork", "Goblin"]
             enemies_number = 7
@@ -222,8 +264,7 @@ def main(player, world_position = None, selected_land = None, completed_realms =
                 (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
             }
         elif selected_land == "Szare Skały":
-            enemy_types = ["Szkielet"]
-            enemies_number = 7
+            enemy_types = None
             background_color = (244, 241, 232)
             obstacle_image = rock_image
             obstacle_positions = {
@@ -257,27 +298,39 @@ def main(player, world_position = None, selected_land = None, completed_realms =
             obstacle_positions = {
                 (3, 4), (5, 6), (7, 2), (2, 8), (6, 6)
             }
+        if selected_land == "Lasy":
+            obstacles = [Obstacle(x, y, random.choice(obstacle_images)) for x, y in obstacle_positions]
+        else:
+            obstacles = [Obstacle(x, y, obstacle_image) for x, y in obstacle_positions]
 
-        obstacles = [Obstacle(x, y, obstacle_image) for x, y in obstacle_positions]
-
-        if enemy_types:
+        if selected_land in PREDEFINED_ENEMIES:
+            enemies = [Enemy(x * grid_size, y * grid_size, typ) for (x, y), typ in PREDEFINED_ENEMIES[selected_land]]
+        else:
             enemies = [
                 Enemy(*get_valid_random_position(obstacle_positions), random.choice(enemy_types))
                 for _ in range(enemies_number)
             ]
-        else:
-            enemies = []
 
-        if not selected_land in ["Zamek", "Stalowe Wyżyny", "Wyschły Wąwóz", "Szare Skały", "Wieża Maga", "Magmowe Wzgórza"]:
-            berries = [
-                Berry(*get_valid_random_position(obstacle_positions)) for _ in range(3)
-            ]
+        if selected_land in PREDEFINED_BERRIES:
+            berries = [Berry(x * grid_size, y * grid_size) for x, y in PREDEFINED_BERRIES[selected_land]]
         else:
             berries = []
 
-        merchant = Merchant()
-        aviator = Aviator()
-        blacksmith = Blacksmith()
+        merchant = None
+        aviator = None
+        blacksmith = None
+
+        if selected_land in PREDEFINED_NPCS:
+            npc_positions = PREDEFINED_NPCS[selected_land]
+            if "Merchant" in npc_positions:
+                x, y = npc_positions["Merchant"]
+                merchant = Merchant(x * grid_size, y * grid_size)
+            if "Aviator" in npc_positions:
+                x, y = npc_positions["Aviator"]
+                aviator = Aviator(x * grid_size, y * grid_size)
+            if "Blacksmith" in npc_positions:
+                x, y = npc_positions["Blacksmith"]
+                blacksmith = Blacksmith(x * grid_size, y * grid_size)
 
         clock = pygame.time.Clock()
         running = True
@@ -292,17 +345,18 @@ def main(player, world_position = None, selected_land = None, completed_realms =
             keys = pygame.key.get_pressed()
             player.move(keys, obstacle_positions)
             player.update_position()
-            # player.animation.update(dt)
 
-            screen.fill(background_color)
-            # screen.blit(background, (0, 0))
-            draw_grid()
+            if selected_land in ["Most", "Lasy", "Rushing River"]:
+                screen.blit(background_image, (0, 0))
+            else:
+                screen.fill(background_color)
+                draw_grid()
 
             current_image = player.sprite
-            screen.blit(current_image, (player.x - 40, player.y - 40))
+            screen.blit(current_image, (player.x, player.y))
 
-            pygame.draw.rect(screen, RED, (player.x - 40, player.y - 50, grid_size, 5))
-            pygame.draw.rect(screen, GREEN, (player.x - 40, player.y - 50, grid_size * (player.health / 100), 5))
+            pygame.draw.rect(screen, RED, (player.x, player.y - 10, grid_size, 5))
+            pygame.draw.rect(screen, GREEN, (player.x, player.y - 10, grid_size * (player.health / 100), 5))
 
             for obstacle in obstacles:
                 obstacle.draw(screen)
@@ -326,31 +380,18 @@ def main(player, world_position = None, selected_land = None, completed_realms =
             show_aviator_button = False
             show_blacksmith_button = False
 
-            if selected_land == "Most":
-                screen.blit(guard_image, (guard_position[0] * grid_size, guard_position[1] * grid_size))
-
-            if selected_land in ["Zamek", "Wieża Maga"]:
+            if merchant:
                 merchant.draw(screen)
                 if merchant.check_collision(player):
                     show_merchant_button = True
-                else:
-                    show_merchant_button = False
-            elif selected_land == "Miasto":
+            if aviator:
                 aviator.draw(screen)
+                if aviator.check_collision(player):
+                    show_aviator_button = True
+            if blacksmith:
                 blacksmith.draw(screen)
                 if blacksmith.check_collision(player):
                     show_blacksmith_button = True
-                else:
-                    show_blacksmith_button = False
-
-                if aviator.check_collision(player):
-                    show_aviator_button = True
-                else:
-                    show_aviator_button = False
-            else:
-                show_merchant_button = False
-                show_aviator_button = False
-                show_blacksmith_button = False
 
             if show_merchant_button:
                 merchant_button = draw_merchant_button()
@@ -367,8 +408,6 @@ def main(player, world_position = None, selected_land = None, completed_realms =
 
             if not enemies and selected_land not in ["Zamek", "Złoty Las", "Miasto", "Górska Wies"]:
                 completed_realms.add(selected_land)
-                pygame.time.delay(1000)
-                show_message("Wrogowie pokonani!")
 
             aviator_output = ""
 
