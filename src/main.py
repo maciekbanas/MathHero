@@ -476,30 +476,38 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Math RPG")
 
-    current_user = user_selection_screen(screen)
-    selection = start_screen(screen, current_user)
+    while True:
+        current_user = user_selection_screen(screen)
 
-    if selection == "new":
-        player_character = choose_character()
-        player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40,
-                        player_character)
-        main(player, current_user)
-    else:
-        state = load_game_state(current_user)
-        if state is not None:
-            show_message("Załadowano grę!")
-            player_character = state["player"]["character"]
-            player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40,
-                            player_character)
-            player.x = state["player"]["x"]
-            player.y = state["player"]["y"]
-            player.health = state["player"]["health"]
-            player.xp = state["player"]["xp"]
-            player.coins = state["player"]["coins"]
-            player.character = state["player"]["character"]
-            player.inventory = state["player"]["inventory"]
-            world_position = state["world_position"]
-            selected_land = state["selected_land"]
-            completed_realms = set(state["completed_realms"])
+        while True:
+            selection = start_screen(screen, current_user)
 
-            main(player, current_user, world_position, selected_land, completed_realms)
+            if selection == "back":
+                break
+
+            if selection == "new":
+                player_character = choose_character()
+                player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40,
+                                player_character)
+                main(player, current_user)
+                break
+
+            state = load_game_state(current_user)
+            if state is not None:
+                show_message("Załadowano grę!")
+                player_character = state["player"]["character"]
+                player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40,
+                                player_character)
+                player.x = state["player"]["x"]
+                player.y = state["player"]["y"]
+                player.health = state["player"]["health"]
+                player.xp = state["player"]["xp"]
+                player.coins = state["player"]["coins"]
+                player.character = state["player"]["character"]
+                player.inventory = state["player"]["inventory"]
+                world_position = state["world_position"]
+                selected_land = state["selected_land"]
+                completed_realms = set(state["completed_realms"])
+
+                main(player, current_user, world_position, selected_land, completed_realms)
+                break

@@ -19,13 +19,14 @@ def user_selection_screen(screen):
     font = pygame.font.SysFont(None, 44)
     small_font = pygame.font.SysFont(None, 34)
 
-    create_button = pygame.Rect(WIDTH // 2 - 220, HEIGHT - 140, 440, 60)
+    create_button = pygame.Rect(WIDTH // 2 - 220, HEIGHT - 190, 440, 60)
+    close_game_button = pygame.Rect(WIDTH // 2 - 220, HEIGHT - 110, 440, 60)
     input_box = pygame.Rect(WIDTH // 2 - 220, HEIGHT - 220, 440, 55)
 
     selected_user = None
     input_mode = False
     typed_name = ""
-    message = "Wybierz użytkownika"
+    message = ""
 
     while running:
         users = get_users()
@@ -59,8 +60,15 @@ def user_selection_screen(screen):
         screen.blit(create_text, (create_button.centerx - create_text.get_width() // 2,
                                   create_button.centery - create_text.get_height() // 2))
 
-        info_text = small_font.render(message, True, WHITE)
-        screen.blit(info_text, (WIDTH // 2 - info_text.get_width() // 2, HEIGHT - 70))
+        pygame.draw.rect(screen, RED, close_game_button, border_radius=8)
+        pygame.draw.rect(screen, BLACK, close_game_button, 2, border_radius=8)
+        close_text = small_font.render("Zamknij grę", True, BLACK)
+        screen.blit(close_text, (close_game_button.centerx - close_text.get_width() // 2,
+                                 close_game_button.centery - close_text.get_height() // 2))
+
+        if message:
+            info_text = small_font.render(message, True, WHITE)
+            screen.blit(info_text, (WIDTH // 2 - info_text.get_width() // 2, HEIGHT - 40))
 
         pygame.display.flip()
         clock.tick(30)
@@ -79,6 +87,9 @@ def user_selection_screen(screen):
                         selected_user = typed_name.strip()
                         typed_name = ""
                         input_mode = False
+                elif close_game_button.collidepoint(event.pos):
+                    pygame.quit()
+                    exit()
                 else:
                     for btn, user in user_buttons:
                         if btn.collidepoint(event.pos):
@@ -109,6 +120,7 @@ def start_screen(screen, user_name):
 
     new_game_button = pygame.Rect(WIDTH // 2 - 170, HEIGHT // 2 - 70, 340, 60)
     load_game_button = pygame.Rect(WIDTH // 2 - 170, HEIGHT // 2 + 10, 340, 60)
+    back_button = pygame.Rect(WIDTH // 2 - 170, HEIGHT // 2 + 90, 340, 60)
 
     while running:
         screen.blit(background_image, (0, 0))
@@ -127,6 +139,11 @@ def start_screen(screen, user_name):
         screen.blit(load_game_text, (load_game_button.centerx - load_game_text.get_width() // 2,
                                      load_game_button.centery - load_game_text.get_height() // 2))
 
+        pygame.draw.rect(screen, RED, back_button)
+        back_text = font.render("Wróć", True, BLACK)
+        screen.blit(back_text, (back_button.centerx - back_text.get_width() // 2,
+                                back_button.centery - back_text.get_height() // 2))
+
         if not load_enabled:
             no_save_text = small_font.render("Brak zapisu dla wybranego użytkownika", True, WHITE)
             screen.blit(no_save_text, (WIDTH // 2 - no_save_text.get_width() // 2, HEIGHT // 2 + 90))
@@ -143,3 +160,5 @@ def start_screen(screen, user_name):
                     return "new"
                 elif load_game_button.collidepoint(event.pos) and load_enabled:
                     return "load"
+                elif back_button.collidepoint(event.pos):
+                    return "back"
