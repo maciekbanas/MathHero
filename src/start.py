@@ -21,7 +21,7 @@ def user_selection_screen(screen):
 
     create_button = pygame.Rect(WIDTH // 2 - 220, HEIGHT - 190, 440, 60)
     close_game_button = pygame.Rect(WIDTH // 2 - 220, HEIGHT - 110, 440, 60)
-    input_box = pygame.Rect(WIDTH // 2 - 220, HEIGHT - 220, 440, 55)
+    input_box = pygame.Rect(WIDTH // 2 - 220, HEIGHT - 260, 440, 55)
 
     selected_user = None
     input_mode = False
