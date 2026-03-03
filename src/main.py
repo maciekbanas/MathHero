@@ -9,7 +9,7 @@ from merchant import *
 from blacksmith import *
 from goblin_aviator import *
 from save_load import *
-from start import start_screen
+from start import start_screen, user_selection_screen
 
 pygame.init()
 pygame.display.set_caption("Math RPG")
@@ -42,7 +42,7 @@ forest_background_image = load_and_resize("maps/Forest.png", WIDTH, HEIGHT)
 river_background_image = load_and_resize("maps/RushingRiver.png", WIDTH, HEIGHT)
 bridge_background_image = load_and_resize("maps/Bridge.png", WIDTH, HEIGHT)
 
-def main(player, world_position = None, selected_land = None, completed_realms = set()):
+def main(player, user_name, world_position = None, selected_land = None, completed_realms = set()):
     """
     Main game loop.
     """
@@ -451,12 +451,12 @@ def main(player, world_position = None, selected_land = None, completed_realms =
                     if show_blacksmith_button and event.key == pygame.K_RETURN:
                         show_blacksmith_menu(player)
                     if event.key == pygame.K_s:
-                        save_game_state(player, world_position, selected_land, completed_realms)
+                        save_game_state(player, world_position, selected_land, completed_realms, user_name)
                         show_message("Zapisany stan gry!")
                     if event.key == pygame.K_l:
-                        state = load_game_state()
-                        show_message("Załadowano grę!")
+                        state = load_game_state(user_name)
                         if state is not None:
+                            show_message("Załadowano grę!")
                             player.x = state["player"]["x"]
                             player.y = state["player"]["y"]
                             player.health = state["player"]["health"]
@@ -476,16 +476,18 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Math RPG")
 
-    selection = start_screen(screen)
+    current_user = user_selection_screen(screen)
+    selection = start_screen(screen, current_user)
+
     if selection == "new":
         player_character = choose_character()
         player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40,
                         player_character)
-        main(player)
+        main(player, current_user)
     else:
-        state = load_game_state()
-        show_message("Załadowano grę!")
+        state = load_game_state(current_user)
         if state is not None:
+            show_message("Załadowano grę!")
             player_character = state["player"]["character"]
             player = Player(WIDTH // 2 // grid_size * grid_size + 40, HEIGHT // 2 // grid_size * grid_size + 40,
                             player_character)
@@ -500,4 +502,4 @@ if __name__ == "__main__":
             selected_land = state["selected_land"]
             completed_realms = set(state["completed_realms"])
 
-            main(player, world_position, selected_land, completed_realms)
+            main(player, current_user, world_position, selected_land, completed_realms)
