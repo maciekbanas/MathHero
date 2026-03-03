@@ -21,6 +21,6 @@ python src/main.py
 Use the launcher file in project root:
 
 ````
-Uruchom_MathHero.bat
+MathHero.bat
 ````
 
